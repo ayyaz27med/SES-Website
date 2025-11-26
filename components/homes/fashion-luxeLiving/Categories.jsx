@@ -13,16 +13,16 @@ export default function Categories() {
             <a className="img-style">
               <Image
                 className="lazyload"
-                data-src="/images/collections/grid-cls/women-cls.jpg"
+                data-src="/images/home-categories/Square1.png"
                 alt="banner-cls"
-                src="/images/collections/grid-cls/women-cls.jpg"
+                src="/images/home-categories/Square1.png"
                 width={615}
                 height={819}
               />
             </a>
             <div className="content">
               <Link href={`/shop-categories-top`} className="cls-btn">
-                <h6 className="text">Women</h6>
+                <h6 className="text">Face Care</h6>
                 <i className="icon icon-arrowUpRight" />
               </Link>
             </div>
@@ -31,16 +31,18 @@ export default function Categories() {
             <a className="img-style">
               <Image
                 className="lazyload"
-                data-src="/images/collections/grid-cls/promotion-cls.jpg"
+                data-src="/images/home-categories/Square2.png"
                 alt="banner-cls"
-                src="/images/collections/grid-cls/promotion-cls.jpg"
+                src="/images/home-categories/Square2.png"
                 width={615}
-                height={387}
+                height={258}
+                objectFit="cover"
+                style={{ height: '258px' }}
               />
             </a>
             <div className="content">
               <Link href={`/shop-categories-top`} className="cls-btn">
-                <h6 className="text">Promotion</h6>
+                <h6 className="text">Body Health</h6>
                 <i className="icon icon-arrowUpRight" />
               </Link>
             </div>
@@ -49,16 +51,18 @@ export default function Categories() {
             <a className="img-style">
               <Image
                 className="lazyload"
-                data-src="/images/collections/grid-cls/accessories-cls.jpg"
+                data-src="/images/home-categories/Square3.png"
                 alt="banner-cls"
-                src="/images/collections/grid-cls/accessories-cls.jpg"
+                src="/images/home-categories/Square3.png"
                 width={615}
-                height={387}
+                height={258}
+                objectFit="cover"
+                style={{ height: '258px' }}
               />
             </a>
             <div className="content">
               <Link href={`/shop-categories-top`} className="cls-btn">
-                <h6 className="text">Accessories</h6>
+                <h6 className="text">Hair Cares</h6>
                 <i className="icon icon-arrowUpRight" />
               </Link>
             </div>
@@ -67,16 +71,16 @@ export default function Categories() {
             <a className="img-style">
               <Image
                 className="lazyload"
-                data-src="/images/collections/grid-cls/men-cls.jpg"
+                data-src="/images/home-categories/Square4.png"
                 alt="banner-cls"
-                src="/images/collections/grid-cls/men-cls.jpg"
+                src="/images/home-categories/Square4.png"
                 width={615}
                 height={819}
               />
             </a>
             <div className="content">
               <Link href={`/shop-categories-top`} className="cls-btn">
-                <h6 className="text">Women</h6>
+                <h6 className="text">Tools</h6>
                 <i className="icon icon-arrowUpRight" />
               </Link>
             </div>

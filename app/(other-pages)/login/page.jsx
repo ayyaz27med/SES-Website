@@ -22,25 +22,17 @@ export default function LoginPage() {
         <div className="container-full">
           <div className="row">
             <div className="col-12">
-              <h3 className="heading text-center">Login</h3>
+              <h3 className="heading text-center">Login / Register</h3>
               <ul className="breadcrumbs d-flex align-items-center justify-content-center">
                 <li>
                   <Link className="link" href={`/`}>
-                    Homepage
+                    Home
                   </Link>
                 </li>
                 <li>
                   <i className="icon-arrRight" />
                 </li>
-                <li>
-                  <a className="link" href="#">
-                    Pages
-                  </a>
-                </li>
-                <li>
-                  <i className="icon-arrRight" />
-                </li>
-                <li>Login</li>
+                <li>Login / Register</li>
               </ul>
             </div>
           </div>

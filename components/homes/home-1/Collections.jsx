@@ -1,6 +1,6 @@
 "use client";
 
-import { collections } from "@/data/collections";
+import { bestSelling } from "@/data/collections";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +10,7 @@ export default function Collections() {
     <section className="flat-spacing-2 pb_0">
       <div className="container">
         <div className="heading-section-2 wow fadeInUp">
-          <h3>Categories you might like</h3>
+          <h3>Best Selling</h3>
           <Link href={`/shop-collection`} className="btn-line">
             View All Collection
           </Link>
@@ -40,7 +40,7 @@ export default function Collections() {
               nextEl: ".snbn12",
             }}
           >
-            {collections.map((collection, index) => (
+            {bestSelling.map((collection, index) => (
               <SwiperSlide key={index}>
                 <div className="collection-circle hover-img">
                   <Link href={`/shop-collection`} className="img-style">

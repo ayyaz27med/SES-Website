@@ -1,7 +1,7 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
-import { slides } from "@/data/heroSlides";
+import { homeHeroSlides } from "@/data/heroSlides";
 import Image from "next/image";
 import Link from "next/link";
 export default function Hero() {
@@ -22,7 +22,7 @@ export default function Hero() {
         }}
         className="swiper tf-sw-slideshow"
       >
-        {slides.map((slide, index) => (
+        {homeHeroSlides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div className="wrap-slider">
               <Image
@@ -32,7 +32,7 @@ export default function Hero() {
                 height={803}
                 priority
               />
-              <div className="box-content">
+              {/* <div className="box-content">
                 <div className="content-slider">
                   <div className="box-title-slider">
                     <p className="fade-item fade-item-1 subheading text-btn-uppercase text-white">
@@ -57,7 +57,7 @@ export default function Hero() {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </SwiperSlide>
         ))}

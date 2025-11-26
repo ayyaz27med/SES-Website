@@ -638,6 +638,9 @@
           right: auto;
         }
       }
+      &.column-count-3 {
+        column-count: 3;
+      }
     }
 
     .demo-label {

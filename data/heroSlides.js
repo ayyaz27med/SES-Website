@@ -621,3 +621,34 @@ export const slides16 = [
     height: 710,
   },
 ];
+
+export const homeHeroSlides = [
+  {
+    imgSrc: "/images/home-banner/banner1.png",
+    alt: "fashion-slideshow",
+    subheading: "BIKINIS & SWIMSUITS",
+    heading: "Flash Sale Madness",
+    btnText: "Explore Collection",
+  },
+  {
+    imgSrc: "/images/home-banner/banner2.png",
+    alt: "fashion-slideshow",
+    subheading: "BIKINIS & SWIMSUITS",
+    heading: "Find Your\nSignature Style",
+    btnText: "Explore Collection",
+  },
+  {
+    imgSrc: "/images/home-banner/banner3.png",
+    alt: "fashion-slideshow",
+    subheading: "BIKINIS & SWIMSUITS",
+    heading: "Find Your\nSignature Style",
+    btnText: "Explore Collection",
+  },
+  {
+    imgSrc: "/images/home-banner/banner4.png",
+    alt: "fashion-slideshow",
+    subheading: "BIKINIS & SWIMSUITS",
+    heading: "Find Your\nSignature Style",
+    btnText: "Explore Collection",
+  },
+];

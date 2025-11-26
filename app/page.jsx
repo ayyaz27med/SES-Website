@@ -1,6 +1,5 @@
 import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
-import Topbar from "@/components/headers/Topbar";
 import BannerCollection from "@/components/homes/home-1/BannerCollection";
 import BannerCountdown from "@/components/homes/home-1/BannerCountdown";
 import Blogs from "@/components/common/Blogs";
@@ -10,6 +9,9 @@ import Hero from "@/components/homes/home-1/Hero";
 import Products from "@/components/common/Products3";
 import ShopGram from "@/components/common/ShopGram";
 import Testimonials from "@/components/common/Testimonials";
+import Topbar5 from "@/components/headers/Topbar5";
+import Categories from "@/components/homes/fashion-luxeLiving/Categories";
+import NewlyArrived from "@/components/common/NewlyArrived";
 
 export const metadata = {
   title: "Home || Modave - Multipurpose React Nextjs eCommerce Template",
@@ -19,15 +21,16 @@ export const metadata = {
 export default function HomePage() {
   return (
     <>
-      <Topbar />
+      <Topbar5 />
       <Header1 />
       <Hero />
+      <Categories/>
       <Collections />
-      <Products />
-      <BannerCollection />
-      <BannerCountdown />
+      <NewlyArrived />
+      {/* <BannerCollection /> */}
+      {/* <BannerCountdown /> */}
       <Testimonials />
-      <Blogs />
+      {/* <Blogs /> */}
       <ShopGram />
       <Features />
       <Footer1 />

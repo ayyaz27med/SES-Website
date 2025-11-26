@@ -6,29 +6,29 @@ import axios from "axios";
 export default function NewsLetterModal() {
   const pathname = usePathname();
   const modalElement = useRef();
-  useEffect(() => {
-    const showModal = async () => {
-      if (pathname === "/") {
-        const bootstrap = await import("bootstrap"); // dynamically import bootstrap
-        const myModal = new bootstrap.Modal(
-          document.getElementById("newsletterPopup"),
-          {
-            keyboard: false,
-          }
-        );
+  // useEffect(() => {
+  //   const showModal = async () => {
+  //     if (pathname === "/") {
+  //       const bootstrap = await import("bootstrap"); // dynamically import bootstrap
+  //       const myModal = new bootstrap.Modal(
+  //         document.getElementById("newsletterPopup"),
+  //         {
+  //           keyboard: false,
+  //         }
+  //       );
 
-        // Show the modal after a delay using a promise
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        myModal.show();
+  //       // Show the modal after a delay using a promise
+  //       await new Promise((resolve) => setTimeout(resolve, 2000));
+  //       myModal.show();
 
-        modalElement.current.addEventListener("hidden.bs.modal", () => {
-          myModal.hide();
-        });
-      }
-    };
+  //       modalElement.current.addEventListener("hidden.bs.modal", () => {
+  //         myModal.hide();
+  //       });
+  //     }
+  //   };
 
-    showModal();
-  }, [pathname]);
+  //   showModal();
+  // }, [pathname]);
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const handleShowMessage = () => {

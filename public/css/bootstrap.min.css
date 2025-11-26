@@ -10153,6 +10153,9 @@ fieldset:disabled .btn {
 .z-3 {
     z-index: 3 !important
 }
+.column-count-3 {
+    column-count: 3
+}
 
 @media (min-width:576px) {
     .float-sm-start {

@@ -1315,32 +1315,45 @@ ul.list-text {
 
 .login-wrap {
   display: flex;
-  gap: 120px;
+  justify-content: center;
   align-items: center;
   position: relative;
+  text-align: center;
   .left {
-    width: 100%;
+    width: 30%;
     .heading {
       margin-bottom: 28px;
     }
-  }
-  .right {
-    width: 100%;
-    p {
-      margin-bottom: 28px;
+    .react-tel-input {
+      input{
+        width: 100%;
+        border: 2px solid var(--line);
+        outline: 0;
+        box-shadow: none;
+        font-size: 16px;
+        line-height: 26px;
+        border-radius: 8px;
+        padding: 9px 16px 9px 75px;
+        width: 100%;
+        background: var(--white);
+        color: var(--main);
+        font-weight: 400;
+        transition: all 0.3s ease;
+        letter-spacing: 0;
+        height: auto;
+      }
+      .flag-dropdown {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        border-right: 2px solid var(--line);
+        .selected-flag{
+          width: 60px;
+          background: transparent;
+          padding-left: 20px;
+        }
+      }
     }
-    a {
-      padding: 10px 32px;
-    }
-  }
-  &::before {
-    position: absolute;
-    content: "";
-    height: 100%;
-    width: 1px;
-    background-color: var(--line);
-    top: 0;
-    left: 50%;
   }
 }
 

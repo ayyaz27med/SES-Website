@@ -26,6 +26,7 @@
     --reddit-cl: rgb(255, 69, 0);
     --line-cl: rgb(0, 195, 77);
     --spotify-cl: rgb(30, 125, 96);
+    --google-cl: rgb(66, 133, 244);
     .social-facebook:hover {
         background: var(--facebook-cl);
         color: var(--white);
@@ -48,6 +49,16 @@
     }
     .social-pinterest:hover {
         background: var(--pinterest-cl);
+        color: var(--white);
+        border: none;
+    }
+    .social-google:hover {
+        background: var(--google-cl);
+        color: var(--white);
+        border: none;
+    }
+    .social-whatsapp:hover {
+        background: var(--whatsapp-cl);
         color: var(--white);
         border: none;
     }

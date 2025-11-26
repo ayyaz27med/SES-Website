@@ -30,13 +30,13 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
               // Medium devices (tablet)
               768: {
                 spaceBetween: 30,
-                slidesPerView: 1.3,
+                slidesPerView: 3,
                 pagination: { clickable: true },
               },
               // Large devices (desktop)
               1024: {
                 spaceBetween: 30,
-                slidesPerView: 2,
+                slidesPerView: 4,
                 pagination: { clickable: true },
               },
             }}
@@ -46,11 +46,12 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
               el: ".spd7",
             }}
             dir="ltr"
+            loop={true}
           >
             {testimonialsWithProduct9.map((testimonial, index) => (
               <SwiperSlide key={index}>
                 <div className="testimonial-item hover-img">
-                  <div className="img-style">
+                  {/* <div className="img-style">
                     <Image
                       src={testimonial.imgSrc}
                       alt={testimonial.alt}
@@ -66,7 +67,7 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
                       <span className="icon icon-eye" />
                       <span className="tooltip">Quick View</span>
                     </a>
-                  </div>
+                  </div> */}
                   <div className="content">
                     <div className="content-top">
                       <div className="list-star-default">

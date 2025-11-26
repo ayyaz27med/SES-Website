@@ -1396,3 +1396,36 @@ export const collections18 = [
     btnClass: "btn-line",
   },
 ];
+
+export const bestSelling = [
+  {
+    imgSrc: "/images/home-best-selling/Circle1.png",
+    alt: "collection-img",
+    title: "Sunscreens",
+  },
+  {
+    imgSrc: "/images/home-best-selling/Circle2.png",
+    alt: "collection-img",
+    title: "Body Tools",
+  },
+  {
+    imgSrc: "/images/home-best-selling/Circle3.png",
+    alt: "collection-img",
+    title: "Face Wash",
+  },
+  {
+    imgSrc: "/images/home-best-selling/Circle4.png",
+    alt: "collection-img",
+    title: "Body Lotion",
+  },
+  {
+    imgSrc: "/images/home-best-selling/Circle5.png",
+    alt: "collection-img",
+    title: "Acne",
+  },
+  {
+    imgSrc: "/images/home-best-selling/Circle6.png",
+    alt: "collection-img",
+    title: "Vitamin C",
+  },
+];

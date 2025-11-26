@@ -42,8 +42,9 @@ export default function ShopGram({ parentClass = "" }) {
                     data-src={item.imgSrc}
                     alt="image-gallery"
                     src={item.imgSrc}
-                    width={640}
-                    height={640}
+                    width={250}
+                    height={250}
+                    style={{ width: '250px !important', height: '250px !important'}}
                   />
                 </div>
                 <Link

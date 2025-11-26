@@ -3,13 +3,14 @@ import Nav from "./Nav";
 import Image from "next/image";
 import Link from "next/link";
 import CartLength from "../common/CartLength";
+import Navbar from "./Navbar";
 export default function Header1({ fullWidth = false }) {
   return (
     <header
       id="header"
       className={`header-default ${fullWidth ? "header-fullwidth" : ""} `}
     >
-      <div className={fullWidth ? "" : "container"}>
+      <div className="header-fullwidth">
         <div className="row wrapper-header align-items-center">
           <div className="col-md-4 col-3 d-xl-none">
             <a
@@ -21,7 +22,7 @@ export default function Header1({ fullWidth = false }) {
               <i className="icon icon-categories" />
             </a>
           </div>
-          <div className="col-xl-3 col-md-4 col-6">
+          {/* <div className="col-xl-3 col-md-4 col-6">
             <Link href={`/`} className="logo-header">
               <Image
                 alt="logo"
@@ -31,15 +32,15 @@ export default function Header1({ fullWidth = false }) {
                 height={25}
               />
             </Link>
-          </div>
-          <div className="col-xl-6 d-none d-xl-block">
+          </div> */}
+          <div className="col-xl-10 d-none d-xl-block">
             <nav className="box-navigation text-center">
-              <ul className="box-nav-ul d-flex align-items-center justify-content-center">
-                <Nav />
+              <ul className="box-nav-ul d-flex align-items-center">
+                <Navbar />
               </ul>
             </nav>
           </div>
-          <div className="col-xl-3 col-md-4 col-3">
+          <div className="col-xl-2 col-md-4 col-3">
             <ul className="nav-icon d-flex justify-content-end align-items-center">
               <li className="nav-search">
                 <a
@@ -99,18 +100,9 @@ export default function Header1({ fullWidth = false }) {
                   </svg>
                 </a>
                 <div className="dropdown-account dropdown-login">
-                  <div className="sub-top">
-                    <Link href={`/login`} className="tf-btn btn-reset">
-                      Login
-                    </Link>
-                    <p className="text-center text-secondary-2">
-                      Don’t have an account?{" "}
-                      <Link href={`/register`}>Register</Link>
-                    </p>
-                  </div>
-                  <div className="sub-bot">
-                    <span className="body-text-">Support</span>
-                  </div>
+                  <Link href="/login" className="tf-btn btn-reset">
+                    Login / Register
+                  </Link>
                 </div>
               </li>
               <li className="nav-wishlist">
