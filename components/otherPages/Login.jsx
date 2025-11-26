@@ -21,7 +21,7 @@ export default function Login() {
               <div className="wrap">
                 <fieldset className="">
                   <PhoneInput
-                    country={"us"}
+                    country={"tz"}
                     value={value}
                     onChange={phone => setValue(phone)}
                     inputProps={{
