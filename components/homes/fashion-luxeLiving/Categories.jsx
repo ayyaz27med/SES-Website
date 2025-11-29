@@ -36,8 +36,7 @@ export default function Categories() {
                 src="/images/home-categories/Square2.png"
                 width={615}
                 height={258}
-                objectFit="cover"
-                style={{ height: '258px' }}
+                style={{ height: "258px", objectFit: "cover" }}
               />
             </a>
             <div className="content">
@@ -56,8 +55,7 @@ export default function Categories() {
                 src="/images/home-categories/Square3.png"
                 width={615}
                 height={258}
-                objectFit="cover"
-                style={{ height: '258px' }}
+                style={{ height: "258px", objectFit: "cover" }}
               />
             </a>
             <div className="content">

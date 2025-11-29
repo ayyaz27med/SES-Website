@@ -1,10 +1,9 @@
+import React from "react";
 import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
-import Topbar6 from "@/components/headers/Topbar6";
-import AccountSidebar from "@/components/my-account/AccountSidebar";
-import Information from "@/components/my-account/Information";
 import Link from "next/link";
-import React from "react";
+import Topbar5 from "@/components/headers/Topbar5";
+import MyAccountInfo from "@/components/my-account/MyAccount";
 
 export const metadata = {
   title: "My Account || Modave - Multipurpose React Nextjs eCommerce Template",
@@ -14,7 +13,7 @@ export const metadata = {
 export default function MyAccountPage() {
   return (
     <>
-      <Topbar6 bgColor="bg-main" />
+      <Topbar5 bgColor="bg-main" />
       <Header1 />
       <>
         {/* page-title */}
@@ -29,16 +28,8 @@ export default function MyAccountPage() {
                 <ul className="breadcrumbs d-flex align-items-center justify-content-center">
                   <li>
                     <Link className="link" href={`/`}>
-                      Homepage
+                      Home
                     </Link>
-                  </li>
-                  <li>
-                    <i className="icon-arrRight" />
-                  </li>
-                  <li>
-                    <a className="link" href="#">
-                      Pages
-                    </a>
                   </li>
                   <li>
                     <i className="icon-arrRight" />
@@ -59,10 +50,7 @@ export default function MyAccountPage() {
 
       <section className="flat-spacing">
         <div className="container">
-          <div className="my-account-wrap">
-            <AccountSidebar />
-            <Information />
-          </div>
+          <MyAccountInfo />
         </div>
       </section>
       <Footer1 />

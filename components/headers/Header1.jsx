@@ -1,10 +1,19 @@
+"use client";
 import React from "react";
-import Nav from "./Nav";
-import Image from "next/image";
 import Link from "next/link";
 import CartLength from "../common/CartLength";
 import Navbar from "./Navbar";
+import { useSession } from "@/store/session";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 export default function Header1({ fullWidth = false }) {
+  const router = useRouter();
+  const { isAuthenticated, clearSession } = useSession();
+  const handleLogout = () => {
+    clearSession();
+    router.push('/')
+  };
   return (
     <header
       id="header"
@@ -12,7 +21,7 @@ export default function Header1({ fullWidth = false }) {
     >
       <div className="header-fullwidth">
         <div className="row wrapper-header align-items-center">
-          <div className="col-md-4 col-3 d-xl-none">
+          <div className="col-4 d-xl-none">
             <a
               href="#mobileMenu"
               className="mobile-menu"
@@ -40,7 +49,17 @@ export default function Header1({ fullWidth = false }) {
               </ul>
             </nav>
           </div>
-          <div className="col-xl-2 col-md-4 col-3">
+          <div className="col-4 text-center d-block d-xl-none">
+            <Link href={`/`}>
+              <Image
+                alt=""
+                src="/images/logo/logo.png"
+                width={50}
+                height={50}
+              />
+            </Link>
+          </div>
+          <div className="col-xl-2 col-4">
             <ul className="nav-icon d-flex justify-content-end align-items-center">
               <li className="nav-search">
                 <a
@@ -100,9 +119,25 @@ export default function Header1({ fullWidth = false }) {
                   </svg>
                 </a>
                 <div className="dropdown-account dropdown-login">
-                  <Link href="/login" className="tf-btn btn-reset">
-                    Login / Register
-                  </Link>
+                  {isAuthenticated && (
+                    <div className="d-flex flex-column gap-12">
+                      <Link href="/my-account" className="tf-btn btn-reset">
+                        My Account
+                      </Link>
+                      <div
+                        className="tf-btn btn-reset"
+                        role="button"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </div>
+                    </div>
+                  )}
+                  {!isAuthenticated && (
+                    <Link href="/login" className="tf-btn btn-reset">
+                      Login / Register
+                    </Link>
+                  )}
                 </div>
               </li>
               <li className="nav-wishlist">

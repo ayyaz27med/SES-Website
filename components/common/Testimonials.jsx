@@ -8,6 +8,9 @@ import { testimonialsWithProduct9 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
 export default function Testimonials({ parentClass = "flat-spacing" }) {
   const { setQuickViewItem } = useContextElement();
+  const [expandedStates, setExpandedStates] = React.useState(
+    Array(testimonialsWithProduct9.length).fill(false)
+  );
   return (
     <section className={parentClass}>
       <div className="container">
@@ -75,7 +78,26 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
                           <i key={i} className="icon icon-star" />
                         ))}
                       </div>
-                      <p className="text-secondary">{testimonial.quote}</p>
+                      <p className="text-secondary">
+                      {expandedStates[index]
+                        ? testimonial.quote
+                        : testimonial.quote.slice(0, 100) + "..."}
+                      {testimonial.quote.length > 100 && (
+                        <span
+                          style={{ cursor: "pointer", color: "#3DAB25", marginLeft: 4 }}
+                          className="small"
+                          onClick={() =>
+                            setExpandedStates(prev => {
+                              const copy = [...prev];
+                              copy[index] = !copy[index];
+                              return copy;
+                            })
+                          }
+                        >
+                          {expandedStates[index] ? "View Less" : "View More"}
+                        </span>
+                      )}
+                      </p>
                       <div className="box-author">
                         <div className="text-title author">
                           {testimonial.author}

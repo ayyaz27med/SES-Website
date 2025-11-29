@@ -20,6 +20,9 @@ import DemoModal from "@/components/modals/DemoModal";
 import Categories from "@/components/modals/Categories";
 import RtlToggler from "@/components/common/RtlToggler";
 import AccountSidebar from "@/components/modals/AccountSidebar";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/utlis/queryClient";
+import { ToastContainer } from "react-toastify";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -124,23 +127,26 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="preload-wrapper popup-loader">
-        <Context>
-          <RtlToggler />
-          <div id="wrapper">{children}</div>
-          <CartModal />
-          <QuickView />
-          <QuickAdd />
-          <Compare />
-          <MobileMenu />
+        <QueryClientProvider client={queryClient}>
+          <Context>
+            <RtlToggler />
+            <ToastContainer />
+            <div id="wrapper">{children}</div>
+            <CartModal />
+            <QuickView />
+            <QuickAdd />
+            <Compare />
+            <MobileMenu />
 
-          <NewsLetterModal />
-          <SearchModal />
-          <SizeGuide />
-          <Wishlist />
-          <DemoModal />
-          <Categories />
-          <AccountSidebar />
-        </Context>
+            <NewsLetterModal />
+            <SearchModal />
+            <SizeGuide />
+            <Wishlist />
+            <DemoModal />
+            <Categories />
+            <AccountSidebar />
+          </Context>
+        </QueryClientProvider>
       </body>
     </html>
   );

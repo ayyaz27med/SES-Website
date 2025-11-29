@@ -1,21 +1,31 @@
+"use client"
 import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
-import Topbar6 from "@/components/headers/Topbar6";
 import AccountSidebar from "@/components/my-account/AccountSidebar";
 import Link from "next/link";
 import OrderDetails from "@/components/my-account/OrderDetails";
 import React from "react";
+import Topbar5 from "@/components/headers/Topbar5";
+import useUserDetails from "@/services/tanstack/queries/useUserDetails";
+import { useParams } from "next/navigation";
+import useOrderDetails from "@/services/tanstack/queries/useOrderDetails";
 
-export const metadata = {
-  title:
-    "My Account Order Details || Modave - Multipurpose React Nextjs eCommerce Template",
-  description: "Modave - Multipurpose React Nextjs eCommerce Template",
-};
+// export const metadata = {
+//   title:
+//     "My Account Order Details || Modave - Multipurpose React Nextjs eCommerce Template",
+//   description: "Modave - Multipurpose React Nextjs eCommerce Template",
+// };
 
-export default function MyAccountOrdersDetailsPage() {
+export default function MyAccountOrdersDetailsPage({ params }) {
+  const { id } = useParams();
+  const { data } = useUserDetails();
+  const { data: orderDetails } = useOrderDetails(id);
+  const userDetails = data?.data;
+
+  console.log('orderDetails', orderDetails)
   return (
     <>
-      <Topbar6 bgColor="bg-main" />
+      <Topbar5 bgColor="bg-main" />
       <Header1 />
       <>
         {/* page-title */}
@@ -30,16 +40,8 @@ export default function MyAccountOrdersDetailsPage() {
                 <ul className="breadcrumbs d-flex align-items-center justify-content-center">
                   <li>
                     <Link className="link" href={`/`}>
-                      Homepage
+                      Home
                     </Link>
-                  </li>
-                  <li>
-                    <i className="icon-arrRight" />
-                  </li>
-                  <li>
-                    <a className="link" href="#">
-                      Pages
-                    </a>
                   </li>
                   <li>
                     <i className="icon-arrRight" />
@@ -61,7 +63,7 @@ export default function MyAccountOrdersDetailsPage() {
       <section className="flat-spacing">
         <div className="container">
           <div className="my-account-wrap">
-            <AccountSidebar />
+            <AccountSidebar userDetails={userDetails} />
             <OrderDetails />
           </div>
         </div>

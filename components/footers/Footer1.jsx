@@ -90,7 +90,7 @@ export default function Footer1({
           <div className="footer-body">
             <div className="container">
               <div className="row">
-                <div className="col-lg-4">
+                <div className="col-lg-8">
                   <div className="footer-infor">
                     <div className="footer-logo">
                       <Link href={`/`}>
@@ -98,19 +98,19 @@ export default function Footer1({
                           alt=""
                           src={
                             dark
-                              ? "/images/logo/logo-white.svg"
-                              : "/images/logo/logo.svg"
+                              ? "/images/logo/logo.png"
+                              : "/images/logo/logo.png"
                           }
-                          width={127}
-                          height={24}
-                          style={{ width: "auto", height: "auto" }}
+                          width={65}
+                          height={65}
+                          // style={{ width: "auto", height: "auto" }}
                         />
                       </Link>
                     </div>
                     <div className="footer-address">
-                      <p>549 Oak St.Crystal Lake, IL 60014</p>
+                      <p>1st Floor, Girls Guide Building, Kibasila St, Upanga - Dar es Salaam</p>
                       <Link
-                        href={`/contact`}
+                        href={`/contact-02`}
                         className={`tf-btn-default fw-6 ${
                           dark ? "style-white" : ""
                         } `}
@@ -122,11 +122,11 @@ export default function Footer1({
                     <ul className="footer-info">
                       <li>
                         <i className="icon-mail" />
-                        <p>themesflat@gmail.com</p>
+                        <p>ses.tz@icloud.com</p>
                       </li>
                       <li>
                         <i className="icon-phone" />
-                        <p>315-666-6688</p>
+                        <p>+255 710 071 612</p>
                       </li>
                     </ul>
                     <ul
@@ -178,89 +178,6 @@ export default function Footer1({
                     ))}
                   </div>
                 </div>
-                <div className="col-lg-4">
-                  <div className="footer-col-block">
-                    <div className="footer-heading text-button footer-heading-mobile">
-                      Newletter
-                    </div>
-                    <div className="tf-collapse-content">
-                      <div className="footer-newsletter">
-                        <p className="text-caption-1">
-                          Sign up for our newsletter and get 10% off your first
-                          purchase
-                        </p>
-                        <div
-                          className={`tfSubscribeMsg  footer-sub-element ${
-                            showMessage ? "active" : ""
-                          }`}
-                        >
-                          {success ? (
-                            <p style={{ color: "rgb(52, 168, 83)" }}>
-                              You have successfully subscribed.
-                            </p>
-                          ) : (
-                            <p style={{ color: "red" }}>Something went wrong</p>
-                          )}
-                        </div>
-                        <form
-                          onSubmit={sendEmail}
-                          className={`form-newsletter subscribe-form ${
-                            dark ? "style-black" : ""
-                          }`}
-                        >
-                          <div className="subscribe-content">
-                            <fieldset className="email">
-                              <input
-                                type="email"
-                                name="email"
-                                className="subscribe-email"
-                                placeholder="Enter your e-mail"
-                                tabIndex={0}
-                                aria-required="true"
-                              />
-                            </fieldset>
-                            <div className="button-submit">
-                              <button
-                                className="subscribe-button"
-                                type="submit"
-                              >
-                                <i className="icon icon-arrowUpRight" />
-                              </button>
-                            </div>
-                          </div>
-                          <div className="subscribe-msg" />
-                        </form>
-                        <div className="tf-cart-checkbox">
-                          <div className="tf-checkbox-wrapp">
-                            <input
-                              className=""
-                              type="checkbox"
-                              id="footer-Form_agree"
-                              name="agree_checkbox"
-                            />
-                            <div>
-                              <i className="icon-check" />
-                            </div>
-                          </div>
-                          <label
-                            className="text-caption-1"
-                            htmlFor="footer-Form_agree"
-                          >
-                            By clicking subcribe, you agree to the{" "}
-                            <Link className="fw-6 link" href={`/term-of-use`}>
-                              Terms of Service
-                            </Link>{" "}
-                            and{" "}
-                            <a className="fw-6 link" href="#">
-                              Privacy Policy
-                            </a>
-                            .
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -271,20 +188,8 @@ export default function Footer1({
                   <div className="footer-bottom-wrap">
                     <div className="left">
                       <p className="text-caption-1">
-                        ©{new Date().getFullYear()} Modave. All Rights Reserved.
+                        © 2025 SES Cosmetics Tanzania. All Rights Reserved
                       </p>
-                      <div className="tf-cur justify-content-end">
-                        <div className="tf-currencies">
-                          <CurrencySelect light={dark ? true : false} />
-                        </div>
-                        <div className="tf-languages">
-                          <LanguageSelect
-                            parentClassName={`image-select center style-default type-languages ${
-                              dark ? "color-white" : ""
-                            }`}
-                          />
-                        </div>
-                      </div>
                     </div>
                     <div className="tf-payment">
                       <p className="text-caption-1">Payment:</p>
@@ -292,7 +197,7 @@ export default function Footer1({
                         <li>
                           <Image
                             alt=""
-                            src="/images/payment/img-1.png"
+                            src="/images/payment/cash.png"
                             width={100}
                             height={64}
                           />
@@ -300,7 +205,7 @@ export default function Footer1({
                         <li>
                           <Image
                             alt=""
-                            src="/images/payment/img-2.png"
+                            src="/images/payment/Mpesa.png"
                             width={100}
                             height={64}
                           />
@@ -308,7 +213,7 @@ export default function Footer1({
                         <li>
                           <Image
                             alt=""
-                            src="/images/payment/img-3.png"
+                            src="/images/payment/airtelmoney.png"
                             width={100}
                             height={64}
                           />
@@ -316,23 +221,7 @@ export default function Footer1({
                         <li>
                           <Image
                             alt=""
-                            src="/images/payment/img-4.png"
-                            width={98}
-                            height={64}
-                          />
-                        </li>
-                        <li>
-                          <Image
-                            alt=""
-                            src="/images/payment/img-5.png"
-                            width={102}
-                            height={64}
-                          />
-                        </li>
-                        <li>
-                          <Image
-                            alt=""
-                            src="/images/payment/img-6.png"
+                            src="/images/payment/mixxbyyas.png"
                             width={98}
                             height={64}
                           />
