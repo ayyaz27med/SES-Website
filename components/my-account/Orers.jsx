@@ -3,7 +3,10 @@ import Link from "next/link";
 import useUserOrders from "@/services/tanstack/mutations/useUserOrders";
 import Pagination from "../common/Pagination";
 import { formatDate } from "@/helpers/dateTime";
-export default function Orers() {
+import { useRouter } from "next/navigation";
+
+export default function Orers({ setActiveTab }) {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   let length = 10;
 
@@ -35,18 +38,21 @@ export default function Orers() {
             </thead>
             <tbody>
               {orders.map((order) => (
-                <tr className="tf-order-item" key={order.id}>
+                <tr className="tf-order-item" key={order?.id}>
                   <td>{order.order_no}</td>
                   <td>{formatDate(order.created_at, "MMMM DD, yyyy")}</td>
                   <td>{order.status}</td>
                   <td>₹{order.grandtotal}</td>
                   <td>
-                    <Link
-                      href={`/my-account-orders-details/${order.id}`}
+                    <div
                       className="tf-btn btn-fill radius-4"
+                      onClick={() => {
+                        router.push(`/my-account?order_id=${order?.id}`)
+                        setActiveTab(3);
+                      }}
                     >
                       <span className="text">View</span>
-                    </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

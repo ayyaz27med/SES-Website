@@ -5,14 +5,18 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/store/session";
 
-export default function AccountSidebar({ activeTab, setActiveTab, userDetails }) {
-  console.log('userDetails', userDetails)
+export default function AccountSidebar({
+  activeTab,
+  setActiveTab,
+  userDetails,
+}) {
+  console.log("userDetails", userDetails);
   const router = useRouter();
   const pathname = usePathname();
   const { clearSession } = useSession();
   const handleLogout = () => {
     clearSession();
-    router.push('/')
+    router.push("/");
   };
   return (
     <div className="wrap-sidebar-account">
@@ -33,7 +37,10 @@ export default function AccountSidebar({ activeTab, setActiveTab, userDetails })
           <li>
             <div
               // href={`/my-account`}
-              onClick={() => activeTab ? setActiveTab(1) : router.push('/my-account')}
+              onClick={() => {
+                setActiveTab(1);
+                router.push("/my-account");
+              }}
               className={`my-account-nav-item ${
                 activeTab == 1 ? "active" : ""
               } `}
@@ -65,7 +72,10 @@ export default function AccountSidebar({ activeTab, setActiveTab, userDetails })
           </li>
           <li>
             <div
-              onClick={() => activeTab ? setActiveTab(2) : router.push('/my-account')}
+              onClick={() => {
+                setActiveTab(2);
+                router.push("/my-account");
+              }}
               role="button"
               className={`my-account-nav-item ${
                 activeTab == 2 ? "active" : ""

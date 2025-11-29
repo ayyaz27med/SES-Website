@@ -4,6 +4,7 @@ import AccountSidebar from "@/components/my-account/AccountSidebar";
 import Information from "@/components/my-account/Information";
 import Orers from "@/components/my-account/Orers";
 import useUserDetails from "@/services/tanstack/queries/useUserDetails";
+import OrderDetails from "./OrderDetails";
 
 export default function MyAccountInfo() {
   const [activeTab, setActiveTab] = useState(1);
@@ -17,7 +18,7 @@ export default function MyAccountInfo() {
         activeTab={activeTab}
         userDetails={userDetails}
       />
-      <div className="widget-content-tab wow fadeInUp">
+      <div className="widget-content-tab wow fadeInUp w-100">
         <div
           className={`widget-content-inner ${activeTab == 1 ? "active" : ""} `}
         >
@@ -26,7 +27,12 @@ export default function MyAccountInfo() {
         <div
           className={`widget-content-inner ${activeTab == 2 ? "active" : ""} `}
         >
-          <Orers />
+          <Orers setActiveTab={setActiveTab} />
+        </div>
+        <div
+          className={`widget-content-inner ${activeTab == 3 ? "active" : ""} `}
+        >
+          <OrderDetails />
         </div>
       </div>
     </div>
