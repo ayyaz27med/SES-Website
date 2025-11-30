@@ -1,6 +1,6 @@
 "use client";
 import { useRef } from "react";
-import LoginForm from "../forms/loginForm";
+import LoginForm from "../forms/LoginForm";
 import useLoginOrRegister from "@/services/tanstack/mutations/useLogin";
 import Modal from "../modals/Modal";
 import ModalReference from "@/helpers/modalReference";
