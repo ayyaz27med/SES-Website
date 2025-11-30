@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { Suspense, useState } from "react";
 import AccountSidebar from "@/components/my-account/AccountSidebar";
 import Information from "@/components/my-account/Information";
 import Orers from "@/components/my-account/Orers";
@@ -32,7 +32,9 @@ export default function MyAccountInfo() {
         <div
           className={`widget-content-inner ${activeTab == 3 ? "active" : ""} `}
         >
-          <OrderDetails />
+          <Suspense fallback={<div>Loading...</div>}>
+            <OrderDetails />
+          </Suspense>
         </div>
       </div>
     </div>

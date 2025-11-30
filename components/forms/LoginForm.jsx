@@ -1,7 +1,14 @@
 "use client";
-import "react-phone-input-2/lib/style.css";
+import dynamic from "next/dynamic";
+// import "react-phone-input-2/lib/style.css";
 import FormikForm from "./FormikForm";
-import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
+const PhoneInput = dynamic(() => import("react-phone-input-2"), {
+    ssr: false,
+  });
+  
+  import "react-phone-input-2/lib/style.css";
+  
 
 export default function LoginForm({ onLoginOrRegister, isLoading }) {
 

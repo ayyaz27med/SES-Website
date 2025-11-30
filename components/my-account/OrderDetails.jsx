@@ -7,7 +7,7 @@ export default function OrderDetails() {
   const searchParams = useSearchParams();
   const order_id = searchParams.get("order_id");
   const { data: orderDetails } = useOrderDetails(order_id);
-  console.log("datadddddddddd", orderDetails);
+
   return (
     <div className="my-account-content">
       <div className="account-order-details">

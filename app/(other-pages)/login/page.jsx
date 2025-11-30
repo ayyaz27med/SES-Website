@@ -1,14 +1,11 @@
+"use client";
 import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
 import Topbar5 from "@/components/headers/Topbar5";
-import Login from "@/components/otherPages/Login";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
-
-export const metadata = {
-  title: "Login || Modave - Multipurpose React Nextjs eCommerce Template",
-  description: "Modave - Multipurpose React Nextjs eCommerce Template",
-};
+const Login = dynamic(() => import("@/components/otherPages/Login"), { ssr: false });
 
 export default function LoginPage() {
   return (
