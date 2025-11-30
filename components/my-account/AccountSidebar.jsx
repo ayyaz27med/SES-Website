@@ -1,10 +1,23 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-export default function AccountSidebar() {
+import { useRouter } from "next/navigation";
+import { useSession } from "@/store/session";
+
+export default function AccountSidebar({
+  activeTab,
+  setActiveTab,
+  userDetails,
+}) {
+  console.log("userDetails", userDetails);
+  const router = useRouter();
   const pathname = usePathname();
+  const { clearSession } = useSession();
+  const handleLogout = () => {
+    clearSession();
+    router.push("/");
+  };
   return (
     <div className="wrap-sidebar-account">
       <div className="sidebar-account">
@@ -12,20 +25,24 @@ export default function AccountSidebar() {
           <div className="image">
             <Image
               alt=""
-              src="/images/avatar/user-account.jpg"
+              src={userDetails?.image || "/images/avatar/user-account.jpg"}
               width={281}
               height={280}
             />
           </div>
-          <h6 className="mb_4">Tony Nguyen</h6>
-          <div className="body-text-1">themesflat@gmail.com</div>
+          <h6 className="mb_4">{userDetails?.name}</h6>
+          <div className="body-text-1">{userDetails?.mobile_no}</div>
         </div>
         <ul className="my-account-nav">
           <li>
-            <Link
-              href={`/my-account`}
+            <div
+              // href={`/my-account`}
+              onClick={() => {
+                setActiveTab(1);
+                router.push("/my-account");
+              }}
               className={`my-account-nav-item ${
-                pathname == "/my-account" ? "active" : ""
+                activeTab == 1 ? "active" : ""
               } `}
             >
               <svg
@@ -51,13 +68,17 @@ export default function AccountSidebar() {
                 />
               </svg>
               Account Details
-            </Link>
+            </div>
           </li>
           <li>
-            <Link
-              href={`/my-account-orders`}
+            <div
+              onClick={() => {
+                setActiveTab(2);
+                router.push("/my-account");
+              }}
+              role="button"
               className={`my-account-nav-item ${
-                pathname == "/my-account-orders" ? "active" : ""
+                activeTab == 2 ? "active" : ""
               } `}
             >
               <svg
@@ -76,14 +97,15 @@ export default function AccountSidebar() {
                 />
               </svg>
               Your Orders
-            </Link>
+            </div>
           </li>
           <li>
-            <Link
-              href={`/login`}
+            <div
+              role="button"
               className={`my-account-nav-item ${
                 pathname == "/login" ? "active" : ""
               } `}
+              onClick={handleLogout}
             >
               <svg
                 width={24}
@@ -115,7 +137,7 @@ export default function AccountSidebar() {
                 />
               </svg>
               Logout
-            </Link>
+            </div>
           </li>
         </ul>
       </div>

@@ -36,7 +36,7 @@ export default function ShopGram({ parentClass = "" }) {
                 className="gallery-item hover-overlay hover-img wow fadeInUp"
                 data-wow-delay={item.delay}
               >
-                <div className="img-style">
+                <div className="img-style image-width">
                   <Image
                     className="lazyload img-hover"
                     data-src={item.imgSrc}
@@ -44,7 +44,6 @@ export default function ShopGram({ parentClass = "" }) {
                     src={item.imgSrc}
                     width={250}
                     height={250}
-                    style={{ width: '250px !important', height: '250px !important'}}
                   />
                 </div>
                 <Link

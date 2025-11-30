@@ -1,50 +1,46 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 
-export default function Pagination({ totalPages = 3 }) {
-  const [currentPage, setCurrentPage] = useState(1);
+export default function Pagination({ currentPage, totalPages, onPageChange }) {
+  if (!totalPages || totalPages < 1) totalPages = 1;
 
-  const handlePageClick = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-
-  const renderPageNumbers = () => {
-    return Array.from({ length: totalPages }, (_, index) => {
-      const page = index + 1;
-      return (
-        <li
-          key={page}
-          className={page === currentPage ? "active" : ""}
-          onClick={() => handlePageClick(page)}
-        >
-          <div className="pagination-item text-button">{page}</div>
-        </li>
-      );
-    });
+  const handle = (p) => {
+    if (p >= 1 && p <= totalPages) onPageChange(p);
   };
 
   return (
     <>
-      <li onClick={() => handlePageClick(currentPage - 1)}>
-        <a
+      {/* Prev */}
+      <li onClick={() => handle(currentPage - 1)}>
+        <div
           className={`pagination-item text-button ${
             currentPage === 1 ? "disabled" : ""
           }`}
         >
           <i className="icon-arrLeft" />
-        </a>
+        </div>
       </li>
-      {renderPageNumbers()}
-      <li onClick={() => handlePageClick(currentPage + 1)}>
-        <a
+
+      {/* Page Numbers */}
+      {Array.from({ length: totalPages }, (_, i) => (
+        <li
+          key={i + 1}
+          className={currentPage === i + 1 ? "active" : ""}
+          onClick={() => handle(i + 1)}
+        >
+          <div className="pagination-item text-button">{i + 1}</div>
+        </li>
+      ))}
+
+      {/* Next */}
+      <li onClick={() => handle(currentPage + 1)}>
+        <div
           className={`pagination-item text-button ${
             currentPage === totalPages ? "disabled" : ""
           }`}
         >
           <i className="icon-arrRight" />
-        </a>
+        </div>
       </li>
     </>
   );

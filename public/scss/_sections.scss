@@ -26,6 +26,13 @@
     margin-bottom: 40px;
   }
 }
+.extra-small-text {
+  font-size: 10px;
+}
+.top-bar-text.extra-small-text:first-child {
+  width: 80px;
+  min-width: 80px;
+}
 .heading-section-3 {
   margin-bottom: 30px;
   h2 {
@@ -1359,7 +1366,7 @@ ul.list-text {
 
 .my-account-wrap {
   display: flex;
-  gap: 81px;
+  gap: 60px;
   max-width: 1130px;
   margin-left: auto;
   margin-right: auto;

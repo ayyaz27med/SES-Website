@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Topbar5({ parentClass = "tf-topbar style-2" }) {
+export default function Topbar5({ parentClass = "tf-topbar style-2 d-none d-xl-block" }) {
   return (
     <div className={parentClass}>
       <div className="header-fullwidth">
@@ -32,24 +32,24 @@ export default function Topbar5({ parentClass = "tf-topbar style-2" }) {
               </li>
             </ul>
           </div>
-          <div className="col-xl-2 d-none text-center d-xl-block">
+          <div className="col-xl-2 text-center d-xl-block">
             <Link href={`/`}>
               <Image
                 alt=""
                 src="/images/logo/logo.png"
-                width={50}
-                height={50}
+                width={65}
+                height={65}
               />
             </Link>
           </div>
-          <div className="col-xl-5 col-12 d-flex justify-content-center gap-8">
+          <div className="col-xl-5 col-12 justify-content-center gap-10 d-xl-flex d-none">
             <Link
-              href="https://modavenextjs.vercel.app/contact-02"
-              className="text-decoration-underline top-bar-text w-25 d-flex justify-content-center text-btn-uppercase fw-semibold letter-1"
+              href="/contact-02"
+              className="text-decoration-underline top-bar-text extra-small-text d-flex justify-content-center text-btn-uppercase fw-semibold letter-1"
             >
               Our Store
             </Link>
-            <p className="top-bar-text text-btn-uppercase fw-semibold letter-1">
+            <p className="top-bar-text extra-small-text text-btn-uppercase fw-semibold letter-1">
               1st Floor, Girls Guide Building, Kibasila St, Upanga - Dar es Salaam 
             </p>
           </div>

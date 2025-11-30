@@ -1,6 +1,6 @@
 import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
-import Topbar6 from "@/components/headers/Topbar6";
+import Topbar5 from "@/components/headers/Topbar5";
 import Login from "@/components/otherPages/Login";
 import Link from "next/link";
 import React from "react";
@@ -13,7 +13,7 @@ export const metadata = {
 export default function LoginPage() {
   return (
     <>
-      <Topbar6 bgColor="bg-main" />
+      <Topbar5 bgColor="bg-main" />
       <Header1 />
       <div
         className="page-title"

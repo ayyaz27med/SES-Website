@@ -1928,6 +1928,7 @@ a:hover {
   transition: all 0.3s ease;
   position: relative;
 }
+
 #header .box-nav-ul .item-link .icon {
   font-size: 12px;
   font-weight: 600;
@@ -7422,6 +7423,8 @@ input.style-line-bottom::placeholder {
 .hover-img:hover .img-style > img {
   -webkit-transform: scale(1.06);
   transform: scale(1.06);
+  width: 250px;
+  height: 250px;
 }
 .hover-img .img-style2 {
   overflow: hidden;
@@ -14118,7 +14121,7 @@ ul.list-text.type-number {
 
 .my-account-wrap {
   display: flex;
-  gap: 81px;
+  gap: 60px;
   max-width: 1130px;
   margin-left: auto;
   margin-right: auto;
@@ -18268,6 +18271,7 @@ ul.list-text.type-number {
   border-right: 0;
   border-left: 1px solid var(--line);
 }
+
 @keyframes slide-har-reverse {
   0% {
     -webkit-transform: translateX(0%);

@@ -1,63 +1,104 @@
 "use client";
 import React from "react";
+import FormikForm from "../forms/FormikForm";
+import useUpdateProfile from "@/services/tanstack/mutations/useUpdateProfile";
+import { useSession } from "@/store/session";
 
-export default function Information() {
+export default function Information({ userDetails }) {
+  const { setSession } = useSession();
+  const initialValues = {
+    name: userDetails?.name || "",
+    email: userDetails?.email || "",
+    mobile_no: userDetails?.mobile_no || "",
+  };
+
+  const { mutate: updateProfile, isPending: isUpdatingProfile } =
+    useUpdateProfile({
+      onSuccess: async (data) => {
+        const { data: userData, message } = data;
+        setSession({
+          id: userData?.id,
+          token: userData?.token,
+          user: userData,
+        });
+        loginModalRef.close();
+        ToastHelper.success(message || "OTP verified successfully");
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
+      },
+    });
+
   return (
     <div className="my-account-content">
       <div className="account-details">
-        <form
-          onSubmit={(e) => e.preventDefault()}
+        <FormikForm
+          initialValues={initialValues}
+          enableReinitialize={true}
+          onSubmit={(values) => {
+            const { mobile_no, ...updatedValues } = values;
+            updateProfile(updatedValues);
+          }}
           className="form-account-details form-has-password"
         >
-          <div className="account-info">
-            <h5 className="title">Information</h5>
-            <div className="mb_20">
-              <fieldset className="">
-                <input
-                  className=""
-                  type="text"
-                  placeholder="Full Name*"
-                  name="text"
-                  tabIndex={2}
-                  defaultValue="Tony Stark"
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
-            </div>
-            <div className="cols mb_20">
-              <fieldset className="">
-                <input
-                  className=""
-                  type="email"
-                  placeholder="Username or email address*"
-                  name="email"
-                  tabIndex={2}
-                  defaultValue="themesflat@gmail.com"
-                  aria-required="true"
-                  required
-                />
-              </fieldset>
-              <fieldset className="">
-                <input
-                  className=""
-                  type="text"
-                  readOnly
-                  placeholder="Phone*"
-                  name="text"
-                  tabIndex={2}
-                  defaultValue="(+12) 345 678 910"
-                  aria-required="true"
-                />
-              </fieldset>
-            </div>
-          </div>
-          <div className="button-submit">
-            <button className="tf-btn btn-fill" type="submit">
-              <span className="text text-button">Update Account</span>
-            </button>
-          </div>
-        </form>
+          {(formik) => {
+            return (
+              <>
+                <div className="account-info">
+                  <h5 className="title">Information</h5>
+
+                  {/* FULL NAME */}
+                  <div className="mb_20">
+                    <fieldset>
+                      <input
+                        type="text"
+                        placeholder="Full Name*"
+                        name="name"
+                        value={formik.values.name}
+                        onChange={(e) =>
+                          formik.setFieldValue("name", e.target.value)
+                        }
+                        required
+                      />
+                    </fieldset>
+                  </div>
+
+                  {/* EMAIL + PHONE */}
+                  <div className="cols mb_20">
+                    <fieldset>
+                      <input
+                        type="email"
+                        placeholder="Username or email address*"
+                        name="email"
+                        value={formik.values.email}
+                        onChange={(e) =>
+                          formik.setFieldValue("email", e.target.value)
+                        }
+                        required
+                      />
+                    </fieldset>
+
+                    <fieldset>
+                      <input
+                        type="text"
+                        readOnly
+                        placeholder="Phone*"
+                        name="mobile_no"
+                        value={formik.values.mobile_no}
+                      />
+                    </fieldset>
+                  </div>
+                </div>
+
+                <div className="button-submit">
+                  <button className="tf-btn btn-fill" type="submit" disabled={isUpdatingProfile}>
+                    <span className="text text-button">Update Account</span>
+                  </button>
+                </div>
+              </>
+            );
+          }}
+        </FormikForm>
       </div>
     </div>
   );

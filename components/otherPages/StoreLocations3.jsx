@@ -28,17 +28,16 @@ export default function StoreLocations3() {
                 <h4>Information</h4>
                 <div className="mb_20">
                   <div className="text-title mb_8">Phone:</div>
-                  <p className="text-secondary">+1 666 234 8888</p>
+                  <p className="text-secondary">+255 710 071 612</p>
                 </div>
                 <div className="mb_20">
                   <div className="text-title mb_8">Email:</div>
-                  <p className="text-secondary">themesflat@gmail.com</p>
+                  <p className="text-secondary">ses.tz@icloud.com</p>
                 </div>
                 <div className="mb_20">
                   <div className="text-title mb_8">Address:</div>
                   <p className="text-secondary">
-                    2163 Phillips Gap Rd, West Jefferson, North Carolina, United
-                    States
+                    1st Floor, Girls Guide Building, Kibasila St, Upanga - Dar es Salaam
                   </p>
                 </div>
                 <div>
