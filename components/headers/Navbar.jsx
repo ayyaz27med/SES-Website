@@ -1,14 +1,8 @@
-import {
-  allAffordableBrandsLinks,
-  allBrandsLinks1,
-  allBrandsLinks2,
-  allBrandsLinks3,
-} from "@/data/menu";
 import useBrands from "@/services/tanstack/queries/useBrands";
 import useCategories from "@/services/tanstack/queries/useCategories";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import NavbarItem from "./SubMenu";
 
 export default function Navbar() {

@@ -30,13 +30,17 @@ export default function NavbarItem({ category }) {
       (item) => item.slug?.split("/")[0] === pathname.split("/")[1]
     )
   );
+  const categoriesSection = subCategorySections
+    .filter(
+      (section) => !section.isLoading && section.data.length > 0
+    )
 
   return (
     <li
       key={category?.id}
       className={`menu-item ${isActiveMain ? "active" : ""}`}
     >
-      <div href="#" className="item-link">
+      <div className="item-link">
         {category?.name}
         <i className="icon icon-arrow-down" />
       </div>
@@ -56,31 +60,34 @@ export default function NavbarItem({ category }) {
                 .filter(
                   (section) => !section.isLoading && section.data.length > 0
                 )
-                .map((section, index) => (
-                  <ul className="menu-list col" key={index}>
-                    <li className="menu-heading">{section.label}</li>
-                    {!section.isLoading &&
-                      section?.data.map((item) => {
-                        const isActiveChild =
-                          pathname.split("/")[1] === item?.name?.split("/")[0];
-                        return (
-                          <li
-                            key={item.id}
-                            className={`menu-item-li ${
-                              isActiveChild ? "active" : ""
-                            }`}
-                          >
-                            <Link
-                              href={`/product/${item?.id}`}
-                              className="menu-link-text"
-                            >
-                              {item.name}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                  </ul>
-                ))}
+                .map((section, index) => {
+                  return (
+                    <div key={index} className="col">
+                      <div className="menu-heading">{section.label}</div>
+                      <ul className={`menu-list ${categoriesSection?.length > 0 && categoriesSection?.length <= 2 && 'grid-3'} ${categoriesSection?.length > 2 && 'col'}`} key={index}>
+                        {!section.isLoading &&
+                          section?.data.map((item) => {
+                            const isActiveChild =
+                              pathname.split("/")[1] === item?.name?.split("/")[0];
+                            return (
+                              <li
+                                key={item.id}
+                                className={`menu-item-li ${isActiveChild ? "active" : ""
+                                  }`}
+                              >
+                                <Link
+                                  href={`/products/${item?.id}`}
+                                  className="menu-link-text"
+                                >
+                                  {item.name}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                      </ul>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>
