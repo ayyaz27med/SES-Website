@@ -76,7 +76,7 @@ export default function NavbarItem({ category }) {
                                   }`}
                               >
                                 <Link
-                                  href={`/products/${item?.id}`}
+                                  href={`/products?category=${category?.id}&${section.key}=${item?.id}`}
                                   className="menu-link-text"
                                 >
                                   {item.name}

@@ -22,6 +22,8 @@ export const useSessionStore = create(
 
       setIsAuthenticated: (value) => set({ isAuthenticated: value }),
 
+      setUser: (user) => set((state) => ({ ...state, user })),
+
       clearSession: () =>
         set({
           token: null,
@@ -46,6 +48,7 @@ export const useSession = () => ({
 
   setSession: useSessionStore((state) => state.setSession),
   setUserId: useSessionStore((state) => state.setUserId),
+  setUser: useSessionStore((state) => state.setUser),
   setIsAuthenticated: useSessionStore((state) => state.setIsAuthenticated),
   clearSession: useSessionStore((state) => state.clearSession),
 });
@@ -56,6 +59,7 @@ const actions = {
   setUserId: (id) => useSessionStore.getState().setUserId(id),
   setIsAuthenticated: (v) => useSessionStore.getState().setIsAuthenticated(v),
   clearSession: () => useSessionStore.getState().clearSession(),
+  setUser: (user) => useSessionStore.getState().setUser(user),
 };
 
 // -------------------- EXPORT --------------------

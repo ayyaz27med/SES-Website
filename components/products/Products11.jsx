@@ -1,149 +1,322 @@
 "use client";
 
 import LayoutHandler from "./LayoutHandler";
-import Sorting from "./Sorting";
 import Listview from "./Listview";
-import GridView from "./GridView";
-import { useEffect, useReducer, useState } from "react";
-import FilterModal from "./FilterModal";
-import { initialState, reducer } from "@/reducer/filterReducer";
-import { productMain } from "@/data/products";
-import FilterMeta from "./FilterMeta";
-import FilterSidebar from "./FilterSidebar";
+import { useEffect, useMemo, useReducer, useState } from "react";
+import useProducts from "@/services/tanstack/queries/useProducts";
+import useBrands from "@/services/tanstack/queries/useBrands";
+import useCategories from "@/services/tanstack/queries/useCategories";
+import useSubCategories from "@/services/tanstack/queries/useSubCategories";
+import { useSearchParams } from "next/navigation";
+import { initialState, productFilterOptions, reducer } from "@/utlis/productList";
+import ProductsSorting from "./ProductsSorting";
+import ProductFilterSidebar from "./ProductFilterSidebar";
+import ProductFilterMeta from "./ProductFilterMeta";
+import ProductFilterModal from "./ProductFilterModal";
+import ProductGridView from "./ProductGridView";
 
 export default function Products11() {
   const [activeLayout, setActiveLayout] = useState(4);
+  const [hasInitialized, setHasInitialized] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const length = 10;
+  const searchParams = useSearchParams();
+  const category_id = searchParams.get("category");
+  const subCategoryParam = searchParams.get("sub_category");
+  const concernParam = searchParams.get("concerns");
+  const suitableParam = searchParams.get("suitable");
+  const ingredientsParam = searchParams.get("ingredients");
+  const brandParam = searchParams.get("brand");
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
     price,
     availability,
-    color,
-    size,
-    brands,
-
-    filtered,
-    sortingOption,
-    sorted,
-
+    selectedBrands,
+    selectedSubCategories,
+    selectedConcerns,
+    selectedIngredients,
+    selectedSuitable,
+    selectedCategory,
     activeFilterOnSale,
-    currentPage,
-    itemPerPage,
+    sortingOption,
   } = state;
 
+  const { data: brandsData } = useBrands({
+    isServerSidePagination: true,
+    start: 1,
+    length: 60,
+    "order[0][0]": "name",
+    "order[0][1]": "DESC",
+  });
+  console.log("sortingOption", sortingOption);
+  const { data: categoriesData } = useCategories({
+    isServerSidePagination: true,
+    "order[0][0]": "name",
+    "order[0][1]": "ASC",
+  });
+
+  const { data: subCategoriesData, isLoading: isLoadingSubCategories } = useSubCategories({
+    category_id: category_id,
+    type: 'sub_category',
+  });
+  const { data: concernsData, isLoading: isLoadingConcerns } = useSubCategories({
+    category_id: category_id,
+    type: 'concerns',
+  });
+  const { data: suitableData, isLoading: isLoadingSuitable } = useSubCategories({
+    category_id: category_id,
+    type: 'suitable',
+  });
+  const { data: ingredientsData, isLoading: isLoadingIngredients } = useSubCategories({
+    category_id: category_id,
+    type: 'ingredients',
+  });
+
+  const subCategories = subCategoriesData?.sub_category || []
+  const concerns = concernsData?.concerns || []
+  const suitable = suitableData?.suitable || []
+  const ingredients = ingredientsData?.ingredients || []
+  const brands = brandsData?.data || [];
+  const categories = categoriesData?.data || [];
+
+
+  const buildProductParams = () => {
+    const sort = productFilterOptions[sortingOption] || productFilterOptions["Sort by (Default)"];
+
+    return {
+      start: page,
+      length,
+      "order[0]": sort.key,
+      "order[1]": sort.dir,
+      min_price: price[0],
+      max_price: price[1],
+      sale: activeFilterOnSale,
+      // CATEGORY (single)
+      category_id: selectedCategory?.id || "",
+
+      // MULTIPLE (comma-separated)
+      sub_category_id: selectedSubCategories
+        .map(name => subCategories.find(x => x.name === name)?.id)
+        .filter(Boolean)
+        .join(","),
+
+      suitable_id: selectedSuitable
+        .map(name => suitable.find(x => x.name === name)?.id)
+        .filter(Boolean)
+        .join(","),
+
+      concern_id: selectedConcerns
+        .map(name => concerns.find(x => x.name === name)?.id)
+        .filter(Boolean)
+        .join(","),
+
+      ingredients_id: selectedIngredients
+        .map(name => ingredients.find(x => x.name === name)?.id)
+        .filter(Boolean)
+        .join(","),
+
+      brand_id: selectedBrands
+        .map(name => brands.find(x => x.name === name)?.id)
+        .filter(Boolean)
+        .join(","),
+    };
+  };
+
+  const { data, isProductFetching } = useProducts({
+    isServerSidePagination: true,
+    ...buildProductParams(),
+  });
+  const products = data?.data || [];
+  const total = Number(data?.count || 0);
+  const totalPages = Math.ceil(total / length);
+  if (isProductFetching) return <div>Loading...</div>;
+
+  useEffect(() => {
+    if (hasInitialized) return;
+    // Wait until all options are loaded
+    const isDataLoaded =
+      (subCategories.length > 0 ||
+        concerns.length > 0 ||
+        suitable.length > 0 ||
+        ingredients.length > 0 ||
+        brands.length > 0);
+
+    if (!isDataLoaded) return;
+
+    // ---- SUB-CATEGORY ----
+    if (subCategoryParam) {
+      const found = subCategories.find(sc => sc.id === subCategoryParam);
+      if (found) {
+        dispatch({
+          type: "SET_SUB_CATEGORIES",
+          payload: [found.name]
+        });
+      }
+    }
+
+    // ---- CONCERNS ----
+    if (concernParam) {
+      const found = concerns.find(sc => sc.id === concernParam);
+      if (found) {
+        dispatch({
+          type: "SET_CONCERNS",
+          payload: [found.name]
+        });
+      }
+    }
+
+    // ---- SUITABLE ----
+    if (suitableParam) {
+      const found = suitable.find(sc => sc.id === suitableParam);
+      if (found) {
+        dispatch({
+          type: "SET_SUITABLE",
+          payload: [found.name]
+        });
+      }
+    }
+
+    // ---- INGREDIENTS ----
+    if (ingredientsParam) {
+      const found = ingredients.find(sc => sc.id === ingredientsParam);
+      if (found) {
+        dispatch({
+          type: "SET_INGREDIENTS",
+          payload: [found.name]
+        });
+      }
+    }
+
+    // ---- BRAND ----
+    if (brandParam) {
+      const found = brands.find(sc => sc.id === brandParam);
+      if (found) {
+        dispatch({
+          type: "SET_BRANDS",
+          payload: [found.name]
+        });
+      }
+    }
+    setHasInitialized(true);
+  }, [
+    subCategories,
+    concerns,
+    suitable,
+    ingredients,
+    subCategoryParam,
+    concernParam,
+    suitableParam,
+    ingredientsParam,
+    brandParam,
+    brands,
+    hasInitialized
+  ]);
+
+
+  // Sorted products
+  const sorted = useMemo(() => {
+    let temp = [...products];
+
+    switch (sortingOption) {
+      case "Price Ascending":
+        temp.sort((a, b) => Number(a.selling_price) - Number(b.selling_price));
+        break;
+      case "Price Descending":
+        temp.sort((a, b) => Number(b.selling_price) - Number(a.selling_price));
+        break;
+      case "Title Ascending":
+        temp.sort((a, b) => a.pname.localeCompare(b.pname));
+        break;
+      case "Title Descending":
+        temp.sort((a, b) => b.pname.localeCompare(a.pname));
+        break;
+      default:
+        break;
+    }
+    return temp;
+  }, [products, sortingOption]);
+
+  // ------------------------------
+  // ALL PROPS FOR CHILD COMPONENTS
+  // ------------------------------
   const allProps = {
     ...state,
     setPrice: (value) => dispatch({ type: "SET_PRICE", payload: value }),
-
-    setColor: (value) => {
-      value == color
-        ? dispatch({ type: "SET_COLOR", payload: "All" })
-        : dispatch({ type: "SET_COLOR", payload: value });
-    },
-    setSize: (value) => {
-      value == size
-        ? dispatch({ type: "SET_SIZE", payload: "All" })
-        : dispatch({ type: "SET_SIZE", payload: value });
-    },
-    setAvailability: (value) => {
-      value == availability
+    setAvailability: (value) =>
+      value === availability
         ? dispatch({ type: "SET_AVAILABILITY", payload: "All" })
-        : dispatch({ type: "SET_AVAILABILITY", payload: value });
+        : dispatch({ type: "SET_AVAILABILITY", payload: value }),
+    setCategory: (category) => {
+      dispatch({ type: "SET_CATEGORY", payload: category });
     },
-
-    setBrands: (newBrand) => {
-      const updated = [...brands].includes(newBrand)
-        ? [...brands].filter((elm) => elm != newBrand)
-        : [...brands, newBrand];
+    setBrands: (brand) => {
+      const updated = selectedBrands.includes(brand)
+        ? selectedBrands.filter((b) => b !== brand)
+        : [...selectedBrands, brand];
       dispatch({ type: "SET_BRANDS", payload: updated });
     },
-    removeBrand: (newBrand) => {
-      const updated = [...brands].filter((brand) => brand != newBrand);
-
-      dispatch({ type: "SET_BRANDS", payload: updated });
+    removeBrand: (brand) =>
+      dispatch({
+        type: "SET_BRANDS",
+        payload: selectedBrands.filter((b) => b !== brand),
+      }),
+    setSubCategories: (subCategory) => {
+      const updated = selectedSubCategories.includes(subCategory)
+        ? selectedSubCategories.filter((sc) => sc !== subCategory)
+        : [...selectedSubCategories, subCategory];
+      dispatch({ type: "SET_SUB_CATEGORIES", payload: updated });
     },
+    removeSubCategories: (subCategory) =>
+      dispatch({
+        type: "SET_SUB_CATEGORIES",
+        payload: selectedSubCategories.filter((sc) => sc !== subCategory),
+      }),
+    setSuitable: (suitable) => {
+      const updated = selectedSuitable.includes(suitable)
+        ? selectedSuitable.filter((sc) => sc !== suitable)
+        : [...selectedSuitable, suitable];
+      dispatch({ type: "SET_SUITABLE", payload: updated });
+    },
+    removeSuitable: (suitable) =>
+      dispatch({
+        type: "SET_SUITABLE",
+        payload: selectedSuitable.filter((sc) => sc !== suitable),
+      }),
+    setConcerns: (concern) => {
+      const updated = selectedConcerns.includes(concern)
+        ? selectedConcerns.filter((sc) => sc !== concern)
+        : [...selectedConcerns, concern];
+      dispatch({ type: "SET_CONCERNS", payload: updated });
+    },
+    removeSuitable: (concern) =>
+      dispatch({
+        type: "SET_CONCERNS",
+        payload: selectedConcerns.filter((sc) => sc !== concern),
+      }),
+    setIngredients: (ingredient) => {
+      const updated = selectedIngredients.includes(ingredient)
+        ? selectedIngredients.filter((sc) => sc !== ingredient)
+        : [...selectedIngredients, ingredient];
+      dispatch({ type: "SET_INGREDIENTS", payload: updated });
+    },
+    removeIngredients: (ingredient) =>
+      dispatch({
+        type: "SET_INGREDIENTS",
+        payload: selectedIngredients.filter((sc) => sc !== ingredient),
+      }),
     setSortingOption: (value) =>
       dispatch({ type: "SET_SORTING_OPTION", payload: value }),
     toggleFilterWithOnSale: () => dispatch({ type: "TOGGLE_FILTER_ON_SALE" }),
     setCurrentPage: (value) =>
       dispatch({ type: "SET_CURRENT_PAGE", payload: value }),
     setItemPerPage: (value) => {
-      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 }),
-        dispatch({ type: "SET_ITEM_PER_PAGE", payload: value });
+      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
+      dispatch({ type: "SET_ITEM_PER_PAGE", payload: value });
     },
-    clearFilter: () => {
-      dispatch({ type: "CLEAR_FILTER" });
-    },
+    clearFilter: () => dispatch({ type: "CLEAR_FILTER" }),
   };
 
-  useEffect(() => {
-    let filteredArrays = [];
-
-    if (brands.length) {
-      const filteredByBrands = [...productMain].filter((elm) =>
-        brands.every((el) => elm.filterBrands.includes(el))
-      );
-      filteredArrays = [...filteredArrays, filteredByBrands];
-    }
-    if (availability !== "All") {
-      const filteredByavailability = [...productMain].filter(
-        (elm) => availability.value === elm.inStock
-      );
-      filteredArrays = [...filteredArrays, filteredByavailability];
-    }
-    if (color !== "All") {
-      const filteredByColor = [...productMain].filter((elm) =>
-        elm.filterColor.includes(color.name)
-      );
-      filteredArrays = [...filteredArrays, filteredByColor];
-    }
-    if (size !== "All" && size !== "Free Size") {
-      const filteredBysize = [...productMain].filter((elm) =>
-        elm.filterSizes.includes(size)
-      );
-      filteredArrays = [...filteredArrays, filteredBysize];
-    }
-    if (activeFilterOnSale) {
-      const filteredByonSale = [...productMain].filter((elm) => elm.oldPrice);
-      filteredArrays = [...filteredArrays, filteredByonSale];
-    }
-
-    const filteredByPrice = [...productMain].filter(
-      (elm) => elm.price >= price[0] && elm.price <= price[1]
-    );
-    filteredArrays = [...filteredArrays, filteredByPrice];
-
-    const commonItems = [...productMain].filter((item) =>
-      filteredArrays.every((array) => array.includes(item))
-    );
-    dispatch({ type: "SET_FILTERED", payload: commonItems });
-  }, [price, availability, color, size, brands, activeFilterOnSale]);
-
-  useEffect(() => {
-    if (sortingOption === "Price Ascending") {
-      dispatch({
-        type: "SET_SORTED",
-        payload: [...filtered].sort((a, b) => a.price - b.price),
-      });
-    } else if (sortingOption === "Price Descending") {
-      dispatch({
-        type: "SET_SORTED",
-        payload: [...filtered].sort((a, b) => b.price - a.price),
-      });
-    } else if (sortingOption === "Title Ascending") {
-      dispatch({
-        type: "SET_SORTED",
-        payload: [...filtered].sort((a, b) => a.title.localeCompare(b.title)),
-      });
-    } else if (sortingOption === "Title Descending") {
-      dispatch({
-        type: "SET_SORTED",
-        payload: [...filtered].sort((a, b) => b.title.localeCompare(a.title)),
-      });
-    } else {
-      dispatch({ type: "SET_SORTED", payload: filtered });
-    }
-    dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
-  }, [filtered, sortingOption]);
   return (
     <>
       <section className="flat-spacing">
@@ -165,9 +338,8 @@ export default function Products11() {
               </a>
               <div
                 onClick={allProps.toggleFilterWithOnSale}
-                className={`d-none d-lg-flex shop-sale-text ${
-                  activeFilterOnSale ? "active" : ""
-                }`}
+                className={`d-none d-lg-flex shop-sale-text ${activeFilterOnSale ? "active" : ""
+                  }`}
               >
                 <i className="icon icon-checkCircle" />
                 <p className="text-caption-1">Shop sale items only</p>
@@ -182,17 +354,27 @@ export default function Products11() {
             </ul>
             <div className="tf-control-sorting">
               <p className="d-none d-lg-block text-caption-1">Sort by:</p>
-              <Sorting allProps={allProps} />
+              <ProductsSorting allProps={allProps} />
             </div>
           </div>
+
           <div className="wrapper-control-shop">
-            <FilterMeta productLength={sorted.length} allProps={allProps} />
+            <ProductFilterMeta productLength={products.length} allProps={allProps} />
             <div className="row">
               <div className="col-xl-3">
-                <FilterSidebar allProps={allProps} />
+                <ProductFilterSidebar
+                  allProps={allProps}
+                  brands={brands}
+                  categories={categories}
+                  subCategories={subCategories}
+                  concerns={concerns}
+                  suitable={suitable}
+                  ingredients={ingredients}
+                  category_id={category_id}
+                />
               </div>
               <div className="col-xl-9">
-                {activeLayout == 1 ? (
+                {activeLayout === 1 ? (
                   <div className="tf-list-layout wrapper-shop" id="listLayout">
                     <Listview products={sorted} />
                   </div>
@@ -201,15 +383,20 @@ export default function Products11() {
                     className={`tf-grid-layout wrapper-shop tf-col-${activeLayout}`}
                     id="gridLayout"
                   >
-                    <GridView products={sorted} />
+                    <ProductGridView
+                      products={sorted}
+                      page={page}
+                      totalPages={totalPages}
+                      setPage={setPage}
+                    />
                   </div>
                 )}
               </div>
             </div>
           </div>
         </div>
-      </section>{" "}
-      <FilterModal allProps={allProps} />
+      </section>
+      <ProductFilterModal allProps={allProps} />
     </>
   );
 }

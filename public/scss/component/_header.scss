@@ -224,6 +224,7 @@
         color: var(--secondary-2);
       }
     }
+    &.active,
     &:hover {
       color: var(--primary);
       .icon {

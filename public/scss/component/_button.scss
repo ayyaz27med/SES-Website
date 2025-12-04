@@ -87,6 +87,14 @@
     &.radius-4 {
         border-radius: 4px;
     }
+    &:disabled {
+        background-color: var(--line) !important;
+        color: var(--secondary-2) !important;
+        cursor: no-drop;
+        &::after {
+            display: none;
+        }
+    }
 }
 .btn-line {
     font-size: 16px;

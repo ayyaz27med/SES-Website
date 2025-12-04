@@ -6,14 +6,24 @@ import Navbar from "./Navbar";
 import { useSession } from "@/store/session";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import ToastHelper from "@/helpers/toastHelper";
 
 export default function Header1({ fullWidth = false }) {
   const router = useRouter();
   const { isAuthenticated, clearSession } = useSession();
+
   const handleLogout = () => {
     clearSession();
+    ToastHelper.success("Logout Successful");
     router.push('/')
   };
+
+  const handleRedirectLogin = () => {
+    if (!isAuthenticated) {
+      router.push("/login");
+    }
+  };
+
   return (
     <header
       id="header"
@@ -31,17 +41,6 @@ export default function Header1({ fullWidth = false }) {
               <i className="icon icon-categories" />
             </a>
           </div>
-          {/* <div className="col-xl-3 col-md-4 col-6">
-            <Link href={`/`} className="logo-header">
-              <Image
-                alt="logo"
-                className="logo"
-                src="/images/logo/logo.svg"
-                width={144}
-                height={25}
-              />
-            </Link>
-          </div> */}
           <div className="col-xl-10 d-none d-xl-block">
             <nav className="box-navigation text-center">
               <ul className="box-nav-ul d-flex align-items-center">
@@ -92,7 +91,7 @@ export default function Header1({ fullWidth = false }) {
                   </svg>
                 </a>
               </li>
-              <li className="nav-account">
+              <li className="nav-account" onClick={handleRedirectLogin}>
                 <a href="#" className="nav-icon-item">
                   <svg
                     className="icon"
@@ -118,8 +117,8 @@ export default function Header1({ fullWidth = false }) {
                     />
                   </svg>
                 </a>
-                <div className="dropdown-account dropdown-login">
-                  {isAuthenticated && (
+                {isAuthenticated && (
+                  <div className="dropdown-account dropdown-login">
                     <div className="d-flex flex-column gap-12">
                       <Link href="/my-account" className="tf-btn btn-reset">
                         My Account
@@ -132,13 +131,8 @@ export default function Header1({ fullWidth = false }) {
                         Logout
                       </div>
                     </div>
-                  )}
-                  {!isAuthenticated && (
-                    <Link href="/login" className="tf-btn btn-reset">
-                      Login / Register
-                    </Link>
-                  )}
-                </div>
+                  </div>
+                )}
               </li>
               <li className="nav-wishlist">
                 <Link href={`/wish-list`} className="nav-icon-item">

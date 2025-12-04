@@ -22,7 +22,6 @@ export default function MyAccountOrdersDetailsPage({ params }) {
   const { data: orderDetails } = useOrderDetails(id);
   const userDetails = data?.data;
 
-  console.log('orderDetails', orderDetails)
   return (
     <>
       <Topbar5 bgColor="bg-main" />

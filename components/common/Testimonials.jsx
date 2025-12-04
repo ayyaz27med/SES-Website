@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Pagination } from "swiper/modules";
 import { testimonialsWithProduct9 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Testimonials({ parentClass = "flat-spacing" }) {
   const { setQuickViewItem } = useContextElement();
   const [expandedStates, setExpandedStates] = React.useState(
@@ -79,24 +80,24 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
                         ))}
                       </div>
                       <p className="text-secondary">
-                      {expandedStates[index]
-                        ? testimonial.quote
-                        : testimonial.quote.slice(0, 100) + "..."}
-                      {testimonial.quote.length > 100 && (
-                        <span
-                          style={{ cursor: "pointer", color: "#3DAB25", marginLeft: 4 }}
-                          className="small"
-                          onClick={() =>
-                            setExpandedStates(prev => {
-                              const copy = [...prev];
-                              copy[index] = !copy[index];
-                              return copy;
-                            })
-                          }
-                        >
-                          {expandedStates[index] ? "View Less" : "View More"}
-                        </span>
-                      )}
+                        {expandedStates[index]
+                          ? testimonial.quote
+                          : testimonial.quote.slice(0, 100) + "..."}
+                        {testimonial.quote.length > 100 && (
+                          <span
+                            style={{ cursor: "pointer", color: "#3DAB25", marginLeft: 4 }}
+                            className="small"
+                            onClick={() =>
+                              setExpandedStates(prev => {
+                                const copy = [...prev];
+                                copy[index] = !copy[index];
+                                return copy;
+                              })
+                            }
+                          >
+                            {expandedStates[index] ? "View Less" : "View More"}
+                          </span>
+                        )}
                       </p>
                       <div className="box-author">
                         <div className="text-title author">
@@ -153,7 +154,7 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
                           {testimonial.title}
                         </p>
                         <div className="text-button price">
-                          ${testimonial.price.toFixed(2)}
+                          {formatWithCurrency(testimonial.price.toFixed(2))}
                         </div>
                       </div>
                     </div>

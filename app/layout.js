@@ -129,7 +129,7 @@ export default function RootLayout({ children }) {
       <body className="preload-wrapper popup-loader">
         <QueryClientProvider client={queryClient}>
           <Context>
-            <RtlToggler />
+            {/* <RtlToggler /> */}
             <ToastContainer />
             <div id="wrapper">{children}</div>
             <CartModal />

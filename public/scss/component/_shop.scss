@@ -538,6 +538,10 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 .widget-facet {
     padding-bottom: 20px;
+    .box-fieldset-item {
+        max-height: 400px;
+        overflow-y: auto;
+    }
     &:not(:last-child) {
         margin-bottom: 20px;
         border-bottom: 1px solid var(--line);

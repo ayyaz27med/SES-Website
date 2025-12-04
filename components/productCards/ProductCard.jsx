@@ -4,14 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
-export default function ProductCard1({
+import PlaceholderImage from "../../public/images/home-categories/placeholder-image.png";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+
+export default function ProductCard({
   product,
   gridClass = "",
   parentClass = "card-product wow fadeInUp",
   isNotImageRatio = false,
   radiusClass = "",
 }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+  const [currentImage, setCurrentImage] = useState(product.main_picture);
 
   const {
     setQuickAddItem,
@@ -25,33 +28,35 @@ export default function ProductCard1({
   } = useContextElement();
 
   useEffect(() => {
-    setCurrentImage(product.imgSrc);
+    setCurrentImage(product.main_picture);
   }, [product]);
+
+  if (!product) {
+    return null;
+  }
 
   return (
     <div
-      className={`${parentClass} ${gridClass} ${
-        product.isOnSale ? "on-sale" : ""
-      } ${product.sizes ? "card-product-size" : ""}`}
+      className={`${parentClass} ${gridClass} ${product.isOnSale ? "on-sale" : ""
+        } ${product.sizes ? "card-product-size" : ""}`}
     >
       <div
-        className={`card-product-wrapper ${
-          isNotImageRatio ? "aspect-ratio-0" : ""
-        } ${radiusClass} `}
+        className={`card-product-wrapper ${isNotImageRatio ? "aspect-ratio-0" : ""
+          } ${radiusClass} `}
       >
         <Link href={`/product-detail/${product.id}`} className="product-img">
           <Image
             className="lazyload img-product"
-            src={currentImage}
-            alt={product.title}
+            src={currentImage || PlaceholderImage}
+            alt={product.pname || product.title || "Product Image"}
             width={600}
             height={800}
           />
 
           <Image
             className="lazyload img-hover"
-            src={product.imgHover}
-            alt={product.title}
+            src={currentImage || PlaceholderImage}
+            alt={product.pname || product.title || "Product Image"}
             width={600}
             height={800}
           />
@@ -153,17 +158,6 @@ export default function ProductCard1({
             <span className="on-sale-item">-{product.salePercentage}</span>
           </div>
         )}
-        {product.sizes && (
-          <div className="variant-wrap size-list">
-            <ul className="variant-box">
-              {product.sizes.map((size) => (
-                <li key={size} className="size-item">
-                  {size}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
         {product.countdown && (
           <div className="variant-wrap countdown-wrap">
             <div className="variant-box">
@@ -244,36 +238,12 @@ export default function ProductCard1({
       </div>
       <div className="card-product-info">
         <Link href={`/product-detail/${product.id}`} className="title link">
-          {product.title}
+          {product.pname}
         </Link>
         <span className="price">
-          {product.oldPrice && (
-            <span className="old-price">Tzs {product.oldPrice.toFixed(2)}</span>
-          )}{" "}
-          Tzs {product.price?.toFixed(2)}
+          {product.new_selling_price && <span className="old-price">{formatWithCurrency(product.selling_price.toFixed(2))}</span>}
+          {formatWithCurrency(product.new_selling_price > 0 ? product.new_selling_price?.toFixed(2) : product.selling_price.toFixed(2))}
         </span>
-        {product.colors && (
-          <ul className="list-color-product">
-            {product.colors.map((color, index) => (
-              <li
-                key={index}
-                className={`list-color-item color-swatch ${
-                  currentImage == color.imgSrc ? "active" : ""
-                } ${color.bgColor == "bg-white" ? "line" : ""}`}
-                onMouseOver={() => setCurrentImage(color.imgSrc)}
-              >
-                <span className={`swatch-value ${color.bgColor}`} />
-                <Image
-                  className="lazyload"
-                  src={color.imgSrc}
-                  alt="color variant"
-                  width={600}
-                  height={800}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
     </div>
   );

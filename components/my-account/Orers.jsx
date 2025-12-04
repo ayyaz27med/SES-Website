@@ -4,6 +4,7 @@ import useUserOrders from "@/services/tanstack/mutations/useUserOrders";
 import Pagination from "../common/Pagination";
 import { formatDate } from "@/helpers/dateTime";
 import { useRouter } from "next/navigation";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 
 export default function Orers({ setActiveTab }) {
   const router = useRouter();
@@ -19,9 +20,7 @@ export default function Orers({ setActiveTab }) {
   const orders = data?.data || [];
   const total = Number(data?.count || 0);
   const totalPages = Math.ceil(total / length);
-  console.log("orders", orders, "total", total, "totalPages", totalPages);
 
-  console.log("datadatadata", data);
   return (
     <div className="my-account-content">
       <div className="account-orders">
@@ -41,8 +40,8 @@ export default function Orers({ setActiveTab }) {
                 <tr className="tf-order-item" key={order?.id}>
                   <td>{order.order_no}</td>
                   <td>{formatDate(order.created_at, "MMMM DD, yyyy")}</td>
-                  <td>{order.status}</td>
-                  <td>₹{order.grandtotal}</td>
+                  <td className="text-capitalize">{order.status}</td>
+                  <td>{formatWithCurrency(order.grandtotal)}</td>
                   <td>
                     <div
                       className="tf-btn btn-fill radius-4"

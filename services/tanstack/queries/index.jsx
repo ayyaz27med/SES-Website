@@ -5,4 +5,5 @@ export const queryKeys = {
   categories: 'categories',
   subCategories: 'sub-categories',
   orderDetails: 'order-details',
+  products: 'products',
 }

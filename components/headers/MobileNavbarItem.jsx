@@ -32,7 +32,7 @@ export default function MobileNavbarItem({ category }) {
   );
 
   return (
-    <li className="nav-mb-item active" key={category?.id}>
+    <li className="nav-mb-item active">
       <a
         href={`#${category?.id}`}
         className={`collapsed mb-menu-link ${isActiveMain ? "active"
@@ -52,7 +52,7 @@ export default function MobileNavbarItem({ category }) {
           )
           .map((section) => {
             return (
-              <ul className="sub-nav-menu">
+              <ul className="sub-nav-menu" key={section?.key}>
                 <li className="sub-nav-link fw-6">{section.label}</li>
                 {!section.isLoading &&
                   section?.data.map((item) => {
@@ -61,7 +61,7 @@ export default function MobileNavbarItem({ category }) {
                     return (
                       <li key={item.id}>
                         <Link
-                          href={`/products/${item?.id}`}
+                          href={`/products?category=${category?.id}&${section.key}=${item?.id}`}
                           className={`sub-nav-link ${isActiveChild
                             ? "active"
                             : ""

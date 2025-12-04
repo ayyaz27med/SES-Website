@@ -1,7 +1,7 @@
 import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
 import Topbar6 from "@/components/headers/Topbar6";
-import Products11 from "@/components/products/Products11";
+import Products13 from "@/components/products/Products13";
 
 import Link from "next/link";
 import React from "react";
@@ -34,7 +34,7 @@ export default function ShopLeftSidebarPage() {
           </div>
         </div>
       </div>
-      <Products11 />
+      <Products13 />
       <Footer1 />
     </>
   );

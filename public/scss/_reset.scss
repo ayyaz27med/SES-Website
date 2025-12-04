@@ -200,6 +200,7 @@ svg path {
 
 // form //
 textarea,
+.language-select,
 input[type="text"],
 input[type="password"],
 input[type="datetime"],
@@ -822,6 +823,9 @@ a {
 .pt_0 {
     padding-top: 0px !important;
 }
+.pt_8 {
+    padding-top: 8px !important;
+}
 .pt_20 {
     padding-top: 20px;
 }
@@ -1208,6 +1212,12 @@ a {
     &:hover {
         transform: translateY(-5px);
         background-color: var(--primary);
+    }
+    &.whatsapp-button {
+        background-color: #25d366;
+        &:hover {
+            color: var(--white);
+        }
     }
 }
 

@@ -4,7 +4,7 @@ import Topbar5 from "@/components/headers/Topbar5";
 import Products11 from "@/components/products/Products11";
 
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 
 export default function Products() {
   return (
@@ -34,7 +34,9 @@ export default function Products() {
           </div>
         </div>
       </div>
-      <Products11 />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Products11 />
+      </Suspense>
       <Footer1 />
     </>
   );

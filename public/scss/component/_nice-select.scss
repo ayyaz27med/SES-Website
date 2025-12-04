@@ -316,6 +316,10 @@
       }
     }
   }
+  &.language-select{
+    width: unset !important;
+    display: block;
+  }
   &.type-currencies {
     > .dropdown-menu {
       width: 120px !important;

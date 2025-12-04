@@ -6,6 +6,7 @@ const useSubCategories = (payload) => {
   return useQuery({
     queryKey: [queryKeys.subCategories, payload],
     queryFn: () => fetchSubCategories(payload),
+    enabled: !!payload?.category_id,
   });
 };
 

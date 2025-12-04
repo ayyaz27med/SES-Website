@@ -6,6 +6,7 @@ import { useSession } from "@/store/session";
 import useBrands from "@/services/tanstack/queries/useBrands";
 import useCategories from "@/services/tanstack/queries/useCategories";
 import MobileNavbarItem from "../headers/MobileNavbarItem";
+import ToastHelper from "@/helpers/toastHelper";
 
 export default function MobileMenu() {
   const pathname = usePathname();
@@ -29,6 +30,7 @@ export default function MobileMenu() {
 
   const handleLogout = () => {
     clearSession();
+    ToastHelper.success("Logout Successful");
   };
 
   return (

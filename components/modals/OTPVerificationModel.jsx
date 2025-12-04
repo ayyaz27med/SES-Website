@@ -39,16 +39,15 @@ export default function OTPVerificationModel({ loginModalRef }) {
     >
       {(formik) => (
         <div>
+          <h5>Verify the code sent to your WhatsApp</h5>
           <OtpInputField
             onOtpChange={(otp) => {
               formik.setFieldValue("otp", otp);
+              if (otp.length === 4) {
+                formik.submitForm();
+              }
             }}
           />
-          <div className="button-submit mt_20">
-            <button className="tf-btn btn-fill" type="submit" disabled={isVerifyOtp}>
-              <span className="text text-button">Submit</span>
-            </button>
-          </div>
         </div>
       )}
     </FormikForm>

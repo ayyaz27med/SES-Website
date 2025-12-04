@@ -37,8 +37,8 @@ export default function Topbar5({ parentClass = "tf-topbar style-2 d-none d-xl-b
               <Image
                 alt=""
                 src="/images/logo/logo.png"
-                width={65}
-                height={65}
+                width={80}
+                height={80}
               />
             </Link>
           </div>

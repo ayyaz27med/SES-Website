@@ -3,9 +3,13 @@ import React from "react";
 import FormikForm from "../forms/FormikForm";
 import useUpdateProfile from "@/services/tanstack/mutations/useUpdateProfile";
 import { useSession } from "@/store/session";
+import ToastHelper from "@/helpers/toastHelper";
+import { queryClient } from "@/utlis/queryClient";
+import { queryKeys } from "@/services/tanstack/queries";
+import LanguageFlagSelect from "../common/LanguageFlagSelect";
 
 export default function Information({ userDetails }) {
-  const { setSession } = useSession();
+  const { setUser } = useSession();
   const initialValues = {
     name: userDetails?.name || "",
     email: userDetails?.email || "",
@@ -16,16 +20,11 @@ export default function Information({ userDetails }) {
     useUpdateProfile({
       onSuccess: async (data) => {
         const { data: userData, message } = data;
-        setSession({
-          id: userData?.id,
-          token: userData?.token,
-          user: userData,
-        });
-        loginModalRef.close();
+        setUser(userData);
         ToastHelper.success(message || "OTP verified successfully");
-        setTimeout(() => {
-          router.push("/");
-        }, 1000);
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.userDetails],
+        });
       },
     });
 
@@ -45,39 +44,36 @@ export default function Information({ userDetails }) {
             return (
               <>
                 <div className="account-info">
-                  <h5 className="title">Information</h5>
+                  <h5 className="title">Profile Information</h5>
+                  <div className="tf-grid-layout lg-col-2 md-col-2 sm-col-2 mb_20">
 
-                  {/* FULL NAME */}
-                  <div className="mb_20">
-                    <fieldset>
-                      <input
-                        type="text"
-                        placeholder="Full Name*"
-                        name="name"
-                        value={formik.values.name}
-                        onChange={(e) =>
-                          formik.setFieldValue("name", e.target.value)
-                        }
-                        required
-                      />
-                    </fieldset>
-                  </div>
+                    {/* FULL NAME */}
+                    <div className="col-12">
+                      <fieldset>
+                        <input
+                          type="text"
+                          placeholder="Name"
+                          name="name"
+                          value={formik.values.name}
+                          onChange={(e) =>
+                            formik.setFieldValue("name", e.target.value)
+                          }
+                        />
+                      </fieldset>
+                    </div>
 
-                  {/* EMAIL + PHONE */}
-                  <div className="cols mb_20">
+                    {/* EMAIL + PHONE */}
                     <fieldset>
                       <input
                         type="email"
-                        placeholder="Username or email address*"
+                        placeholder="Email Address"
                         name="email"
                         value={formik.values.email}
                         onChange={(e) =>
                           formik.setFieldValue("email", e.target.value)
                         }
-                        required
                       />
                     </fieldset>
-
                     <fieldset>
                       <input
                         type="text"
@@ -87,11 +83,15 @@ export default function Information({ userDetails }) {
                         value={formik.values.mobile_no}
                       />
                     </fieldset>
+                    <fieldset>
+                      <LanguageFlagSelect topStart />
+                    </fieldset>
                   </div>
+                  {/* </div> */}
                 </div>
 
                 <div className="button-submit">
-                  <button className="tf-btn btn-fill" type="submit" disabled={isUpdatingProfile}>
+                  <button className="tf-btn btn-fill" type="submit" disabled={isUpdatingProfile || !formik.dirty}>
                     <span className="text text-button">Update Account</span>
                   </button>
                 </div>

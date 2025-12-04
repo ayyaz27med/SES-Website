@@ -4,18 +4,19 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/store/session";
+import ToastHelper from "@/helpers/toastHelper";
 
 export default function AccountSidebar({
   activeTab,
   setActiveTab,
   userDetails,
 }) {
-  console.log("userDetails", userDetails);
   const router = useRouter();
   const pathname = usePathname();
   const { clearSession } = useSession();
   const handleLogout = () => {
     clearSession();
+    ToastHelper.success("Logout Successful");
     router.push("/");
   };
   return (
