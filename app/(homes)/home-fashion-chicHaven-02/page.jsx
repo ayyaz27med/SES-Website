@@ -4,8 +4,8 @@ import Products2 from "@/components/common/Products2";
 import ShopGram from "@/components/common/ShopGram2";
 import Testimonials from "@/components/common/Testimonials";
 import Footer1 from "@/components/footers/Footer1";
-import Header5 from "@/components/headers/Header5";
-import Topbar5 from "@/components/headers/Topbar5";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import Banner from "@/components/homes/fashion-chicHaven-02/Banner";
 import Categories from "@/components/homes/fashion-chicHaven-02/Categories";
 import Hero from "@/components/homes/fashion-chicHaven-02/Hero";
@@ -22,8 +22,8 @@ export const metadata = {
 export default function HomeFashionChicHavenPage2() {
   return (
     <>
-      <Topbar5 />
-      <Header5 />
+      <Topbar />
+      <Header />
       <Hero />
       <Products />
       <MarqueeSection />

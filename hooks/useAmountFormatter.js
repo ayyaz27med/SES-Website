@@ -13,3 +13,11 @@ export const formatAmount = (value) => {
 export const formatWithCurrency = (value) => {
   return `Tzs ${formatAmount(value)}`;
 };
+
+export const formatWithCurrencyTOFixed = (value) => {
+  if (value === null || value === undefined || value === "" || isNaN(value)) {
+    return "Tzs 0.00";
+  }
+
+  return `Tzs ${Number(value).toFixed(2)}`;
+};

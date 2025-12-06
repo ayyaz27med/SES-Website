@@ -1,8 +1,8 @@
 import Features from "@/components/common/Features";
 import Testimonials3 from "@/components/common/Testimonials3";
 import Footer1 from "@/components/footers/Footer1";
-import Header10 from "@/components/headers/Header10";
-import Topbar3 from "@/components/headers/Topbar3";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import Blogs from "@/components/homes/jewelry-01/Blogs";
 import Categories from "@/components/homes/jewelry-01/Categories";
 import Collections from "@/components/homes/jewelry-01/Collections";
@@ -22,8 +22,8 @@ export const metadata = {
 export default function HomeJeweleryPage1() {
   return (
     <>
-      <Topbar3 />
-      <Header10 />
+      <Topbar />
+      <Header />
       <Hero />
       <Tiktok parentClass="flat-spacing" />
       <Categories />

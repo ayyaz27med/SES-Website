@@ -14,6 +14,7 @@ import ProductFilterSidebar from "./ProductFilterSidebar";
 import ProductFilterMeta from "./ProductFilterMeta";
 import ProductFilterModal from "./ProductFilterModal";
 import ProductGridView from "./ProductGridView";
+import useDebounce from "@/utlis/useDebounce";
 
 export default function Products11() {
   const [activeLayout, setActiveLayout] = useState(4);
@@ -49,7 +50,7 @@ export default function Products11() {
     "order[0][0]": "name",
     "order[0][1]": "DESC",
   });
-  console.log("sortingOption", sortingOption);
+
   const { data: categoriesData } = useCategories({
     isServerSidePagination: true,
     "order[0][0]": "name",
@@ -80,8 +81,14 @@ export default function Products11() {
   const brands = brandsData?.data || [];
   const categories = categoriesData?.data || [];
 
+  const debouncedPrice = useDebounce(price, 500);
 
-  const buildProductParams = () => {
+  const buildProductParams = (override = {}) => {
+    const applied = {
+      price,
+      ...override,
+    };
+
     const sort = productFilterOptions[sortingOption] || productFilterOptions["Sort by (Default)"];
 
     return {
@@ -89,8 +96,8 @@ export default function Products11() {
       length,
       "order[0]": sort.key,
       "order[1]": sort.dir,
-      min_price: price[0],
-      max_price: price[1],
+      min_price: applied.price[0],
+      max_price: applied.price[1],
       sale: activeFilterOnSale,
       // CATEGORY (single)
       category_id: selectedCategory?.id || "",
@@ -123,10 +130,12 @@ export default function Products11() {
     };
   };
 
-  const { data, isProductFetching } = useProducts({
-    isServerSidePagination: true,
-    ...buildProductParams(),
-  });
+  const { data, isProductFetching } = useProducts(
+    buildProductParams({
+      price: debouncedPrice
+    })
+  );
+
   const products = data?.data || [];
   const total = Number(data?.count || 0);
   const totalPages = Math.ceil(total / length);

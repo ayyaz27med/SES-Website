@@ -1,6 +1,6 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header15 from "@/components/headers/Header15";
-import Topbar9 from "@/components/headers/Topbar9";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import Blogs from "@/components/homes/home-gaming/Blogs";
 import Collections from "@/components/homes/home-gaming/Collections";
 import Collections2 from "@/components/homes/home-gaming/Collections2";
@@ -19,8 +19,8 @@ export const metadata = {
 export default function page() {
   return (
     <>
-      <Topbar9 />
-      <Header15 />
+      <Topbar />
+      <Header />
       <Hero />
       <Collections />
       <Products />

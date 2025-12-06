@@ -1,6 +1,6 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
-import Topbar5 from "@/components/headers/Topbar5";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import Products11 from "@/components/products/Products11";
 
 import Link from "next/link";
@@ -9,8 +9,8 @@ import React, { Suspense } from "react";
 export default function Products() {
   return (
     <>
-      <Topbar5 bgColor="bg-main" />
-      <Header1 />
+      <Topbar />
+      <Header />
       <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}

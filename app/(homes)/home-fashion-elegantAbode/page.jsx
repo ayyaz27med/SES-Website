@@ -1,8 +1,7 @@
-import MarqueeSection from "@/components/common/MarqueeSection";
 import Products2 from "@/components/common/Products2";
 import Testimonials from "@/components/common/Testimonials";
-import Header1 from "@/components/headers/Header1";
-import Topbar3 from "@/components/headers/Topbar3";
+import Topbar from "@/components/headers/Topbar";
+import Header from "@/components/headers/Header";
 import BannerCountdown from "@/components/homes/fashion-elegantAbode/BannerCountdown";
 import Categories from "@/components/homes/fashion-elegantAbode/Categories";
 import Hero from "@/components/homes/fashion-elegantAbode/Hero";
@@ -24,8 +23,8 @@ export const metadata = {
 export default function HomeFashionElegantAbodePage() {
   return (
     <>
-      <Topbar3 />
-      <Header1 />
+      <Topbar />
+      <Header />
       <Hero />
       <Categories />
       <Products />

@@ -1,7 +1,7 @@
 "use client";
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
-import Topbar5 from "@/components/headers/Topbar5";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
@@ -10,8 +10,8 @@ const Login = dynamic(() => import("@/components/otherPages/Login"), { ssr: fals
 export default function LoginPage() {
   return (
     <>
-      <Topbar5 bgColor="bg-main" />
-      <Header1 />
+      <Topbar />
+      <Header />      
       <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}

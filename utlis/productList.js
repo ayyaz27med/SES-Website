@@ -1,5 +1,5 @@
 export const initialState = {
-    price: [20, 1000000],
+    price: [20, 100000],
     availability: "All",
     activeFilterOnSale: false,
     selectedBrands: [],
@@ -42,7 +42,7 @@ export const reducer = (state, action) => {
         case "CLEAR_FILTER":
             return {
                 ...state,
-                price: [20, 1000000],
+                price: [20, 100000],
                 availability: "All",
                 selectedBrands: [],
                 selectedSubCategories: [],

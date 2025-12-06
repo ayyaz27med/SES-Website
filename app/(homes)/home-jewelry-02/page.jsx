@@ -1,8 +1,8 @@
 import Features from "@/components/common/Features";
 import MarqueeSection2 from "@/components/common/MarqueeSection2";
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
-import Topbar5 from "@/components/headers/Topbar5";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import Categories from "@/components/homes/jewelry-02/Categories";
 import Collections from "@/components/homes/jewelry-02/Collections";
 import Hero from "@/components/homes/jewelry-02/Hero";
@@ -22,8 +22,8 @@ export const metadata = {
 export default function HomeJeweleryPage2() {
   return (
     <>
-      <Topbar5 parentClass="tf-topbar style-2 line-bt" />
-      <Header1 />
+      <Topbar parentClass="tf-topbar style-2 line-bt" />
+      <Header />
       <Hero />
       <Categories />
       <Products1 parentClass="flat-spacing pt-0" />

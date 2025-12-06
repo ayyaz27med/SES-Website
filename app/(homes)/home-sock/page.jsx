@@ -1,7 +1,8 @@
 import Features from "@/components/common/Features";
 import MarqueeSection2 from "@/components/common/MarqueeSection2";
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import Collections from "@/components/homes/sock/Collections";
 import Collections2 from "@/components/homes/sock/Collections2";
 import Hero from "@/components/homes/sock/Hero";
@@ -20,7 +21,8 @@ export const metadata = {
 export default function HomeSockPage() {
   return (
     <>
-      <Header1 />
+      <Topbar />
+      <Header />
       <Hero />
       <MarqueeSection2 />
       <Products1 />

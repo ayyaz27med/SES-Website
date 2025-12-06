@@ -5,12 +5,13 @@ import Products4 from "@/components/common/Products4";
 import ShopGram from "@/components/common/ShopGram";
 import Testimonials from "@/components/common/Testimonials";
 import Footer1 from "@/components/footers/Footer1";
-import Header4 from "@/components/headers/Header4";
 import Collections from "@/components/homes/fashion-chicHaven/Collections";
 import Hero from "@/components/homes/fashion-chicHaven/Hero";
 import MarqueeSection from "@/components/common/MarqueeSection";
 import SingleProduct from "@/components/homes/fashion-chicHaven/SingleProduct";
 import React from "react";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 
 export const metadata = {
   title:
@@ -21,7 +22,8 @@ export const metadata = {
 export default function HomeFashionChicHavenPage() {
   return (
     <>
-      <Header4 />
+      <Topbar />
+      <Header />
       <Hero />
       <Collections />
       <Products4 parentClass="flat-spacing" />

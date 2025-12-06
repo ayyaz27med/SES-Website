@@ -4,8 +4,8 @@ import MarqueeSection2 from "@/components/common/MarqueeSection2";
 import Products5 from "@/components/common/Products5";
 import Tiktok from "@/components/common/Tiktok";
 import Footer1 from "@/components/footers/Footer1";
-import Header9 from "@/components/headers/Header9";
-import Topbar4 from "@/components/headers/Topbar4";
+import Topbar from "@/components/headers/Topbar";
+import Header from "@/components/headers/Header";
 import Hero from "@/components/homes/skincare/Hero";
 import Lookbook from "@/components/homes/skincare/Lookbook";
 import ShopGram from "@/components/homes/skincare/ShopGram";
@@ -23,8 +23,8 @@ export const metadata = {
 export default function HomeSkincarePage() {
   return (
     <>
-      <Topbar4 />
-      <Header9 />
+      <Topbar />
+      <Header />
       <Hero />
 
       <Tiktok parentClass="flat-spacing" />

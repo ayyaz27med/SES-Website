@@ -1,6 +1,5 @@
 import Features from "@/components/common/Features";
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
 import Banner from "@/components/homes/decor/Banner";
 import Collections from "@/components/homes/decor/Collections";
 import Hero from "@/components/homes/decor/Hero";
@@ -10,6 +9,8 @@ import Products from "@/components/homes/decor/Products";
 import Products2 from "@/components/common/Products6";
 import Testimonials from "@/components/homes/decor/Testimonials";
 import React from "react";
+import Topbar from "@/components/headers/Topbar";
+import Header from "@/components/headers/Header";
 
 export const metadata = {
   title: "Home Decor || Modave - Multipurpose React Nextjs eCommerce Template",
@@ -19,7 +20,8 @@ export const metadata = {
 export default function HomeDecorPage() {
   return (
     <>
-      <Header1 fullWidth />
+      <Topbar />
+      <Header fullWidth />
       <Hero />
       <Collections />
       <ListCollections />

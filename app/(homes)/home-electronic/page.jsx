@@ -1,8 +1,8 @@
 import Brands from "@/components/common/Brands";
 import Features from "@/components/common/Features";
 import Footer1 from "@/components/footers/Footer1";
-import Header11 from "@/components/headers/Header11";
-import Topbar6 from "@/components/headers/Topbar6";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import Banner from "@/components/homes/electronic/Banner";
 import Categories from "@/components/homes/electronic/Categories";
 import Collections from "@/components/homes/electronic/Collections";
@@ -23,8 +23,8 @@ export const metadata = {
 export default function HomeElectronicPage() {
   return (
     <>
-      <Topbar6 />
-      <Header11 />
+      <Topbar />
+      <Header />
       <Hero />
       <Categories />
       <Products />

@@ -1,9 +1,9 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
-import Topbar6 from "@/components/headers/Topbar6";
 import Faqs from "@/components/otherPages/Faqs";
 import React from "react";
 import Link from "next/link";
+import Topbar from "@/components/headers/Topbar";
+import Header from "@/components/headers/Header";
 export const metadata = {
   title: "Faqs || Modave - Multipurpose React Nextjs eCommerce Template",
   description: "Modave - Multipurpose React Nextjs eCommerce Template",
@@ -12,8 +12,8 @@ export const metadata = {
 export default function FAQSPage() {
   return (
     <>
-      <Topbar6 bgColor="bg-main" />
-      <Header1 />
+      <Topbar />
+      <Header />
       <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}

@@ -59,7 +59,7 @@ export default function ProductFilterSidebar({ allProps, brands, categories, cat
             <h6 className="facet-title">Price</h6>
             <RangeSlider
               min={10}
-              max={1000000}
+              max={100000}
               value={allProps.price}
               onInput={(value) => allProps.setPrice(value)}
             />
@@ -69,7 +69,6 @@ export default function ProductFilterSidebar({ allProps, brands, categories, cat
                 <div
                   className="price-val"
                   id="price-min-value"
-                  data-currency="$"
                 >
                   {allProps.price[0]}
                 </div>
@@ -79,7 +78,6 @@ export default function ProductFilterSidebar({ allProps, brands, categories, cat
                 <div
                   className="price-val"
                   id="price-max-value"
-                  data-currency="$"
                 >
                   {allProps.price[1]}
                 </div>

@@ -2,9 +2,8 @@ import Features from "@/components/common/Features";
 import MarqueeSection2 from "@/components/common/MarqueeSection2";
 import Products6 from "@/components/common/Products6";
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
-
-import Topbar3 from "@/components/headers/Topbar3";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import Collections from "@/components/homes/furniture/Collections";
 import Collections2 from "@/components/homes/furniture/Collections2";
 import Hero from "@/components/homes/furniture/Hero";
@@ -23,8 +22,8 @@ export const metadata = {
 export default function HomeFurniturePage() {
   return (
     <>
-      <Topbar3 />
-      <Header1 fullWidth />
+      <Topbar />
+      <Header fullWidth />
       <Hero />
       <MarqueeSection2 parentClass="tf-marquee bg-light-blue-4 border-0" />
       <Collections />

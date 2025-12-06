@@ -1138,6 +1138,12 @@ a {
     display: -webkit-box;
     overflow: hidden;
 }
+.text-line-clamp-4 {
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+}
 .aspect-ratio-0 {
     aspect-ratio: 0 !important;
 }

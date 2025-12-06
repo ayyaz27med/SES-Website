@@ -5,7 +5,6 @@ import "photoswipe/style.css";
 import "react-range-slider-input/dist/style.css";
 import "../public/css/image-compare-viewer.min.css";
 import { useEffect, useState } from "react";
-import ScrollTop from "@/components/common/ScrollTop";
 import Context from "@/context/Context";
 import CartModal from "@/components/modals/CartModal";
 import QuickView from "@/components/modals/QuickView";
@@ -18,11 +17,11 @@ import SizeGuide from "@/components/modals/SizeGuide";
 import Wishlist from "@/components/modals/Wishlist";
 import DemoModal from "@/components/modals/DemoModal";
 import Categories from "@/components/modals/Categories";
-import RtlToggler from "@/components/common/RtlToggler";
 import AccountSidebar from "@/components/modals/AccountSidebar";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/utlis/queryClient";
 import { ToastContainer } from "react-toastify";
+import ProductQuickView from "@/components/modals/ProductQuickView";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -134,6 +133,7 @@ export default function RootLayout({ children }) {
             <div id="wrapper">{children}</div>
             <CartModal />
             <QuickView />
+            <ProductQuickView />
             <QuickAdd />
             <Compare />
             <MobileMenu />

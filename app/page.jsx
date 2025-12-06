@@ -8,6 +8,8 @@ import Testimonials from "@/components/common/Testimonials";
 import Topbar5 from "@/components/headers/Topbar5";
 import Categories from "@/components/homes/fashion-luxeLiving/Categories";
 import NewlyArrived from "@/components/common/NewlyArrived";
+import Topbar from "@/components/headers/Topbar";
+import Header from "@/components/headers/Header";
 
 export const metadata = {
   title: "Home || Modave - Multipurpose React Nextjs eCommerce Template",
@@ -17,8 +19,8 @@ export const metadata = {
 export default function HomePage() {
   return (
     <>
-      <Topbar5 />
-      <Header1 />
+      <Topbar />
+      <Header />
       <Hero />
       <Categories/>
       <Collections />

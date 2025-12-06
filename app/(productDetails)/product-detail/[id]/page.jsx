@@ -1,11 +1,9 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
-import Topbar6 from "@/components/headers/Topbar6";
-import Breadcumb from "@/components/productDetails/Breadcumb";
-import Descriptions1 from "@/components/productDetails/descriptions/Descriptions1";
-import Details1 from "@/components/productDetails/details/Details1";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
+import Details from "@/components/productDetails/details/Details";
+import ProductBreadcumb from "@/components/productDetails/ProductBreadcumb";
 import RelatedProducts from "@/components/productDetails/RelatedProducts";
-import { allProducts } from "@/data/products";
 import React from "react";
 
 export const metadata = {
@@ -16,15 +14,13 @@ export const metadata = {
 
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
-
-  const product = allProducts.filter((p) => p.id == id)[0] || allProducts[0];
   return (
     <>
-      <Topbar6 bgColor="bg-main" />
-      <Header1 />
-      <Breadcumb product={product} />
-      <Details1 product={product} />
-      <Descriptions1 />
+      <Topbar />
+      <Header />
+      <ProductBreadcumb id={id} />
+      <Details id={id} />
+      {/* <Descriptions1 /> */}
       <RelatedProducts />
       <Footer1 hasPaddingBottom />
     </>

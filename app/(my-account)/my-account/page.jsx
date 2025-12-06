@@ -1,9 +1,9 @@
 import React from "react";
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
 import Link from "next/link";
-import Topbar5 from "@/components/headers/Topbar5";
 import MyAccountInfo from "@/components/my-account/MyAccount";
+import Topbar from "@/components/headers/Topbar";
+import Header from "@/components/headers/Header";
 
 export const metadata = {
   title: "My Account || Modave - Multipurpose React Nextjs eCommerce Template",
@@ -13,8 +13,8 @@ export const metadata = {
 export default function MyAccountPage() {
   return (
     <>
-      <Topbar5 bgColor="bg-main" />
-      <Header1 />
+      <Topbar />
+      <Header />
       <>
         {/* page-title */}
         <div

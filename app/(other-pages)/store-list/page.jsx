@@ -1,9 +1,9 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
-import Topbar6 from "@/components/headers/Topbar6";
 import StoreLocations1 from "@/components/otherPages/StoreLocations1";
 import React from "react";
 import Link from "next/link";
+import Topbar from "@/components/headers/Topbar";
+import Header from "@/components/headers/Header";
 export const metadata = {
   title: "Store List || Modave - Multipurpose React Nextjs eCommerce Template",
   description: "Modave - Multipurpose React Nextjs eCommerce Template",
@@ -12,8 +12,8 @@ export const metadata = {
 export default function StorelistPage() {
   return (
     <>
-      <Topbar6 bgColor="bg-main" />
-      <Header1 />
+      <Topbar />
+      <Header />
       <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}

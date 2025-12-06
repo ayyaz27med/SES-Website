@@ -15,6 +15,7 @@ export default function Context({ children }) {
   const [wishList, setWishList] = useState([1, 2, 3]);
   const [compareItem, setCompareItem] = useState([1, 2, 3]);
   const [quickViewItem, setQuickViewItem] = useState(allProducts[0]);
+  const [quickViewItemId, setQuickViewItemId] = useState('');
   const [quickAddItem, setQuickAddItem] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
@@ -130,6 +131,8 @@ export default function Context({ children }) {
     compareItem,
     setCompareItem,
     updateQuantity,
+    quickViewItemId,
+    setQuickViewItemId,
   };
   return (
     <dataContext.Provider value={contextElement}>

@@ -1,44 +1,57 @@
-import React from "react";
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
-import LanguageSelect from "../common/LanguageSelect";
-import CurrencySelect from "../common/CurrencySelect";
-export default function Topbar() {
+
+export default function Topbar({ parentClass = "tf-topbar style-2 d-none d-xl-block" }) {
   return (
-    <div className="tf-topbar bg-main">
-      <div className="container">
-        <div className="tf-topbar_wrap d-flex align-items-center justify-content-center justify-content-xl-between">
-          <ul className="topbar-left">
-            <li>
-              <a className="text-caption-1 text-white" href="tel:315-666-6688">
-                315-666-6688
-              </a>
-            </li>
-            <li>
-              <a className="text-caption-1 text-white" href="#">
-                themesflat@gmail.com
-              </a>
-            </li>
-            <li>
-              <Link
-                className="text-caption-1 text-white text-decoration-underline"
-                href={`/store-list`}
-              >
-                Our Store
-              </Link>
-            </li>
-          </ul>
-          <div className="topbar-right d-none d-xl-block">
-            <div className="tf-cur justify-content-end">
-              <div className="tf-currencies">
-                <CurrencySelect light topStart />
-              </div>
-              <div className="tf-languages position-relative">
-                <LanguageSelect
-                  parentClassName="image-select center style-default type-languages color-white"
-                  topStart={true}
-                />
-              </div>
-            </div>
+    <div className={parentClass}>
+      <div className="header-fullwidth">
+        <div className="row align-items-center">
+          <div className="col-xl-5 d-none d-xl-block">
+            <ul className="tf-social-icon style-fill">
+              <li>
+                <a href="https://share.google/9GZMCEiVDjxAmu6GF" target="_blank" className="social-google">
+                  <i className="icon icon-google" />
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/ses.tanzania/" target="_blank" className="social-instagram">
+                  <i className="icon icon-instagram" />
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/255710071612" target="_blank" className="social-whatsapp">
+                  <i className="icon icon-whatsapp" /> 
+                </a>
+              </li>
+              <li>
+                <a href="https://www.tiktok.com/@ses.tz" target="_blank" className="social-tiktok">
+                  <i className="icon icon-tiktok" />
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="col-xl-2 text-center d-xl-block">
+            <Link href={`/`}>
+              <Image
+                alt=""
+                src="/images/logo/logo.png"
+                width={80}
+                height={80}
+              />
+            </Link>
+          </div>
+          <div className="col-xl-5 col-12 justify-content-center gap-10 d-xl-flex d-none">
+            <Link
+              href="/contact-02"
+              className="text-decoration-underline top-bar-text extra-small-text d-flex justify-content-center text-btn-uppercase fw-semibold letter-1"
+            >
+              Our Store
+            </Link>
+            <p className="top-bar-text extra-small-text text-btn-uppercase fw-semibold letter-1">
+              1st Floor, Girls Guide Building, Kibasila St, Upanga - Dar es Salaam 
+            </p>
           </div>
         </div>
       </div>

@@ -1,14 +1,14 @@
 "use client"
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
 import AccountSidebar from "@/components/my-account/AccountSidebar";
 import Link from "next/link";
 import OrderDetails from "@/components/my-account/OrderDetails";
 import React from "react";
-import Topbar5 from "@/components/headers/Topbar5";
 import useUserDetails from "@/services/tanstack/queries/useUserDetails";
 import { useParams } from "next/navigation";
 import useOrderDetails from "@/services/tanstack/queries/useOrderDetails";
+import Topbar from "@/components/headers/Topbar";
+import Header from "@/components/headers/Header";
 
 // export const metadata = {
 //   title:
@@ -24,8 +24,8 @@ export default function MyAccountOrdersDetailsPage({ params }) {
 
   return (
     <>
-      <Topbar5 bgColor="bg-main" />
-      <Header1 />
+      <Topbar />
+      <Header />
       <>
         {/* page-title */}
         <div

@@ -15,7 +15,6 @@ export default function ProductCard({
   radiusClass = "",
 }) {
   const [currentImage, setCurrentImage] = useState(product.main_picture);
-
   const {
     setQuickAddItem,
     addToWishlist,
@@ -25,6 +24,7 @@ export default function ProductCard({
     setQuickViewItem,
     addProductToCart,
     isAddedToCartProducts,
+    setQuickViewItemId,
   } = useContextElement();
 
   useEffect(() => {
@@ -205,8 +205,11 @@ export default function ProductCard({
             </span>
           </a>
           <a
-            href="#quickView"
-            onClick={() => setQuickViewItem(product)}
+            href="#productQuickView"
+            onClick={() => {
+              setQuickViewItem(product);
+              setQuickViewItemId(product.id);
+            }}
             data-bs-toggle="modal"
             className="box-icon quickview tf-btn-loading"
           >

@@ -1,6 +1,7 @@
 import Features from "@/components/common/Features";
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import BannerCountdown from "@/components/homes/organic/BannerCountdown";
 import Collections from "@/components/homes/organic/Collections";
 import Hero from "@/components/homes/organic/Hero";
@@ -19,8 +20,8 @@ export const metadata = {
 export default function HomeOrganicPage() {
   return (
     <>
-      <Header1 fullWidth />
-
+      <Topbar />
+      <Header />
       <Hero />
       <Products1 />
       <Collections />

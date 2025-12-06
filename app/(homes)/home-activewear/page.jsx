@@ -1,8 +1,8 @@
 import Features from "@/components/common/Features";
 import MarqueeSection2 from "@/components/common/MarqueeSection2";
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
-import Topbar3 from "@/components/headers/Topbar3";
+import Header from "@/components/headers/Header";
+import Topbar from "@/components/headers/Topbar";
 import BannerTab from "@/components/homes/activewear/BannerTab";
 import Collections from "@/components/homes/activewear/Collections";
 import Hero from "@/components/homes/activewear/Hero";
@@ -22,8 +22,8 @@ export const metadata = {
 export default function HomeActivemearPage() {
   return (
     <>
-      <Topbar3 />
-      <Header1 fullWidth />
+      <Topbar />
+      <Header fullWidth />
       <Hero />
       <MarqueeSection2 parentClass="tf-marquee border-0" />
       <Collections />

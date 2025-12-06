@@ -84,7 +84,7 @@ export default function QuickView() {
                 <div className="tf-product-info-desc">
                   <div className="tf-product-info-price">
                     <h5 className="price-on-sale font-2">
-                      ${quickViewItem.price.toFixed(2)}
+                      ${quickViewItem?.price?.toFixed(2)}
                     </h5>
                     {quickViewItem.oldPrice ? (
                       <>
