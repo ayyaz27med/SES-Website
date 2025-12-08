@@ -4,6 +4,7 @@ import { testimonials3 } from "@/data/testimonials";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { Pagination } from "swiper/modules";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Testimonials3({
   parentClass = "flat-spacing bg-surface",
 }) {
@@ -88,7 +89,7 @@ export default function Testimonials3({
                     <p className="text-title text-line-clamp-1">
                       {item.priceTitle}
                     </p>
-                    <div className="text-button price">{item.price}</div>
+                    <div className="text-button price">{formatWithCurrency(item.price)}</div>
                   </div>
                 </div>
               </div>

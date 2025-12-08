@@ -5,6 +5,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import QuantitySelect from "./QuantitySelect";
 import SizeSelect2 from "./SideSelect2";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 
 export default function ProductStikyBottom() {
   const {
@@ -41,7 +42,7 @@ export default function ProductStikyBottom() {
                     Green, XS, Cotton
                   </div>
                   <div className="text-title">
-                    ${products41[2].price.toFixed(2)}
+                    {formatWithCurrency(products41[2].price)}
                   </div>
                 </div>
               </div>
@@ -81,15 +82,14 @@ export default function ProductStikyBottom() {
                         : "Add to cart -"}
                     </span>
                     <span className="tf-qty-price total-price">
-                      $
                       {isAddedToCartProducts(products41[2].id)
-                        ? (
+                        ? formatWithCurrency(
                             products41[2].price *
                             cartProducts.filter(
                               (elm) => elm.id == products41[2].id
                             )[0].quantity
-                          ).toFixed(2)
-                        : (products41[2].price * quantity).toFixed(2)}
+                          )
+                        : formatWithCurrency(products41[2].price * quantity)}
                     </span>
                   </a>
                 </div>

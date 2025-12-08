@@ -7,6 +7,7 @@ import Link from "next/link";
 import Slider1 from "@/components/productDetails/sliders/Slider1";
 import { products44 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 const imgs = [
   {
     id: 1,
@@ -109,10 +110,10 @@ export default function SingleProduct() {
                   </div>
                   <div className="tf-product-info-price">
                     <h4 className="price-on-sale">
-                      ${products44[0].price.toFixed(2)}
+                      {formatWithCurrency(products44[0].price)}
                     </h4>
                     <div className="old-price old-price-sold">
-                      ${products44[0].oldPrice.toFixed(2)}
+                      {formatWithCurrency(products44[0].oldPrice)}
                     </div>
                     <div className="badges-on-sale text-btn-uppercase">
                       -25%

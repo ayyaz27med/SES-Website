@@ -7,7 +7,7 @@ import useProducts from "@/services/tanstack/queries/useProducts";
 import useBrands from "@/services/tanstack/queries/useBrands";
 import useCategories from "@/services/tanstack/queries/useCategories";
 import useSubCategories from "@/services/tanstack/queries/useSubCategories";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { initialState, productFilterOptions, reducer } from "@/utlis/productList";
 import ProductsSorting from "./ProductsSorting";
 import ProductFilterSidebar from "./ProductFilterSidebar";
@@ -17,18 +17,19 @@ import ProductGridView from "./ProductGridView";
 import useDebounce from "@/utlis/useDebounce";
 
 export default function Products11() {
+  const router = useRouter();
   const [activeLayout, setActiveLayout] = useState(4);
-  const [hasInitialized, setHasInitialized] = useState(false);
 
   const [page, setPage] = useState(1);
   const length = 10;
   const searchParams = useSearchParams();
-  const category_id = searchParams.get("category");
+  const categoryParam = searchParams.get("category");
   const subCategoryParam = searchParams.get("sub_category");
   const concernParam = searchParams.get("concerns");
   const suitableParam = searchParams.get("suitable");
   const ingredientsParam = searchParams.get("ingredients");
   const brandParam = searchParams.get("brand");
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
     price,
@@ -58,19 +59,19 @@ export default function Products11() {
   });
 
   const { data: subCategoriesData, isLoading: isLoadingSubCategories } = useSubCategories({
-    category_id: category_id,
+    category_id: categoryParam,
     type: 'sub_category',
   });
   const { data: concernsData, isLoading: isLoadingConcerns } = useSubCategories({
-    category_id: category_id,
+    category_id: categoryParam,
     type: 'concerns',
   });
   const { data: suitableData, isLoading: isLoadingSuitable } = useSubCategories({
-    category_id: category_id,
+    category_id: categoryParam,
     type: 'suitable',
   });
   const { data: ingredientsData, isLoading: isLoadingIngredients } = useSubCategories({
-    category_id: category_id,
+    category_id: categoryParam,
     type: 'ingredients',
   });
 
@@ -90,7 +91,7 @@ export default function Products11() {
     };
 
     const sort = productFilterOptions[sortingOption] || productFilterOptions["Sort by (Default)"];
-
+    console.log("selectedSubCategories", selectedSubCategories);
     return {
       start: page,
       length,
@@ -99,10 +100,13 @@ export default function Products11() {
       min_price: applied.price[0],
       max_price: applied.price[1],
       sale: activeFilterOnSale,
-      // CATEGORY (single)
-      category_id: selectedCategory?.id || "",
 
       // MULTIPLE (comma-separated)
+      category_id: selectedCategory
+        .map(name => categories.find(x => x.name === name)?.id)
+        .filter(Boolean)
+        .join(","),
+
       sub_category_id: selectedSubCategories
         .map(name => subCategories.find(x => x.name === name)?.id)
         .filter(Boolean)
@@ -141,87 +145,87 @@ export default function Products11() {
   const totalPages = Math.ceil(total / length);
   if (isProductFetching) return <div>Loading...</div>;
 
-  useEffect(() => {
-    if (hasInitialized) return;
-    // Wait until all options are loaded
-    const isDataLoaded =
-      (subCategories.length > 0 ||
-        concerns.length > 0 ||
-        suitable.length > 0 ||
-        ingredients.length > 0 ||
-        brands.length > 0);
+  // 2. Update your useEffect to only run when params are actually present:
 
-    if (!isDataLoaded) return;
-
-    // ---- SUB-CATEGORY ----
-    if (subCategoryParam) {
-      const found = subCategories.find(sc => sc.id === subCategoryParam);
-      if (found) {
-        dispatch({
-          type: "SET_SUB_CATEGORIES",
-          payload: [found.name]
-        });
-      }
+useEffect(() => {
+  // This effect syncs URL params to state
+  // It should ONLY depend on URL params and data availability, NOT on state values
+  
+  // ---- CATEGORY ----
+  if (categoryParam && categories.length > 0) {
+    const found = categories.find(sc => sc.id === categoryParam);
+    if (found) {
+      dispatch({ type: "SET_CATEGORY", payload: [found.name] });
     }
+  } else if (!categoryParam) {
+    // Clear category when not in URL (menu navigation to different page)
+    dispatch({ type: "SET_CATEGORY", payload: [] });
+  }
 
-    // ---- CONCERNS ----
-    if (concernParam) {
-      const found = concerns.find(sc => sc.id === concernParam);
-      if (found) {
-        dispatch({
-          type: "SET_CONCERNS",
-          payload: [found.name]
-        });
-      }
+  // ---- SUB-CATEGORY ----
+  if (subCategoryParam && subCategories.length > 0) {
+    const found = subCategories.find(sc => sc.id === subCategoryParam);
+    if (found) {
+      dispatch({ type: "SET_SUB_CATEGORIES", payload: [found.name] });
+    } 
+  } else if (!subCategoryParam) {
+    dispatch({ type: "SET_SUB_CATEGORIES", payload: [] });
+  }
+
+  // ---- CONCERNS ----
+  if (concernParam && concerns.length > 0) {
+    const found = concerns.find(sc => sc.id === concernParam);
+    if (found) {
+      dispatch({ type: "SET_CONCERNS", payload: [found.name] });
     }
+  } else if (!concernParam) {
+    dispatch({ type: "SET_CONCERNS", payload: [] });
+  }
 
-    // ---- SUITABLE ----
-    if (suitableParam) {
-      const found = suitable.find(sc => sc.id === suitableParam);
-      if (found) {
-        dispatch({
-          type: "SET_SUITABLE",
-          payload: [found.name]
-        });
-      }
+  // ---- SUITABLE ----
+  if (suitableParam && suitable.length > 0) {
+    const found = suitable.find(sc => sc.id === suitableParam);
+    if (found) {
+      dispatch({ type: "SET_SUITABLE", payload: [found.name] });
     }
+  } else if (!suitableParam) {
+    dispatch({ type: "SET_SUITABLE", payload: [] });
+  }
 
-    // ---- INGREDIENTS ----
-    if (ingredientsParam) {
-      const found = ingredients.find(sc => sc.id === ingredientsParam);
-      if (found) {
-        dispatch({
-          type: "SET_INGREDIENTS",
-          payload: [found.name]
-        });
-      }
+  // ---- INGREDIENTS ----
+  if (ingredientsParam && ingredients.length > 0) {
+    const found = ingredients.find(sc => sc.id === ingredientsParam);
+    if (found) {
+      dispatch({ type: "SET_INGREDIENTS", payload: [found.name] });
     }
+  } else if (!ingredientsParam) {
+    dispatch({ type: "SET_INGREDIENTS", payload: [] });
+  }
 
-    // ---- BRAND ----
-    if (brandParam) {
-      const found = brands.find(sc => sc.id === brandParam);
-      if (found) {
-        dispatch({
-          type: "SET_BRANDS",
-          payload: [found.name]
-        });
-      }
+  // ---- BRAND ----
+  if (brandParam && brands.length > 0) {
+    const found = brands.find(sc => sc.id === brandParam);
+    if (found) {
+      dispatch({ type: "SET_BRANDS", payload: [found.name] });
     }
-    setHasInitialized(true);
-  }, [
-    subCategories,
-    concerns,
-    suitable,
-    ingredients,
-    subCategoryParam,
-    concernParam,
-    suitableParam,
-    ingredientsParam,
-    brandParam,
-    brands,
-    hasInitialized
-  ]);
+  } else if (!brandParam) {
+    dispatch({ type: "SET_BRANDS", payload: [] });
+  }
 
+}, [
+  categoryParam,
+  subCategoryParam,
+  concernParam,
+  suitableParam,
+  ingredientsParam,
+  brandParam,
+  categories.length,
+  subCategories.length,
+  concerns.length,
+  suitable.length,
+  ingredients.length,
+  brands.length,
+]);
 
   // Sorted products
   const sorted = useMemo(() => {
@@ -323,7 +327,17 @@ export default function Products11() {
       dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
       dispatch({ type: "SET_ITEM_PER_PAGE", payload: value });
     },
-    clearFilter: () => dispatch({ type: "CLEAR_FILTER" }),
+    // clearFilter: () => {
+    //   dispatch({ type: "CLEAR_FILTER" })
+    //   router.push(window.location.pathname);
+    // },
+    clearFilter: () => {
+      dispatch({ type: "CLEAR_FILTER" });
+      setPage(1);
+      setTimeout(() => {
+        router.replace(window.location.pathname);
+      }, 0);
+    },
   };
 
   return (
@@ -379,7 +393,7 @@ export default function Products11() {
                   concerns={concerns}
                   suitable={suitable}
                   ingredients={ingredients}
-                  category_id={category_id}
+                  category_id={categoryParam}
                 />
               </div>
               <div className="col-xl-9">

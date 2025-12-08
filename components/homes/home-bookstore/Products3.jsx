@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Products3() {
   const { setQuickViewItem } = useContextElement();
 
@@ -70,10 +71,10 @@ export default function Products3() {
                     <span className="price py-4">
                       {product.oldPrice && (
                         <span className="old-price">
-                          ${product.oldPrice.toFixed(2)}
+                          {formatWithCurrency(product.oldPrice)}
                         </span>
                       )}{" "}
-                      ${product.price.toFixed(2)}
+                      {formatWithCurrency(product.price)}
                     </span>
                   </div>
                   <a

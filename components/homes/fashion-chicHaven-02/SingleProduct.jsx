@@ -8,6 +8,7 @@ import Slider1 from "@/components/productDetails/sliders/Slider1";
 import { products44 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
 import SizeSelect from "@/components/productDetails/SizeSelect";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 const imgs = [
   {
     id: 1,
@@ -118,10 +119,10 @@ export default function SingleProduct2() {
                   </div>
                   <div className="tf-product-info-price">
                     <h4 className="price-on-sale">
-                      ${products44[2].price.toFixed(2)}
+                      {formatWithCurrency(products44[2].price)}
                     </h4>
                     <div className="old-price old-price-sold">
-                      ${products44[2].oldPrice.toFixed(2)}
+                      {formatWithCurrency(products44[2].oldPrice)}
                     </div>
                     <div className="badges-on-sale text-btn-uppercase">
                       -25%
@@ -170,15 +171,14 @@ export default function SingleProduct2() {
                             : "Add to Cart -"}
                         </span>
                         <span className="tf-qty-price total-price">
-                          $
-                          {isAddedToCartProducts(products44[2].id)
-                            ? (
+                          {formatWithCurrency(isAddedToCartProducts(products44[2].id)
+                            ? formatWithCurrency(
                                 products44[2].price *
                                 cartProducts.filter(
                                   (elm) => elm.id == products44[2].id
                                 )[0].quantity
-                              ).toFixed(2)
-                            : (products44[2].price * quantity).toFixed(2)}{" "}
+                              )
+                            : formatWithCurrency(products44[2].price * quantity))}{" "}
                         </span>
                       </a>
                       <a

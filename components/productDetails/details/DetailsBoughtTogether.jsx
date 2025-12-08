@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import BoughtTogether from "../BoughtTogether";
 import ProductStikyBottom from "../ProductStikyBottom";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function DetailsBoughtTogether({ product }) {
   const [activeColor, setActiveColor] = useState("gray");
   const [quantity, setQuantity] = useState(1);
@@ -72,13 +73,13 @@ export default function DetailsBoughtTogether({ product }) {
                       <div className="tf-product-info-price">
                         <h5 className="price-on-sale font-2">
                           {" "}
-                          ${product.price.toFixed(2)}
+                          {formatWithCurrency(product.price)}
                         </h5>
                         {product.oldPrice ? (
                           <>
                             <div className="compare-at-price font-2">
                               {" "}
-                              ${product.oldPrice.toFixed(2)}
+                              {formatWithCurrency(product.oldPrice)}
                             </div>
                             <div className="badges-on-sale text-btn-uppercase">
                               -25%
@@ -141,13 +142,13 @@ export default function DetailsBoughtTogether({ product }) {
                           <span className="tf-qty-price total-price">
                             $
                             {isAddedToCartProducts(product.id)
-                              ? (
+                              ? formatWithCurrency(
                                   product.price *
                                   cartProducts.filter(
                                     (elm) => elm.id == product.id
                                   )[0].quantity
-                                ).toFixed(2)
-                              : (product.price * quantity).toFixed(2)}{" "}
+                                )
+                              : formatWithCurrency(product.price * quantity)}{" "}
                           </span>
                         </a>
                         <a

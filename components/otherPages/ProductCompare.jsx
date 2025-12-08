@@ -1,6 +1,7 @@
 "use client";
 import { useContextElement } from "@/context/Context";
 import { allProducts } from "@/data/products";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -95,7 +96,7 @@ export default function ProductCompare() {
                   key={i}
                   className="tf-compare-col tf-compare-field text-center"
                 >
-                  <span className="price">${elm.price.toFixed(2)}</span>
+                  <span className="price">{formatWithCurrency(elm.price)}</span>
                 </div>
               ))}
             </div>

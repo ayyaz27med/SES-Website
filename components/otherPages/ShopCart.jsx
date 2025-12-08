@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 const discounts = [
   {
     discount: "10% OFF",
@@ -177,7 +178,7 @@ export default function ShopCart() {
                             className="tf-cart-item_price text-center"
                           >
                             <div className="cart-price text-button price-on-sale">
-                              ${elm.price.toFixed(2)}
+                              {formatWithCurrency(elm.price)}
                             </div>
                           </td>
                           <td
@@ -215,7 +216,7 @@ export default function ShopCart() {
                             className="tf-cart-item_total text-center"
                           >
                             <div className="cart-total text-button total-price">
-                              ${(elm.price * elm.quantity).toFixed(2)}
+                              {formatWithCurrency(elm.price * elm.quantity)}
                             </div>
                           </td>
                           <td
@@ -283,11 +284,11 @@ export default function ShopCart() {
                   <h5 className="title">Order Summary</h5>
                   <div className="subtotal text-button d-flex justify-content-between align-items-center">
                     <span>Subtotal</span>
-                    <span className="total">${totalPrice.toFixed(2)}</span>
+                    <span className="total">{formatWithCurrency(totalPrice)}</span>
                   </div>
                   <div className="discount text-button d-flex justify-content-between align-items-center">
                     <span>Discounts</span>
-                    <span className="total">${totalPrice ? "20" : 0}</span>
+                    <span className="total">{formatWithCurrency(totalPrice ? 20 : 0)}</span>
                   </div>
                   <div className="ship">
                     <span className="text-button">Shipping</span>
@@ -305,7 +306,7 @@ export default function ShopCart() {
                           <label htmlFor={option.id}>
                             <span>{option.label}</span>
                             <span className="price">
-                              ${option.price.toFixed(2)}
+                              {formatWithCurrency(option.price)}
                             </span>
                           </label>
                         </fieldset>
@@ -317,7 +318,7 @@ export default function ShopCart() {
                     <span className="total">
                       $
                       {totalPrice
-                        ? (selectedOption.price + totalPrice).toFixed(2)
+                        ? formatWithCurrency(selectedOption.price + totalPrice)
                         : 0}
                     </span>
                   </h5>

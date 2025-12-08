@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function ProductCard12({ product, gridClass = "" }) {
   const [currentImage, setCurrentImage] = useState(product.imgSrc);
 
@@ -218,9 +219,9 @@ export default function ProductCard12({ product, gridClass = "" }) {
         </Link>
         <span className="price">
           {product.oldPrice && (
-            <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+            <span className="old-price">{formatWithCurrency(product.oldPrice)}</span>
           )}{" "}
-          ${product.price?.toFixed(2)}
+          {formatWithCurrency(product.price)}
         </span>
         {product.colors && (
           <ul className="list-color-product">

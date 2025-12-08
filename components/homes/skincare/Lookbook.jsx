@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useContextElement } from "@/context/Context";
 import { Pagination } from "swiper/modules";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Lookbook() {
   const { setQuickAddItem } = useContextElement();
   const swiperRef = useRef(null);
@@ -142,9 +143,9 @@ export default function Lookbook() {
                     </Link>
                     <span className="price">
                       <span className="old-price">
-                        ${product.oldPrice.toFixed(2)}
+                        {formatWithCurrency(product.oldPrice)}
                       </span>
-                      ${product.price.toFixed(2)}
+                      {formatWithCurrency(product.price)}
                     </span>
                   </div>
                 </div>

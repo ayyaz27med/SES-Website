@@ -1,10 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/store/session";
 import ToastHelper from "@/helpers/toastHelper";
+import useUploadProfileImage from "@/services/tanstack/mutations/useUploadProfileImage";
+import { queryClient } from "@/utlis/queryClient";
+import { queryKeys } from "@/services/tanstack/queries";
 
 export default function AccountSidebar({
   activeTab,
@@ -13,38 +16,74 @@ export default function AccountSidebar({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { clearSession } = useSession();
+  const { clearSession, setUser } = useSession();
+  const [preview, setPreview] = useState(userDetails?.profile_photo);
+
+  const { mutate: uploadProfileImage, isPending: isUploadingProfileImage } =
+    useUploadProfileImage({
+      onSuccess: async (data) => {
+        const { data: userData, message, status } = data;
+        setUser(userData);
+        if (!status) {
+          ToastHelper.error(message || "Profile photo update failed");
+          setPreview(userDetails?.profile_photo);
+          return;
+        }
+        ToastHelper.success(message || "User Profile Photo updated successfully");
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.userDetails],
+        });
+      },
+      onError: (error) => {
+        console.error("Error: ", error);
+        ToastHelper.error(error || "Profile photo update failed");
+      },
+    });
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPreview(URL.createObjectURL(file));
+    const formData = new FormData();
+    formData.append("photo", file);
+    uploadProfileImage(formData);
+  };
+
   const handleLogout = () => {
     clearSession();
     ToastHelper.success("Logout Successful");
     router.push("/");
   };
+
   return (
     <div className="wrap-sidebar-account">
       <div className="sidebar-account">
         <div className="account-avatar">
-          <div className="image">
+          <label className="image cursor-pointer position-relative">
             <Image
-              alt=""
-              src={userDetails?.image || "/images/avatar/user-account.jpg"}
-              width={281}
-              height={280}
+              src={preview || userDetails?.profile_photo || "/images/avatar/user-account.jpg"}
+              alt="Profile"
+              width={200}
+              height={200}
+              className="rounded-full object-cover"
             />
-          </div>
+            <div className="position-relative">
+              <svg className="profile-edit-icon" stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            </div>
+            <input type="file" accept="image/*" hidden onChange={handleUpload} />
+          </label>
           <h6 className="mb_4">{userDetails?.name}</h6>
-          <div className="body-text-1">{userDetails?.mobile_no}</div>
+          <div className="body-text-1">+{userDetails?.mobile_country_code} {userDetails?.mobile_no}</div>
         </div>
         <ul className="my-account-nav">
           <li>
             <div
-              // href={`/my-account`}
               onClick={() => {
                 setActiveTab(1);
                 router.push("/my-account");
               }}
-              className={`my-account-nav-item ${
-                activeTab == 1 ? "active" : ""
-              } `}
+              className={`my-account-nav-item ${activeTab == 1 ? "active" : ""
+                } `}
             >
               <svg
                 width={24}
@@ -78,9 +117,8 @@ export default function AccountSidebar({
                 router.push("/my-account");
               }}
               role="button"
-              className={`my-account-nav-item ${
-                activeTab == 2 ? "active" : ""
-              } `}
+              className={`my-account-nav-item ${activeTab == 2 ? "active" : ""
+                } `}
             >
               <svg
                 width={24}
@@ -103,9 +141,8 @@ export default function AccountSidebar({
           <li>
             <div
               role="button"
-              className={`my-account-nav-item ${
-                pathname == "/login" ? "active" : ""
-              } `}
+              className={`my-account-nav-item ${pathname == "/login" ? "active" : ""
+                } `}
               onClick={handleLogout}
             >
               <svg

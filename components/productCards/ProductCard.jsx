@@ -244,8 +244,8 @@ export default function ProductCard({
           {product.pname}
         </Link>
         <span className="price">
-          {product.new_selling_price && <span className="old-price">{formatWithCurrency(product.selling_price.toFixed(2))}</span>}
-          {formatWithCurrency(product.new_selling_price > 0 ? product.new_selling_price?.toFixed(2) : product.selling_price.toFixed(2))}
+          {product.new_selling_price && <span className="old-price">{formatWithCurrency(product.selling_price)}</span>}
+          {formatWithCurrency(product.new_selling_price > 0 ? product.new_selling_price : product.selling_price)}
         </span>
       </div>
     </div>

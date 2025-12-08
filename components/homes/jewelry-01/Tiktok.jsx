@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Tiktok({ parentClass = "flat-spacing pt-0" }) {
   const videoRefs = useRef([]);
   const [activeVideoIndex, setActiveVideoIndex] = useState(null);
@@ -100,7 +101,7 @@ export default function Tiktok({ parentClass = "flat-spacing pt-0" }) {
                       </Link>
                     </div>
                     <span className="price text-button text-white">
-                      ${slide.price.toFixed(2)}
+                      {formatWithCurrency(slide.price)}
                     </span>
                   </div>
                 </div>

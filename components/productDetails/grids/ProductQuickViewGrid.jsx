@@ -20,7 +20,7 @@ export default function ProductQuickViewGrid({
             >
               <Image
                 alt={`Product image ${i}`}
-                src={link}
+                src={link || null}
                 width={600}
                 height={800}
               />

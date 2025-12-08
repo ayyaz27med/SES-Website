@@ -1,5 +1,6 @@
 "use client";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function BannerTabProduct({ product }) {
   const { setQuickViewItem } = useContextElement();
   return (
@@ -25,8 +26,8 @@ export default function BannerTabProduct({ product }) {
             {product.title}
           </Link>
           <div className="price">
-            <span className="old-price">${product.oldPrice.toFixed(2)}</span>
-            <span className="new-price">${product.price.toFixed(2)}</span>
+            <span className="old-price">{formatWithCurrency(product.oldPrice)}</span>
+            <span className="new-price">{formatWithCurrency(product.price)}</span>
           </div>
         </div>
         <a

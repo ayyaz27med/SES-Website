@@ -154,7 +154,7 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
                           {testimonial.title}
                         </p>
                         <div className="text-button price">
-                          {formatWithCurrency(testimonial.price.toFixed(2))}
+                          {formatWithCurrency(testimonial.price)}
                         </div>
                       </div>
                     </div>

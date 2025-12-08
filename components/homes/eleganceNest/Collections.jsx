@@ -6,6 +6,7 @@ import { useContextElement } from "@/context/Context";
 import Image from "next/image";
 import Link from "next/link";
 import { Pagination } from "swiper/modules";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Collections() {
   return (
     <section className="flat-spacing">
@@ -72,7 +73,7 @@ export default function Collections() {
                                 {item.lookbook.productTitle}
                               </a>
                               <div className="price text-button">
-                                {item.lookbook.price}
+                                {formatWithCurrency(item.lookbook.price)}
                               </div>
                             </div>
                             <a

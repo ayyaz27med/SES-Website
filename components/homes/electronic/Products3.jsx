@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Products3() {
   const { addProductToCart } = useContextElement();
   return (
@@ -66,7 +67,7 @@ export default function Products3() {
                           </span>
                         </div>
                         <span className="price py-4">
-                          ${product.price.toFixed(2)}
+                          {formatWithCurrency(product.price)}
                         </span>
                       </div>
                       <a
@@ -151,7 +152,7 @@ export default function Products3() {
                           </span>
                         </div>
                         <span className="price py-4">
-                          ${product.price.toFixed(2)}
+                          {formatWithCurrency(product.price)}
                         </span>
                       </div>
                       <a
@@ -236,7 +237,7 @@ export default function Products3() {
                           </span>
                         </div>
                         <span className="price py-4">
-                          ${product.price.toFixed(2)}
+                          {formatWithCurrency(product.price)}
                         </span>
                       </div>
                       <a

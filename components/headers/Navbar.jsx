@@ -55,13 +55,12 @@ export default function Navbar() {
         </Link>
       </li>
       <li
-        className={`menu-item ${
-          [...brands].some(
-            (elm) => elm?.href?.split("/")[1] == pathname.split("/")[1]
-          )
+        className={`menu-item ${[...brands].some(
+          (elm) => elm?.href?.split("/")[1] == pathname.split("/")[1]
+        )
             ? "active"
             : ""
-        } `}
+          } `}
       >
         <div href="#" className="item-link">
           Brands
@@ -70,31 +69,30 @@ export default function Navbar() {
         <div className="sub-menu mega-menu">
           <div className="container">
             <div className="row">
-                <div className="mega-menu-item">
-                  <Link
-                    href={"/products"}
-                    className="menu-heading text-decoration-underline"
-                  >
-                    View All Brands
-                  </Link>
-                  <div className="row gap-16">
-                    <ul className="menu-list grid-6">
-                      {brands.map((brand) => (
-                        <li
-                          key={brand?.id}
-                          className={`menu-item-li ${
-                            pathname.split("/")[1] == brand?.href?.split("/")[1]
-                              ? "active"
-                              : ""
+              <div className="mega-menu-item">
+                <Link
+                  href={"/products"}
+                  className="menu-heading text-decoration-underline"
+                >
+                  View All Brands
+                </Link>
+                <div className="row gap-16">
+                  <ul className="menu-list grid-6">
+                    {brands.map((brand) => (
+                      <li
+                        key={brand?.id}
+                        className={`menu-item-li ${pathname.split("/")[1] == brand?.href?.split("/")[1]
+                            ? "active"
+                            : ""
                           } `}
-                        >
-                          <Link href={`/products?brand=${brand?.id}`}  className="menu-link-text">
-                            {brand.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                      >
+                        <Link href={`/products?brand=${brand?.id}`} className="menu-link-text">
+                          {brand.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -104,6 +102,11 @@ export default function Navbar() {
         sortedCategories.map((category) => {
           return <NavbarItem category={category} key={category?.id} />;
         })}
+      <li className="menu-item">
+        <Link href="#" className="item-link">
+          Sale
+        </Link>
+      </li>
       <li className="menu-item">
         <Link href="/blog-list" className="item-link">
           Blog

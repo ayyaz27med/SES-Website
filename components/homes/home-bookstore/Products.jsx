@@ -6,6 +6,7 @@ import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Products() {
   const {
     addToWishlist,
@@ -182,10 +183,10 @@ export default function Products() {
                   <span className="price">
                     {product.oldPrice && (
                       <span className="old-price">
-                        ${product.oldPrice.toFixed(2)}
+                        {formatWithCurrency(product.oldPrice)}
                       </span>
                     )}{" "}
-                    ${product.price.toFixed(2)}
+                    {formatWithCurrency(product.price)}
                   </span>
                 </div>
               </div>

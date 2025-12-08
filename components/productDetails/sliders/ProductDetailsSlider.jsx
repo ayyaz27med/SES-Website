@@ -140,7 +140,7 @@ export default function ProductDetailsSlider({
                 className="lazyload"
                 data-src={slide}
                 alt={slide}
-                src={slide}
+                src={slide || null}
                 width={600}
                 height={800}
               />
@@ -173,7 +173,7 @@ export default function ProductDetailsSlider({
                 data-zoom={slide}
                 data-src={slide}
                 alt={slide}
-                src={slide}
+                src={slide || null}
                 width={600}
                 height={800}
               />

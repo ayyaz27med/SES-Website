@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import { products37 } from "@/data/products";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function BannerTab2({ parentClass = "flat-spacing pt-0" }) {
   const { setQuickViewItem } = useContextElement();
   useEffect(() => {
@@ -142,10 +143,10 @@ export default function BannerTab2({ parentClass = "flat-spacing pt-0" }) {
                           </Link>
                           <div className="price">
                             <span className="old-price">
-                              ${item.oldPrice.toFixed(2)}
+                              {formatWithCurrency(item.oldPrice)}
                             </span>
                             <span className="new-price">
-                              ${item.price.toFixed(2)}
+                              {formatWithCurrency(item.price)}
                             </span>
                           </div>
                         </div>

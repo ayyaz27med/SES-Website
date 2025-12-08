@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function ProductCard2({
   product = products3[0],
   addedClass = "",
@@ -68,8 +69,8 @@ export default function ProductCard2({
           {product.title}
         </Link>
         <span className="price">
-          <span className="old-price">${product.price.toFixed(2)}</span>$
-          {product.oldPrice.toFixed(2)}
+          <span className="old-price">{formatWithCurrency(product.price)}</span>
+          {formatWithCurrency(product.oldPrice)}
         </span>
         <ul className="list-color-product">
           {product.colors.map((color, idx) => (

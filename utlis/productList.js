@@ -7,10 +7,8 @@ export const initialState = {
     selectedSuitable: [],
     selectedConcerns: [],
     selectedIngredients: [],
-    selectedCategory: null,
+    selectedCategory: [],
     sortingOption: "Sort by (Default)",
-    currentPage: 1,
-    itemPerPage: 6,
 };
 
 export const reducer = (state, action) => {
@@ -41,26 +39,17 @@ export const reducer = (state, action) => {
             return { ...state, itemPerPage: action.payload };
         case "CLEAR_FILTER":
             return {
-                ...state,
-                price: [20, 100000],
-                availability: "All",
-                selectedBrands: [],
-                selectedSubCategories: [],
-                selectedSuitable: [],
-                selectedConcerns: [],
-                selectedIngredients: [],
-                selectedCategory: null,
-                activeFilterOnSale: false,
-            };
+                ...initialState,
+            }
         default:
             return state;
     }
 }
 
 export const productFilterOptions = {
-  "Sort by (Default)": { key: "default", dir: "ASC" },
-  "Product Price Ascending": { key: "price", dir: "ASC" },
-  "Product Price Descending": { key: "price", dir: "DESC" },
-  "Product Name Ascending": { key: "pname", dir: "ASC" },
-  "Product Name Descending": { key: "pname", dir: "DESC" },
+    "Sort by (Default)": { key: "default", dir: "ASC" },
+    "Product Price Ascending": { key: "price", dir: "ASC" },
+    "Product Price Descending": { key: "price", dir: "DESC" },
+    "Product Name Ascending": { key: "pname", dir: "ASC" },
+    "Product Name Descending": { key: "pname", dir: "DESC" },
 };

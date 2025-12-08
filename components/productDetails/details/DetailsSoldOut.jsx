@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import ColorSelect8 from "../ColorSelect8";
 import ProductStikyBottom from "../ProductStikyBottom";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function DetailsSoldOut({ product }) {
   const [activeColor, setActiveColor] = useState("beige");
   const [quantity, setQuantity] = useState(1);
@@ -72,13 +73,13 @@ export default function DetailsSoldOut({ product }) {
                       <div className="tf-product-info-price">
                         <h5 className="price-on-sale font-2">
                           {" "}
-                          ${product.price.toFixed(2)}
+                          {formatWithCurrency(product.price)}
                         </h5>
                         {product.oldPrice ? (
                           <>
                             <div className="compare-at-price font-2">
                               {" "}
-                              ${product.oldPrice.toFixed(2)}
+                              {formatWithCurrency(product.oldPrice)}
                             </div>
                             <div className="badges-on-sale text-btn-uppercase">
                               -25%
@@ -136,7 +137,7 @@ export default function DetailsSoldOut({ product }) {
                         >
                           <span>Sold out -&nbsp;</span>
                           <span className="tf-qty-price total-price">
-                            ${(product.price * quantity).toFixed(2)}
+                            {formatWithCurrency(product.price * quantity)}
                           </span>
                         </a>
 

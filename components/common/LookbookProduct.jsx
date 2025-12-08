@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function LookbookProduct({ product, styleClass = "style-row" }) {
   const { setQuickViewItem } = useContextElement();
   return (
@@ -18,7 +19,7 @@ export default function LookbookProduct({ product, styleClass = "style-row" }) {
           >
             {product.title}
           </Link>
-          <div className="price text-button">${product.price.toFixed(2)}</div>
+          <div className="price text-button">{formatWithCurrency(product.price)}</div>
         </div>
         <a
           href="#quickView"

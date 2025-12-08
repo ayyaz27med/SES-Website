@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import { products41 } from "@/data/products";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function CartModal() {
   const {
     cartProducts,
@@ -50,7 +51,7 @@ export default function CartModal() {
                       </div>
                       <div className="cart-item-bot">
                         <div className="text-button price">
-                          ${product.price.toFixed(2)}
+                          {formatWithCurrency(product.price)}
                         </div>
                         <a
                           className="link text-button"
@@ -129,8 +130,8 @@ export default function CartModal() {
                               <div className="d-flex align-items-center justify-content-between flex-wrap gap-12">
                                 <div className="text-secondary-2">XL/Blue</div>
                                 <div className="text-button">
-                                  {product.quantity} X $
-                                  {product.price.toFixed(2)}
+                                  {product.quantity} X {" "}
+                                  {formatWithCurrency(product.price)}
                                 </div>
                               </div>
                             </div>
@@ -265,7 +266,7 @@ export default function CartModal() {
                     <div className="tf-cart-totals-discounts">
                       <h5>Subtotal</h5>
                       <h5 className="tf-totals-total-value">
-                        ${totalPrice.toFixed(2)}
+                        {formatWithCurrency(totalPrice)}
                       </h5>
                     </div>
                     <div className="tf-cart-checkbox">
@@ -312,9 +313,8 @@ export default function CartModal() {
                   </div>
                 </div>
                 <div
-                  className={`tf-mini-cart-tool-openable ${
-                    currentOpenPopup == "add-note" ? "open" : ""
-                  }`}
+                  className={`tf-mini-cart-tool-openable ${currentOpenPopup == "add-note" ? "open" : ""
+                    }`}
                 >
                   <div className="tf-mini-cart-tool-content">
                     <label
@@ -381,9 +381,8 @@ export default function CartModal() {
                   </div>
                 </div>
                 <div
-                  className={`tf-mini-cart-tool-openable ${
-                    currentOpenPopup == "estimate-shipping" ? "open" : ""
-                  } `}
+                  className={`tf-mini-cart-tool-openable ${currentOpenPopup == "estimate-shipping" ? "open" : ""
+                    } `}
                 >
                   <div className="tf-mini-cart-tool-content">
                     <label className="tf-mini-cart-tool-text">
@@ -611,9 +610,8 @@ export default function CartModal() {
                   </div>
                 </div>
                 <div
-                  className={`tf-mini-cart-tool-openable ${
-                    currentOpenPopup == "add-coupon" ? "open" : ""
-                  } `}
+                  className={`tf-mini-cart-tool-openable ${currentOpenPopup == "add-coupon" ? "open" : ""
+                    } `}
                 >
                   <div className="tf-mini-cart-tool-content">
                     <label className="tf-mini-cart-tool-text">

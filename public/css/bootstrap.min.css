@@ -10156,6 +10156,9 @@ fieldset:disabled .btn {
 .column-count-3 {
     column-count: 3
 }
+.cursor-pointer {
+    cursor: pointer !important
+}
 
 @media (min-width:576px) {
     .float-sm-start {

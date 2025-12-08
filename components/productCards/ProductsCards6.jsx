@@ -5,6 +5,7 @@ import Link from "next/link";
 import CountdownTimer from "../common/Countdown";
 
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function ProductsCards6({ product }) {
   const [currentImage, setCurrentImage] = useState(product.imgSrc);
 
@@ -57,9 +58,9 @@ export default function ProductsCards6({ product }) {
         </Link>
         <span className="price current-price">
           {product.oldPrice && (
-            <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+            <span className="old-price">{formatWithCurrency(product.oldPrice)}</span>
           )}{" "}
-          ${product.price?.toFixed(2)}
+          {formatWithCurrency(product.price)}
         </span>
         <p className="description text-secondary text-line-clamp-2">
           The garments labelled as Committed are products that have been

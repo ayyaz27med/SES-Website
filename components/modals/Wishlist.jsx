@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import { allProducts } from "@/data/products";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 
 export default function Wishlist() {
   const { removeFromWishlist, wishList } = useContextElement();
@@ -59,7 +60,7 @@ export default function Wishlist() {
                             <div className="d-flex align-items-center justify-content-between flex-wrap gap-12">
                               <div className="text-secondary-2">XL/Blue</div>
                               <div className="text-button">
-                                ${elm.price.toFixed(2)}
+                                {formatWithCurrency(elm.price)}
                               </div>
                             </div>
                           </div>

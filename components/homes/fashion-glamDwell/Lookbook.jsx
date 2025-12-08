@@ -6,6 +6,7 @@ import { useContextElement } from "@/context/Context";
 import Image from "next/image";
 import Link from "next/link";
 import { Pagination } from "swiper/modules";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Lookbook() {
   const { setQuickViewItem } = useContextElement();
   return (
@@ -82,7 +83,7 @@ export default function Lookbook() {
                             {item.title}
                           </Link>
                           <div className="price text-button">
-                            ${item.price.toFixed(2)}
+                            {formatWithCurrency(item.price)}
                           </div>
                         </div>
                         <a

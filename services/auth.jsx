@@ -10,3 +10,16 @@ export const verifyOtp = async (payload) => {
   const { data } = await api.put(`auth/verified-OTP/${id}`, otp)
   return data
 }
+
+export const uploadProfileImage = async (payload) => {
+  const { data } = await api.post('auth/profile-photo', payload, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  })
+  return data
+}
+
+// - mobile slider
+// - auto slide for all sliders
+// 

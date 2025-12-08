@@ -7,6 +7,7 @@ import QuantitySelect from "../QuantitySelect";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import ProductStikyBottom from "../ProductStikyBottom";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 
 export default function Details2({ product }) {
   const [activeColor, setActiveColor] = useState("beige");
@@ -70,13 +71,13 @@ export default function Details2({ product }) {
                         <div className="tf-product-info-price">
                           <h5 className="price-on-sale font-2">
                             {" "}
-                            ${product.price.toFixed(2)}
+                            {formatWithCurrency(product.price)}
                           </h5>
                           {product.oldPrice ? (
                             <>
                               <div className="compare-at-price font-2">
                                 {" "}
-                                ${product.oldPrice.toFixed(2)}
+                                {formatWithCurrency(product.oldPrice)}
                               </div>
                               <div className="badges-on-sale text-btn-uppercase">
                                 -25%
@@ -141,13 +142,13 @@ export default function Details2({ product }) {
                             <span className="tf-qty-price total-price">
                               $
                               {isAddedToCartProducts(product.id)
-                                ? (
+                                ? formatWithCurrency(
                                     product.price *
                                     cartProducts.filter(
                                       (elm) => elm.id == product.id
                                     )[0].quantity
-                                  ).toFixed(2)
-                                : (product.price * quantity).toFixed(2)}{" "}
+                                  )
+                                : formatWithCurrency(product.price * quantity)}{" "}
                             </span>
                           </a>
                           <a

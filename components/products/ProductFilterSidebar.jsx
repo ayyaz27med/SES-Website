@@ -21,9 +21,9 @@ export default function ProductFilterSidebar({ allProps, brands, categories, cat
             <ul className="facet-content">
               {categories.map((category) => (
                 <li key={category.id}>
-                  <a href="#" className={`categories-item ${category_id == category.id ? "active" : ""}`}
+                  <a href="#" className={`categories-item ${allProps.selectedCategory.includes(category.name) ? "active" : ""}`}
                     onClick={() => {
-                      allProps.setCategory(category);
+                      allProps.setCategory(category.name);
                       router.push(`/products?category=${category?.id}`);
                     }}>
                     {category.name}

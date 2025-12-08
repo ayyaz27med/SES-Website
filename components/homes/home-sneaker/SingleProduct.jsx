@@ -7,6 +7,7 @@ import Slider3 from "@/components/productDetails/sliders/Slider3";
 import React, { useState } from "react";
 import { products44 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 const swiperSlides = [
   {
     color: "orange",
@@ -100,10 +101,10 @@ export default function SingleProduct() {
                       <div className="tf-product-info-price">
                         <h5 className="price-on-sale">
                           {" "}
-                          ${products44[4].price.toFixed(2)}
+                          {formatWithCurrency(products44[4].price)}
                         </h5>
                         <div className="compare-at-price">
-                          ${products44[4].oldPrice.toFixed(2)}
+                          {formatWithCurrency(products44[4].oldPrice)}
                         </div>
                         <div className="badges-on-sale text-btn-uppercase">
                           -25%
@@ -163,7 +164,7 @@ export default function SingleProduct() {
                               : "Add to Cart"}
                           </span>
                           <span className="tf-qty-price total-price">
-                            ${products44[4].price.toFixed(2)}
+                            {formatWithCurrency(products44[4].price)}
                           </span>
                         </a>
                         <a

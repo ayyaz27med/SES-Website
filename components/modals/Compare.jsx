@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import { allProducts } from "@/data/products";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Compare() {
   const { removeFromCompareItem, compareItem, setCompareItem } =
     useContextElement();
@@ -114,7 +115,7 @@ export default function Compare() {
                               </Link>
                             </div>
                             <div className="text-button">
-                              ${elm.price.toFixed(2)}
+                              {formatWithCurrency(elm.price)}
                             </div>
                           </div>
                         </div>

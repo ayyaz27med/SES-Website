@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { products39 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function BannerTab() {
   const { setQuickViewItem } = useContextElement();
   useEffect(() => {
@@ -136,10 +137,10 @@ export default function BannerTab() {
                           </Link>
                           <div className="price">
                             <span className="old-price">
-                              ${item.oldPrice.toFixed(2)}
+                              {formatWithCurrency(item.oldPrice)}
                             </span>
                             <span className="new-price">
-                              ${item.price.toFixed(2)}
+                              {formatWithCurrency(item.price)}
                             </span>
                           </div>
                         </div>

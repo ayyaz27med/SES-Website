@@ -1,6 +1,7 @@
 "use client";
 
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -444,7 +445,7 @@ export default function Checkout() {
                         </div>
                         <div className="total-price text-button">
                           <span className="count">{elm.quantity}</span>X
-                          <span className="price">${elm.price.toFixed(2)}</span>
+                          <span className="price">{formatWithCurrency(elm.price)}</span>
                         </div>
                       </div>
                     </div>
@@ -528,7 +529,7 @@ export default function Checkout() {
                     <h5 className="d-flex justify-content-between">
                       <span>Total</span>
                       <span className="total-price-checkout">
-                        ${totalPrice.toFixed(2)}
+                        {formatWithCurrency(totalPrice)}
                       </span>
                     </h5>
                   </div>

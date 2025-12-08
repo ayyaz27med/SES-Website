@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useContextElement } from "@/context/Context";
 import QuantitySelect from "../productDetails/QuantitySelect";
-import { formatWithCurrencyTOFixed } from "@/hooks/useAmountFormatter";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import useProductDetails from "@/services/tanstack/queries/useProductDetails";
 import ProductQuickViewGrid from "../productDetails/grids/ProductQuickViewGrid";
 
@@ -64,12 +64,12 @@ export default function ProductQuickView() {
                     <div className="tf-product-info-desc">
                       <div className="tf-product-info-price">
                         <h5 className="price-on-sale font-2">
-                          {formatWithCurrencyTOFixed(product?.new_selling_price ? product?.new_selling_price : product?.selling_price)}
+                          {formatWithCurrency(product?.new_selling_price ? product?.new_selling_price : product?.selling_price)}
                         </h5>
                         {product?.new_selling_price > 0 ? (
                           <>
                             <div className="compare-at-price font-2">
-                              {formatWithCurrencyTOFixed(product?.selling_price)}
+                              {formatWithCurrency(product?.selling_price)}
                             </div>
                             <div className="badges-on-sale text-btn-uppercase">
                               -25%
@@ -131,15 +131,14 @@ export default function ProductQuickView() {
                               : "Add to cart -"}
                           </span>
                           <span className="tf-qty-price total-price">
-                            $
-                            {isAddedToCartProducts(product?.id)
+                            {formatWithCurrency(isAddedToCartProducts(product?.id)
                               ? (
                                 (product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price) *
                                 cartProducts.filter(
                                   (elm) => elm.id == product?.id
                                 )[0].quantity
-                              ).toFixed(2)
-                              : ((product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price) * quantity).toFixed(2)}
+                              )
+                              : ((product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price) * quantity))}
                           </span>
                         </a>
                         <a

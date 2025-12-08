@@ -11,7 +11,6 @@ export default function ProductsSorting({ allProps }) {
       </div>
       <div className="dropdown-menu">
         {Object.keys(productFilterOptions).map((option) => {
-          console.log("option", option);
           return (
             <div
               onClick={() => allProps.setSortingOption(option)}

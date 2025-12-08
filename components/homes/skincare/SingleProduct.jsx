@@ -9,6 +9,7 @@ import { products44 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
 import Slider4 from "@/components/productDetails/sliders/Slider4";
 import VariantPicker from "@/components/productDetails/VarientSelect";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 
 const imgs = [
   {
@@ -117,10 +118,10 @@ export default function SingleProduct() {
                   </div>
                   <div className="tf-product-info-price">
                     <h4 className="price-on-sale">
-                      ${products44[3].price.toFixed(2)}
+                      {formatWithCurrency(products44[3].price)}
                     </h4>
                     <div className="old-price old-price-sold">
-                      ${products44[3].oldPrice.toFixed(2)}
+                      {formatWithCurrency(products44[3].oldPrice)}
                     </div>
                     <div className="badges-on-sale text-btn-uppercase">
                       -25%

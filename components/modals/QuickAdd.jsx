@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import ColorSelect from "../productDetails/ColorSelect";
 import SizeSelect from "../productDetails/SizeSelect";
 import QuantitySelect from "../productDetails/QuantitySelect";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function QuickAdd() {
   const [quantity, setQuantity] = useState(1);
   const {
@@ -47,12 +48,12 @@ export default function QuickAdd() {
                   <Link href={`/product-detail/${item.id}`}>{item.title}</Link>
                   <div className="tf-product-info-price">
                     <h5 className="price-on-sale font-2">
-                      ${item.price.toFixed(2)}
+                      {formatWithCurrency(item.price)}
                     </h5>
                     {item.oldPrice ? (
                       <>
                         <div className="compare-at-price font-2">
-                          ${item.oldPrice.toFixed(2)}
+                          {formatWithCurrency(item.oldPrice)}
                         </div>
                         <div className="badges-on-sale text-btn-uppercase">
                           -25%
@@ -98,14 +99,13 @@ export default function QuickAdd() {
                         &nbsp;
                       </span>
                       <span className="tf-qty-price total-price">
-                        $
                         {isAddedToCartProducts(item.id)
-                          ? (
+                          ? formatWithCurrency(
                               item.price *
                               cartProducts.filter((elm) => elm.id == item.id)[0]
                                 .quantity
-                            ).toFixed(2)
-                          : (item.price * quantity).toFixed(2)}
+                            )
+                          : formatWithCurrency(item.price * quantity)}
                       </span>
                     </a>
                     <a

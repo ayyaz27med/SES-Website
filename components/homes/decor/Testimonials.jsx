@@ -4,6 +4,7 @@ import { testimonialsWithProduct2 } from "@/data/products";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useContextElement } from "@/context/Context";
 import { Pagination } from "swiper/modules";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 
 export default function Testimonials() {
   const { setQuickViewItem } = useContextElement();
@@ -128,7 +129,7 @@ export default function Testimonials() {
                         {testimonial.title}
                       </p>
                       <div className="text-button price">
-                        ${testimonial.price.toFixed(2)}
+                        {formatWithCurrency(testimonial.price)}
                       </div>
                     </div>
                   </div>

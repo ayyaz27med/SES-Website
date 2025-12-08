@@ -4,6 +4,7 @@ import React from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function Testimonials() {
   return (
     <section className="flat-spacing bg-black">
@@ -124,7 +125,7 @@ export default function Testimonials() {
                         {testimonial.productName}
                       </p>
                       <div className="text-button price">
-                        ${testimonial.price.toFixed(2)}
+                        {formatWithCurrency(testimonial.price)}
                       </div>
                     </div>
                   </div>

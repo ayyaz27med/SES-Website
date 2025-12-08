@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
+import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 export default function BannerTab() {
   useEffect(() => {
     const offsetX = 20;
@@ -146,11 +147,11 @@ export default function BannerTab() {
                           </Link>
                           <div className="price">
                             <span className="old-price">
-                              ${product.price.toFixed(2)}
+                              {formatWithCurrency(product.price)}
                             </span>
                             <span className="new-price">
                               {" "}
-                              ${product.oldPrice.toFixed(2)}
+                              {formatWithCurrency(product.oldPrice)}
                             </span>
                           </div>
                         </div>
