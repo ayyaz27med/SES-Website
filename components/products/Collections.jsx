@@ -2,6 +2,7 @@ import React from "react";
 import Pagination from "../common/Pagination";
 import { collections11 } from "@/data/collections";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   return (
     <section className="flat-spacing">
@@ -18,7 +19,7 @@ export default function Collections() {
                   className="lazyload"
                   data-src={item.imgSrc}
                   alt={`banner-${item.text.toLowerCase()}`}
-                  src={item.imgSrc}
+                  src={safeImage(item.imgSrc)}
                   width={450}
                   height={600}
                 />

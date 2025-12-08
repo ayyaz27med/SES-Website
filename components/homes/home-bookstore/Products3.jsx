@@ -5,6 +5,7 @@ import React from "react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Products3() {
   const { setQuickViewItem } = useContextElement();
 
@@ -30,7 +31,7 @@ export default function Products3() {
                     className="lazyload img-product"
                     data-src={product.imgSrc}
                     alt="image-product"
-                    src={product.imgSrc}
+                    src={safeImage(product.imgSrc)}
                     width={351}
                     height={468}
                   />
@@ -38,7 +39,7 @@ export default function Products3() {
                     className="lazyload img-hover"
                     data-src={product.imgSrc}
                     alt="image-product"
-                    src={product.imgSrc}
+                    src={safeImage(product.imgSrc)}
                     width={351}
                     height={468}
                   />

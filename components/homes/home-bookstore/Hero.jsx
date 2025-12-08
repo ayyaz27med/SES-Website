@@ -5,6 +5,7 @@ import React from "react";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <section className="tf-slideshow slider-default slider-effect-fade">
@@ -34,7 +35,7 @@ export default function Hero() {
                 className="lazyload"
                 data-src={item.imageSrc}
                 alt="fashion-slideshow"
-                src={item.imageSrc}
+                src={safeImage(item.imageSrc)}
                 width={item.width}
                 height={item.height}
               />

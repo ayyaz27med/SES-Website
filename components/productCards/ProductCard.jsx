@@ -6,6 +6,7 @@ import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
 import PlaceholderImage from "../../public/images/home-categories/placeholder-image.png";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 
 export default function ProductCard({
   product,
@@ -47,7 +48,7 @@ export default function ProductCard({
         <Link href={`/product-detail/${product.id}`} className="product-img">
           <Image
             className="lazyload img-product"
-            src={currentImage || PlaceholderImage}
+            src={safeImage(currentImage)}
             alt={product.pname || product.title || "Product Image"}
             width={600}
             height={800}
@@ -55,7 +56,7 @@ export default function ProductCard({
 
           <Image
             className="lazyload img-hover"
-            src={currentImage || PlaceholderImage}
+            src={safeImage(currentImage)}
             alt={product.pname || product.title || "Product Image"}
             width={600}
             height={800}

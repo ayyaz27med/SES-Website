@@ -4,6 +4,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <div className="tf-slideshow slider-collection">
@@ -28,7 +29,7 @@ export default function Hero() {
                 <Image
                   className="lazyload"
                   data-src={item.imgSrc}
-                  src={item.imgSrc}
+                  src={safeImage(item.imgSrc)}
                   alt={item.imgAlt}
                   width={634}
                   height={796}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function BannerTab() {
   useEffect(() => {
     const offsetX = 20;
@@ -96,7 +97,7 @@ export default function BannerTab() {
                       <div className="hover-image">
                         <Image
                           alt="Hover Image"
-                          src={item.imgSrc}
+                          src={safeImage(item.imgSrc)}
                           width={item.width}
                           height={item.height}
                         />
@@ -129,7 +130,7 @@ export default function BannerTab() {
                         <Image
                           className="lazyload"
                           alt="banner-cls"
-                          src={product.imgSrc}
+                          src={safeImage(product.imgSrc)}
                           width={473}
                           height={630}
                         />

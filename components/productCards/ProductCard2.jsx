@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function ProductCard2({
   product = products3[0],
   addedClass = "",
@@ -36,7 +37,7 @@ export default function ProductCard2({
           <Image
             className="lazyload img-product"
             data-src={product.imgSrc}
-            src={currentImage}
+            src={safeImage(currentImage)}
             alt="image-product"
             width={351}
             height={468}
@@ -44,7 +45,7 @@ export default function ProductCard2({
           <Image
             className="lazyload img-hover"
             data-src={product.imgHover}
-            src={product.imgHover}
+            src={safeImage(product.imgHover)}
             alt="image-product"
             width={600}
             height={800}
@@ -85,7 +86,7 @@ export default function ProductCard2({
               <Image
                 className="lazyload"
                 data-src={color.imgSrc}
-                src={color.imgSrc}
+                src={safeImage(color.imgSrc)}
                 alt="image-product"
                 width={600}
                 height={800}

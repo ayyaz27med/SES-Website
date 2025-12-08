@@ -5,6 +5,7 @@ import Link from "next/link";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 const discounts = [
   {
     discount: "10% OFF",
@@ -136,7 +137,7 @@ export default function ShopCart() {
                             >
                               <Image
                                 alt="product"
-                                src={elm.imgSrc}
+                                src={safeImage(elm.imgSrc)}
                                 width={600}
                                 height={800}
                               />

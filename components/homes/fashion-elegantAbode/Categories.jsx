@@ -4,6 +4,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Categories() {
   return (
     <section className="flat-spacing">
@@ -47,7 +48,7 @@ export default function Categories() {
                     className="lazyload"
                     data-src={item.imageSrc}
                     alt={`banner-cls-${item.id}`}
-                    src={item.imageSrc}
+                    src={safeImage(item.imageSrc)}
                     width={600}
                     height={800}
                   />

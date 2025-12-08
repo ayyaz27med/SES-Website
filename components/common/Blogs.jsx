@@ -4,6 +4,7 @@ import { blogPosts } from "@/data/blogs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import { Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function Blogs({
   parentClass = "flat-spacing pt-0",
   readMore = false,
@@ -54,7 +55,7 @@ export default function Blogs({
                     className="aspect-ratio-1 ls-is-cached lazyload"
                     data-src={post.imgSrc}
                     alt={post.alt}
-                    src={post.imgSrc}
+                    src={safeImage(post.imgSrc)}
                     width={615}
                     height={461}
                   />

@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function Banner() {
   return (
     <section>
@@ -88,7 +89,7 @@ export default function Banner() {
                           className="lazyload"
                           data-src={collection.imgSrc}
                           alt={collection.imgAlt}
-                          src={collection.imgSrc}
+                          src={safeImage(collection.imgSrc)}
                           width={450}
                           height={450}
                         />

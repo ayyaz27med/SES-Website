@@ -5,6 +5,7 @@ import Link from "next/link";
 import { products39 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function BannerTab() {
   const { setQuickViewItem } = useContextElement();
   useEffect(() => {
@@ -87,7 +88,7 @@ export default function BannerTab() {
                       <div className="hover-image">
                         <Image
                           alt="Hover Image"
-                          src={item.imgSrc}
+                          src={safeImage(item.imgSrc)}
                           width={710}
                           height={945}
                         />
@@ -119,7 +120,7 @@ export default function BannerTab() {
                           className="lazyload"
                           data-src={item.imgSrc}
                           alt="banner-cls"
-                          src={item.imgSrc}
+                          src={safeImage(item.imgSrc)}
                           width={710}
                           height={945}
                         />

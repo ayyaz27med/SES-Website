@@ -5,6 +5,7 @@ import React from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 
 export default function Collections() {
   return (
@@ -56,7 +57,7 @@ export default function Collections() {
                       className="lazyload"
                       data-src={collection.imageSrc}
                       alt="collection-img"
-                      src={collection.imageSrc}
+                      src={safeImage(collection.imageSrc)}
                       width={collection.width}
                       height={collection.height}
                     />

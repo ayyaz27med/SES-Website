@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Navigation, Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function Categories() {
   return (
     <section className="flat-spacing pt-0">
@@ -51,7 +52,7 @@ export default function Categories() {
                       className="lazyload"
                       data-src={category.imgSrc}
                       alt="collection-img"
-                      src={category.imgSrc}
+                      src={safeImage(category.imgSrc)}
                       width={380}
                       height={380}
                     />

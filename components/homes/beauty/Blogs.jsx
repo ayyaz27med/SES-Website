@@ -4,6 +4,7 @@ import { blogItems } from "@/data/blogs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Blogs() {
   return (
     <section className="flat-spacing">
@@ -44,7 +45,7 @@ export default function Blogs() {
                     className="lazyload"
                     data-src={item.imgSrc}
                     alt=""
-                    src={item.imgSrc}
+                    src={safeImage(item.imgSrc)}
                     width={450}
                     height={338}
                   />

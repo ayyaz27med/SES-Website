@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { images } from "@/data/singleProductSliders";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 
 export default function Grid5({
   activeColor = "gray",
@@ -83,7 +84,7 @@ export default function Grid5({
             <Image
               className="lazyload"
               alt={""}
-              src={link.src}
+              src={safeImage(link.src)}
               width={600}
               height={800}
             />

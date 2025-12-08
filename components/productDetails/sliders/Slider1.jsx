@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Slider1({
   activeColor = "gray",
   setActiveColor = () => {},
@@ -160,7 +161,7 @@ export default function Slider1({
                 className="lazyload"
                 data-src={slide.src}
                 alt={slide.alt}
-                src={slide.src}
+                src={safeImage(slide.src)}
                 width={slide.width}
                 height={slide.height}
               />
@@ -199,7 +200,7 @@ export default function Slider1({
                 data-zoom={slide.src}
                 data-src={slide.src}
                 alt=""
-                src={slide.src}
+                src={safeImage(slide.src)}
                 width={slide.width}
                 height={slide.height}
               />

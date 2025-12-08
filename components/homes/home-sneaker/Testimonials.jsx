@@ -4,6 +4,7 @@ import React from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Testimonials() {
   return (
     <section className="mt--75 mt--xxl-148 position-relative z-5">
@@ -48,7 +49,7 @@ export default function Testimonials() {
                     <div className="avt">
                       <Image
                         alt=""
-                        src={testimonial.avatarSrc}
+                        src={safeImage(testimonial.avatarSrc)}
                         width={120}
                         height={120}
                       />

@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Tiktok({ parentClass = "flat-spacing pt-0" }) {
   const videoRefs = useRef([]);
   const [activeVideoIndex, setActiveVideoIndex] = useState(null);
@@ -65,7 +66,7 @@ export default function Tiktok({ parentClass = "flat-spacing pt-0" }) {
                   className={`poster ${
                     activeVideoIndex === index ? "hide" : ""
                   }`}
-                  src={slide.imgSrc}
+                  src={safeImage(slide.imgSrc)}
                   width={450}
                   height={600}
                 />
@@ -86,7 +87,7 @@ export default function Tiktok({ parentClass = "flat-spacing pt-0" }) {
                   <div className="avatar avt-60 round">
                     <Image
                       alt="avatar"
-                      src={slide.avatarSrc}
+                      src={safeImage(slide.avatarSrc)}
                       width={90}
                       height={90}
                     />

@@ -4,6 +4,7 @@ import { gridImages } from "@/data/singleProductSliders";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Grid4({
   activeColor = "gray",
   setActiveColor = () => {},
@@ -98,7 +99,7 @@ export default function Grid4({
             className="lazyload radius-12"
             data-src={image.src}
             alt={image.alt}
-            src={image.src}
+            src={safeImage(image.src)}
             width={image.width}
             height={image.height}
           />
@@ -119,7 +120,7 @@ export default function Grid4({
               className="lazyload radius-12"
               data-src={image.src}
               alt={image.alt}
-              src={image.src}
+              src={safeImage(image.src)}
               width={image.width}
               height={image.height}
             />

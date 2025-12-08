@@ -8,6 +8,7 @@ import ColorSelect from "../productDetails/ColorSelect";
 import SizeSelect from "../productDetails/SizeSelect";
 import QuantitySelect from "../productDetails/QuantitySelect";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function QuickAdd() {
   const [quantity, setQuantity] = useState(1);
   const {
@@ -42,7 +43,7 @@ export default function QuickAdd() {
             <div className="tf-product-info-list">
               <div className="tf-product-info-item">
                 <div className="image">
-                  <Image alt="" src={item.imgSrc} width={600} height={800} />
+                  <Image alt="" src={safeImage(item.imgSrc)} width={600} height={800} />
                 </div>
                 <div className="content">
                   <Link href={`/product-detail/${item.id}`}>{item.title}</Link>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Pagination } from "swiper/modules";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Testimonials() {
   const { setQuickViewItem } = useContextElement();
   return (
@@ -47,7 +48,7 @@ export default function Testimonials() {
                   <Image
                     data-src={testimonial.imgSrc}
                     alt={testimonial.alt}
-                    src={testimonial.imgSrc}
+                    src={safeImage(testimonial.imgSrc)}
                     width={352}
                     height={468}
                   />
@@ -116,7 +117,7 @@ export default function Testimonials() {
                     <div className="avatar avt-60 round">
                       <Image
                         alt="avt"
-                        src={testimonial.avatarSrc}
+                        src={safeImage(testimonial.avatarSrc)}
                         width={91}
                         height={90}
                       />

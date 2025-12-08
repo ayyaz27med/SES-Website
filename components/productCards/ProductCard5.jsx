@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import CountdownTimer from "../common/Countdown";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function ProductCard5({ product = products34[0] }) {
   const [currentImage, setCurrentImage] = useState(product.imgSrc);
 
@@ -33,14 +34,14 @@ export default function ProductCard5({ product = products34[0] }) {
         <Link href={`/product-detail/${product.id}`} className="product-img">
           <Image
             className="lazyload img-product"
-            src={currentImage}
+            src={safeImage(currentImage)}
             alt={product.title}
             width={600}
             height={800}
           />
           <Image
             className="lazyload img-hover"
-            src={product.imgHover}
+            src={safeImage(product.imgHover)}
             alt={product.title}
             width={600}
             height={800}
@@ -247,7 +248,7 @@ export default function ProductCard5({ product = products34[0] }) {
               >
                 <Image
                   className="lazyload"
-                  src={color.imgSrc}
+                  src={safeImage(color.imgSrc)}
                   alt="color variant"
                   width={600}
                   height={800}

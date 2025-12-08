@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { Pagination } from "swiper/modules";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Testimonials3() {
   return (
     <section className="flat-spacing bg-surface">
@@ -91,7 +92,7 @@ export default function Testimonials3() {
                   <div className="avatar avt-60 round">
                     <Image
                       alt="avt"
-                      src={testimonial.avatar}
+                      src={safeImage(testimonial.avatar)}
                       width={90}
                       height={91}
                     />

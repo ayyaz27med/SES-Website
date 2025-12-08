@@ -3,6 +3,7 @@ import Link from "next/link";
 import { categorySlides } from "@/data/collections";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Categories() {
   return (
     <section className="flat-spacing bg-beige">
@@ -32,7 +33,7 @@ export default function Categories() {
                     className="lazyload"
                     data-src={slide.imgSrc}
                     alt={slide.imgAlt}
-                    src={slide.imgSrc}
+                    src={safeImage(slide.imgSrc)}
                     width={363}
                     height={483}
                   />

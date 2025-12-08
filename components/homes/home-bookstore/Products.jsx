@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Products() {
   const {
     addToWishlist,
@@ -70,7 +71,7 @@ export default function Products() {
                       className="lazyload img-product"
                       data-src={product.imgSrc}
                       alt="image-product"
-                      src={product.imgSrc}
+                      src={safeImage(product.imgSrc)}
                       width={product.width}
                       height={product.height}
                     />
@@ -78,7 +79,7 @@ export default function Products() {
                       className="lazyload img-hover"
                       data-src={product.imgSrc}
                       alt="image-product"
-                      src={product.imgSrc}
+                      src={safeImage(product.imgSrc)}
                       width={product.width}
                       height={product.height}
                     />

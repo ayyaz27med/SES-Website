@@ -5,6 +5,7 @@ import React from "react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <div className="slider-padding">
@@ -29,7 +30,7 @@ export default function Hero() {
               <div className="wrap-slider">
                 <Image
                   alt="slideshow"
-                  src={slide.imageSrc}
+                  src={safeImage(slide.imageSrc)}
                   width={1840}
                   height={836}
                 />

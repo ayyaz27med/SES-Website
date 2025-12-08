@@ -5,6 +5,7 @@ import React from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function CollectionBanner() {
   return (
     <section className="px_15 px_xl-40 flat-spacing-9 pt-0">
@@ -43,7 +44,7 @@ export default function CollectionBanner() {
                   className="lazyload"
                   data-src={banner.imageSrc}
                   alt="banner-cls"
-                  src={banner.imageSrc}
+                  src={safeImage(banner.imageSrc)}
                   width={banner.width}
                   height={banner.height}
                 />

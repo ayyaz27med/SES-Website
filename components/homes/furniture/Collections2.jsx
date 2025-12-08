@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function Collections2() {
   return (
     <section>
@@ -35,7 +36,7 @@ export default function Collections2() {
                   className="lazyload"
                   data-src={item.imgSrc}
                   alt="cls-tiktok"
-                  src={item.imgSrc}
+                  src={safeImage(item.imgSrc)}
                   width={954}
                   height={636}
                 />

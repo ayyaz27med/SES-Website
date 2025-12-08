@@ -4,6 +4,7 @@ import Pagination from "../common/Pagination";
 import Link from "next/link";
 import Image from "next/image";
 import { blogPosts6 } from "@/data/blogs";
+import safeImage from "@/utlis/safeImage";
 
 export default function BlogDefault() {
   return (
@@ -19,7 +20,7 @@ export default function BlogDefault() {
                     <Image
                       className="lazyload"
                       alt=""
-                      src={post.imgSrc}
+                      src={safeImage(post.imgSrc)}
                       width={1275}
                       height={717}
                     />

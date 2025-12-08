@@ -5,6 +5,7 @@ import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <div className="tf-slideshow slider-style2 slider-electronic slider-position slider-effect-fade">
@@ -31,7 +32,7 @@ export default function Hero() {
             <div className="wrap-slider">
               <Image
                 alt="slideshow"
-                src={slide.imgSrc}
+                src={safeImage(slide.imgSrc)}
                 width={1921}
                 height={600}
               />

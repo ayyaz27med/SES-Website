@@ -1,4 +1,5 @@
 "use client";
+import safeImage from "@/utlis/safeImage";
 import Image from "next/image";
 
 export default function ProductQuickViewGrid({
@@ -20,7 +21,7 @@ export default function ProductQuickViewGrid({
             >
               <Image
                 alt={`Product image ${i}`}
-                src={link || null}
+                src={safeImage(link)}
                 width={600}
                 height={800}
               />

@@ -2,6 +2,7 @@ import { categories2 } from "@/data/collections";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   return (
     <section className="flat-spacing">
@@ -20,7 +21,7 @@ export default function Collections() {
                   className="lazyload"
                   data-src={category.imgSrc}
                   alt={category.alt}
-                  src={category.imgSrc}
+                  src={safeImage(category.imgSrc)}
                   width={category.width}
                   height={category.height}
                 />

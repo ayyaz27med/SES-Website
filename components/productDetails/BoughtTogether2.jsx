@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 const BoughtTogether2 = () => {
   const {
     addProductToCart,
@@ -60,7 +61,7 @@ const BoughtTogether2 = () => {
               <a href="#">
                 <Image
                   alt={product.title}
-                  src={product.imgSrc}
+                  src={safeImage(product.imgSrc)}
                   width={600}
                   height={800}
                 />

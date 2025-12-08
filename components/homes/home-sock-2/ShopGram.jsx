@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function ShopGram() {
   return (
     <section className="flat-spacing">
@@ -50,7 +51,7 @@ export default function ShopGram() {
                     className="lazyload img-hover"
                     data-src={item.imgSrc}
                     alt={item.alt}
-                    src={item.imgSrc}
+                    src={safeImage(item.imgSrc)}
                     width={375}
                     height={375}
                   />

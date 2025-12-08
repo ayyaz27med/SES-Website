@@ -3,6 +3,7 @@ import { brands } from "@/data/brands";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Brands({ parentClass = "flat-spacing-5 line-top" }) {
   return (
     <section className={parentClass}>
@@ -32,7 +33,7 @@ export default function Brands({ parentClass = "flat-spacing-5 line-top" }) {
             <a href="#" className="brand-item">
               <Image
                 alt={brand.alt}
-                src={brand.imgSrc}
+                src={safeImage(brand.imgSrc)}
                 width={brand.width}
                 height={brand.height}
               />

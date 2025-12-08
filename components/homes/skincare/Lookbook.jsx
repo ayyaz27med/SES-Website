@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import { useContextElement } from "@/context/Context";
 import { Pagination } from "swiper/modules";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Lookbook() {
   const { setQuickAddItem } = useContextElement();
   const swiperRef = useRef(null);
@@ -107,7 +108,7 @@ export default function Lookbook() {
                         className="lazyload img-product"
                         data-src={product.imgSrc}
                         alt="image-product"
-                        src={product.imgSrc}
+                        src={safeImage(product.imgSrc)}
                         width={600}
                         height={800}
                       />
@@ -115,7 +116,7 @@ export default function Lookbook() {
                         className="lazyload img-hover"
                         data-src={product.imgHover}
                         alt="image-product"
-                        src={product.imgHover}
+                        src={safeImage(product.imgHover)}
                         width={600}
                         height={800}
                       />

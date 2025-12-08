@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Pagination } from "swiper/modules";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   return (
     <section className="flat-spacing">
@@ -58,7 +59,7 @@ export default function Collections() {
                         <div className="loobook-product">
                           <div className="img-style">
                             <Image
-                              src={item.lookbook.imgSrc}
+                              src={safeImage(item.lookbook.imgSrc)}
                               alt="lookbook"
                               width={300}
                               height={400}

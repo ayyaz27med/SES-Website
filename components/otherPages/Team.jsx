@@ -3,6 +3,7 @@ import Image from "next/image";
 import { teamMembers } from "@/data/team";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 
 export default function Team() {
   return (
@@ -41,7 +42,7 @@ export default function Team() {
                     className="lazyload"
                     data-src={member.imgSrc}
                     alt={member.alt}
-                    src={member.imgSrc}
+                    src={safeImage(member.imgSrc)}
                     width={600}
                     height={600}
                   />

@@ -4,6 +4,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function ShopGram() {
   return (
     <section>
@@ -35,7 +36,7 @@ export default function ShopGram() {
                 <Image
                   className="lazyload img-hover"
                   alt="image-gallery"
-                  src={product.imgSrc}
+                  src={safeImage(product.imgSrc)}
                   width={640}
                   height={640}
                 />

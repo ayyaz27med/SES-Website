@@ -1,5 +1,6 @@
 "use client";
 
+import safeImage from "@/utlis/safeImage";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -56,7 +57,7 @@ export default function CurrencySelect({ topStart = false, light = false }) {
           <div className="filter-option-inner">
             <div className="filter-option-inner-inner">
               <Image
-                src={selected.thumbnail}
+                src={safeImage(selected.thumbnail)}
                 width="640"
                 height="480"
                 alt="image"
@@ -97,7 +98,7 @@ export default function CurrencySelect({ topStart = false, light = false }) {
                 >
                   <span className="text">
                     <Image
-                      src={elm.thumbnail}
+                      src={safeImage(elm.thumbnail)}
                       width="640"
                       height="480"
                       alt="image"

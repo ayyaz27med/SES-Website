@@ -4,6 +4,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Categories() {
   return (
     <section className="layout-sw-center pl-xl">
@@ -35,7 +36,7 @@ export default function Categories() {
                   className="lazyload"
                   data-src={item.imgSrc}
                   alt={item.alt}
-                  src={item.imgSrc}
+                  src={safeImage(item.imgSrc)}
                   width={626}
                   height={833}
                 />

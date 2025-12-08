@@ -5,6 +5,7 @@ import Image from "next/image";
 import { blogPosts6 } from "@/data/blogs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function RelatedBlogs() {
   return (
     <section className="flat-spacing">
@@ -50,7 +51,7 @@ export default function RelatedBlogs() {
                       <Image
                         className="lazyload"
                         alt=""
-                        src={post.imgSrc}
+                        src={safeImage(post.imgSrc)}
                         width={615}
                         height={461}
                       />

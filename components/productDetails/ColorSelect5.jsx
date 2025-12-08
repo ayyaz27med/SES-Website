@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 const colorOptionsRounded = [
   {
     id: "values-white",
@@ -61,7 +62,7 @@ export default function ColorSelect5({ activeColor = "", setActiveColor }) {
                 className="ls-is-cached lazyloaded"
                 data-src={option.imgSrc}
                 alt={option.imgAlt}
-                src={option.imgSrc}
+                src={safeImage(option.imgSrc)}
                 width={80}
                 height={80}
               />

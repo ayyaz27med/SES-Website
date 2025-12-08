@@ -3,6 +3,7 @@ import Pagination from "../common/Pagination";
 import Link from "next/link";
 import Image from "next/image";
 import { blogPosts6 } from "@/data/blogs";
+import safeImage from "@/utlis/safeImage";
 export default function BlogGrid() {
   return (
     <div className="main-content-page">
@@ -17,7 +18,7 @@ export default function BlogGrid() {
                       className="lazyload"
                       data-src={blog.imgSrc}
                       alt={blog.alt}
-                      src={blog.imgSrc}
+                      src={safeImage(blog.imgSrc)}
                       width={615}
                       height={461}
                     />

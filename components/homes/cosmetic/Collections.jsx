@@ -2,6 +2,7 @@ import { collections6 } from "@/data/collections";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   return (
     <section className="flat-spacing">
@@ -24,7 +25,7 @@ export default function Collections() {
                   className="ls-is-cached lazyloaded"
                   data-src={collection.imgSrc}
                   alt={collection.alt}
-                  src={collection.imgSrc}
+                  src={safeImage(collection.imgSrc)}
                   width={615}
                   height={615}
                 />

@@ -4,6 +4,7 @@ import { galleryItems } from "@/data/collections";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useContextElement } from "@/context/Context";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   const { setQuickViewItem } = useContextElement();
   return (
@@ -37,7 +38,7 @@ export default function Collections() {
                   className="lazyload img-hover"
                   data-src={item.imgSrc}
                   alt={item.alt}
-                  src={item.imgSrc}
+                  src={safeImage(item.imgSrc)}
                   width={708}
                   height={709}
                 />

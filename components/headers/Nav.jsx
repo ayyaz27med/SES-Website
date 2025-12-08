@@ -18,6 +18,7 @@ import {
   swatchLinks,
 } from "@/data/menu";
 import { usePathname } from "next/navigation";
+import safeImage from "@/utlis/safeImage";
 export default function Nav() {
   const pathname = usePathname();
   return (
@@ -54,7 +55,7 @@ export default function Nav() {
                         className="lazyload"
                         data-src={item.src}
                         alt={item.alt}
-                        src={item.src}
+                        src={safeImage(item.src)}
                         width={273}
                         height={300}
                       />

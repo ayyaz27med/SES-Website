@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 const colorOptions = [
   {
     id: "values-beige",
@@ -61,7 +62,7 @@ export default function ColorSelect4({ activeColor = "", setActiveColor }) {
                 className="ls-is-cached lazyloaded"
                 data-src={option.imgSrc}
                 alt={option.imgAlt}
-                src={option.imgSrc}
+                src={safeImage(option.imgSrc)}
                 width={600}
                 height={800}
               />

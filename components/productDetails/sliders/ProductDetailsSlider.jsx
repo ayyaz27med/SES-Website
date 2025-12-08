@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 
 export default function ProductDetailsSlider({
   firstItem,
@@ -140,7 +141,7 @@ export default function ProductDetailsSlider({
                 className="lazyload"
                 data-src={slide}
                 alt={slide}
-                src={slide || null}
+                src={safeImage(slide)}
                 width={600}
                 height={800}
               />
@@ -173,7 +174,7 @@ export default function ProductDetailsSlider({
                 data-zoom={slide}
                 data-src={slide}
                 alt={slide}
-                src={slide || null}
+                src={safeImage(slide)}
                 width={600}
                 height={800}
               />

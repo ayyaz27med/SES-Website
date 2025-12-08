@@ -4,6 +4,7 @@ import { collectionsData3 } from "@/data/collections";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { Navigation, Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   return (
     <section className="flat-spacing-2">
@@ -62,7 +63,7 @@ export default function Collections() {
                         className="lazyload"
                         data-src={collection.image}
                         alt="collection-img"
-                        src={collection.image}
+                        src={safeImage(collection.image)}
                         width={468}
                         height={624}
                       />

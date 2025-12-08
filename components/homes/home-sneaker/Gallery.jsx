@@ -5,6 +5,7 @@ import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Gallery() {
   return (
     <section className="py_20 pt-0">
@@ -48,7 +49,7 @@ export default function Gallery() {
                     className="lazyload img-hover"
                     data-src={item.imgSrc}
                     alt={item.alt}
-                    src={item.imgSrc}
+                    src={safeImage(item.imgSrc)}
                     width={item.width}
                     height={item.height}
                   />

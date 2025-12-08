@@ -1,6 +1,7 @@
 "use client";
 
 import { collections2 } from "@/data/collections";
+import safeImage from "@/utlis/safeImage";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -28,7 +29,7 @@ export default function ShopCategories2() {
                     className="lazyload"
                     data-src={slide.imgSrc}
                     alt={slide.alt}
-                    src={slide.imgSrc}
+                    src={safeImage(slide.imgSrc)}
                     width={363}
                     height={483}
                   />

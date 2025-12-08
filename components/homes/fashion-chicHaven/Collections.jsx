@@ -4,6 +4,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   return (
     <section className="space-30">
@@ -28,7 +29,7 @@ export default function Collections() {
                   className="lazyload"
                   data-src={slide.imageSrc}
                   alt={slide.alt}
-                  src={slide.imageSrc}
+                  src={safeImage(slide.imageSrc)}
                   width={900}
                   height={675}
                 />

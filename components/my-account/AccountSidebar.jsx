@@ -8,6 +8,7 @@ import ToastHelper from "@/helpers/toastHelper";
 import useUploadProfileImage from "@/services/tanstack/mutations/useUploadProfileImage";
 import { queryClient } from "@/utlis/queryClient";
 import { queryKeys } from "@/services/tanstack/queries";
+import safeImage from "@/utlis/safeImage";
 
 export default function AccountSidebar({
   activeTab,
@@ -61,7 +62,7 @@ export default function AccountSidebar({
         <div className="account-avatar">
           <label className="image cursor-pointer position-relative">
             <Image
-              src={preview || userDetails?.profile_photo || "/images/avatar/user-account.jpg"}
+              src={safeImage(preview || userDetails?.profile_photo || "/images/avatar/user-account.jpg")}
               alt="Profile"
               width={200}
               height={200}

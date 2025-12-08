@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Pagination } from "swiper/modules";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Lookbook() {
   const { setQuickViewItem } = useContextElement();
   return (
@@ -49,7 +50,7 @@ export default function Lookbook() {
                   className="lazyload"
                   data-src={item.imgSrcBanner}
                   alt={item.alt}
-                  src={item.imgSrcBanner}
+                  src={safeImage(item.imgSrcBanner)}
                   width={960}
                   height={1200}
                 />
@@ -69,7 +70,7 @@ export default function Lookbook() {
                       <div className="img-style">
                         <Image
                           alt="img"
-                          src={item.imgSrc}
+                          src={safeImage(item.imgSrc)}
                           width={300}
                           height={400}
                         />

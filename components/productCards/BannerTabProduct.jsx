@@ -1,6 +1,7 @@
 "use client";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function BannerTabProduct({ product }) {
   const { setQuickViewItem } = useContextElement();
   return (
@@ -9,7 +10,7 @@ export default function BannerTabProduct({ product }) {
         <Image
           className="lazyload"
           alt="banner-cls"
-          src={product.imgSrc}
+          src={safeImage(product.imgSrc)}
           width={710}
           height={945}
         />

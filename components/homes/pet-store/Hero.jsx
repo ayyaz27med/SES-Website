@@ -5,6 +5,7 @@ import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <section className="flat-spacing-7">
@@ -232,7 +233,7 @@ export default function Hero() {
                     <div className="wrap-slider">
                       <Image
                         alt="slideshow"
-                        src={slide.imageSrc}
+                        src={safeImage(slide.imageSrc)}
                         width={1441}
                         height={702}
                       />

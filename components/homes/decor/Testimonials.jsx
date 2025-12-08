@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useContextElement } from "@/context/Context";
 import { Pagination } from "swiper/modules";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 
 export default function Testimonials() {
   const { setQuickViewItem } = useContextElement();
@@ -50,7 +51,7 @@ export default function Testimonials() {
                   <Image
                     data-src={testimonial.imgSrc}
                     alt={testimonial.alt}
-                    src={testimonial.imgSrc}
+                    src={safeImage(testimonial.imgSrc)}
                     width={615}
                     height={410}
                   />
@@ -119,7 +120,7 @@ export default function Testimonials() {
                     <div className="avatar avt-60 round">
                       <Image
                         alt="avt"
-                        src={testimonial.avatarSrc}
+                        src={safeImage(testimonial.avatarSrc)}
                         width={600}
                         height={800}
                       />

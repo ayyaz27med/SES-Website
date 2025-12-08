@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Drift from "drift-zoom";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Grid3({
   activeColor = "gray",
   setActiveColor = () => {},
@@ -153,7 +154,7 @@ export default function Grid3({
               data-zoom={image.src}
               data-src={image.src}
               alt={image.alt}
-              src={image.src}
+              src={safeImage(image.src)}
               width={600}
               height={800}
             />

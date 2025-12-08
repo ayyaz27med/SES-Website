@@ -1,6 +1,7 @@
 "use client";
 
 import { collections } from "@/data/collections";
+import safeImage from "@/utlis/safeImage";
 import Image from "next/image";
 import Link from "next/link";
 import { Navigation, Pagination } from "swiper/modules";
@@ -39,7 +40,7 @@ export default function ShopCategories() {
                     className="lazyload"
                     data-src={collection.imgSrc}
                     alt={collection.alt}
-                    src={collection.imgSrc}
+                    src={safeImage(collection.imgSrc)}
                     width={363}
                     height={363}
                   />

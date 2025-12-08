@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { demoItems } from "@/data/menu";
 import { usePathname } from "next/navigation";
+import safeImage from "@/utlis/safeImage";
 export default function DemoModal() {
   const pathname = usePathname();
   return (
@@ -25,7 +26,7 @@ export default function DemoModal() {
                         className="lazyload"
                         data-src={item.src}
                         alt={item.alt}
-                        src={item.src}
+                        src={safeImage(item.src)}
                         width={273}
                         height={300}
                       />

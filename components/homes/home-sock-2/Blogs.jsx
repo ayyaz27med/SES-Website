@@ -2,6 +2,7 @@ import { newsItems2 } from "@/data/blogs";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Blogs() {
   return (
     <section className="flat-spacing bg-surface">
@@ -24,7 +25,7 @@ export default function Blogs() {
                   className="lazyload"
                   data-src={item.imgSrc}
                   alt={item.alt}
-                  src={item.imgSrc}
+                  src={safeImage(item.imgSrc)}
                   width={320}
                   height={240}
                 />

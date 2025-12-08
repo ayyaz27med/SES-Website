@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import { allProducts } from "@/data/products";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 
 export default function Wishlist() {
   const { removeFromWishlist, wishList } = useContextElement();
@@ -35,7 +36,7 @@ export default function Wishlist() {
                             <Image
                               className="lazyload"
                               alt=""
-                              src={elm.imgSrc}
+                              src={safeImage(elm.imgSrc)}
                               width={600}
                               height={800}
                             />

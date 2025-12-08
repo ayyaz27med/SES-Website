@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { newsItems3 } from "@/data/blogs";
+import safeImage from "@/utlis/safeImage";
 export default function Blogs() {
   return (
     <section className="flat-spacing pt-0">
@@ -20,7 +21,7 @@ export default function Blogs() {
                   className="lazyload"
                   data-src={item.imageSrc}
                   alt=""
-                  src={item.imageSrc}
+                  src={safeImage(item.imageSrc)}
                   width={320}
                   height={240}
                 />

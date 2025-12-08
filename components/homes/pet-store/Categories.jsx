@@ -4,6 +4,7 @@ import { categories6 } from "@/data/collections";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function Categories() {
   return (
     <section className="flat-spacing section-pet-store">
@@ -51,7 +52,7 @@ export default function Categories() {
                   <div className="image">
                     <Image
                       alt=""
-                      src={category.imageSrc}
+                      src={safeImage(category.imageSrc)}
                       width={117}
                       height={116}
                     />

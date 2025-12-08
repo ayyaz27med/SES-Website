@@ -4,6 +4,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function BannerCollections() {
   return (
     <section>
@@ -26,7 +27,7 @@ export default function BannerCollections() {
                     className="lazyload"
                     data-src={collection.imgSrc}
                     alt={collection.alt}
-                    src={collection.imgSrc}
+                    src={safeImage(collection.imgSrc)}
                     width={1358}
                     height={956}
                   />

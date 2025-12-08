@@ -2,6 +2,7 @@
 
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -425,7 +426,7 @@ export default function Checkout() {
                       >
                         <Image
                           alt="img-product"
-                          src={elm.imgSrc}
+                          src={safeImage(elm.imgSrc)}
                           width={600}
                           height={800}
                         />

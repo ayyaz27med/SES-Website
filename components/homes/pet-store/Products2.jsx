@@ -6,6 +6,7 @@ import Link from "next/link";
 import CountdownTimer from "@/components/common/Countdown";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Products2() {
   const {
     addToWishlist,
@@ -57,7 +58,7 @@ export default function Products2() {
                         className="lazyload img-product"
                         data-src={product.imgSrc}
                         alt="image-product"
-                        src={product.imgSrc}
+                        src={safeImage(product.imgSrc)}
                         width={600}
                         height={800}
                       />
@@ -65,7 +66,7 @@ export default function Products2() {
                         className="lazyload img-hover"
                         data-src={product.imgHoverSrc}
                         alt="image-product"
-                        src={product.imgHoverSrc}
+                        src={safeImage(product.imgHoverSrc)}
                         width={600}
                         height={800}
                       />

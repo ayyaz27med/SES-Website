@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import { allProducts } from "@/data/products";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Compare() {
   const { removeFromCompareItem, compareItem, setCompareItem } =
     useContextElement();
@@ -100,7 +101,7 @@ export default function Compare() {
                             <Image
                               className="lazyload"
                               alt=""
-                              src={elm.imgSrc}
+                              src={safeImage(elm.imgSrc)}
                               width={600}
                               height={800}
                             />

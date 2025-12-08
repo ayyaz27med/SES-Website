@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Navigation, Pagination } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <div className="slider-padding">
@@ -38,7 +39,7 @@ export default function Hero() {
                   <Image
                     key={idx}
                     alt="fashion-slideshow"
-                    src={image}
+                    src={safeImage(image)}
                     width={910}
                     height={780}
                   />

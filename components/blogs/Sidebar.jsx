@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { blogPosts6 } from "@/data/blogs";
+import safeImage from "@/utlis/safeImage";
 export default function Sidebar() {
   return (
     <div className="sidebar maxw-360">
@@ -61,7 +62,7 @@ export default function Sidebar() {
                 <Image
                   className="lazyload"
                   alt=""
-                  src={post.imgSrc}
+                  src={safeImage(post.imgSrc)}
                   width={540}
                   height={360}
                 />

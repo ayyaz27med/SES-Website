@@ -4,12 +4,13 @@ import Link from "next/link";
 import React from "react";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function LookbookProduct({ product, styleClass = "style-row" }) {
   const { setQuickViewItem } = useContextElement();
   return (
     <div className={`loobook-product ${styleClass} `}>
       <div className="img-style">
-        <Image alt="img" src={product.imgSrc} width={151} height={151} />
+        <Image alt="img" src={safeImage(product.imgSrc)} width={151} height={151} />
       </div>
       <div className="content">
         <div className="info">

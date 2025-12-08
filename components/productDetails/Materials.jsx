@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 
 const materials = [
   {
@@ -65,7 +66,7 @@ const SelectMaterial = () => {
               <Image
                 className="lazyloaded"
                 data-src={material.imgSrc}
-                src={material.imgSrc}
+                src={safeImage(material.imgSrc)}
                 alt={material.alt}
                 width={120}
                 height={160}

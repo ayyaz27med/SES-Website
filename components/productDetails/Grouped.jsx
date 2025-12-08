@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Grouped() {
   // State to manage products with their quantities and selection status
   const {
@@ -77,7 +78,7 @@ export default function Grouped() {
             <a href="#">
               <Image
                 alt={product.title}
-                src={product.imgSrc}
+                src={safeImage(product.imgSrc)}
                 width={600}
                 height={800}
               />

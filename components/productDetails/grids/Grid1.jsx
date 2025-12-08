@@ -5,6 +5,7 @@ import Drift from "drift-zoom";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import { items } from "@/data/singleProductSliders";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Grid1({
   activeColor = "beige",
   setActiveColor = () => {},
@@ -165,7 +166,7 @@ export default function Grid1({
               className="tf-image-zoom lazyload radius-12 w-100"
               data-zoom={link.zoom}
               alt={link.alt}
-              src={link.src}
+              src={safeImage(link.src)}
               width={link.width}
               height={link.height}
             />

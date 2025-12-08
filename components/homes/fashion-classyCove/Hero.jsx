@@ -5,6 +5,7 @@ import { EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <div className="tf-slideshow slider-default slider-effect-fade">
@@ -28,7 +29,7 @@ export default function Hero() {
             <div className="wrap-slider">
               <Image
                 alt={item.alt}
-                src={item.imgSrc}
+                src={safeImage(item.imgSrc)}
                 width={1920}
                 height={803}
               />

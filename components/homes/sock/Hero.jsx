@@ -4,6 +4,7 @@ import { EffectFade, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <div className="tf-slideshow slideshow-effect slider-nav-sw slider-effect-fade bg-surface">
@@ -58,7 +59,7 @@ export default function Hero() {
                   className="lazyload"
                   data-src={slide.imgSrc}
                   alt="fashion-slideshow"
-                  src={slide.imgSrc}
+                  src={safeImage(slide.imgSrc)}
                   width={1441}
                   height={1200}
                 />

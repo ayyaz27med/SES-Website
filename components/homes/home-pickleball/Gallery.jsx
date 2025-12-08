@@ -3,6 +3,7 @@ import { products56 } from "@/data/products";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 export default function Gallery() {
   return (
     <section className="pb-10">
@@ -32,7 +33,7 @@ export default function Gallery() {
                   className="lazyload img-hover"
                   data-src={item.imgSrc}
                   alt={item.alt}
-                  src={item.imgSrc}
+                  src={safeImage(item.imgSrc)}
                   width={item.width}
                   height={item.height}
                 />

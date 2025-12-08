@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import safeImage from "@/utlis/safeImage";
 
 export default function Brands() {
   return (
@@ -36,7 +37,7 @@ export default function Brands() {
               <a href="#" className="brand-item">
                 <Image
                   alt={brand.alt}
-                  src={brand.imageSrc}
+                  src={safeImage(brand.imageSrc)}
                   width={brand.width}
                   height={brand.height}
                 />

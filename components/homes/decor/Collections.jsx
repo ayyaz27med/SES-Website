@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
 import { Navigation } from "swiper/modules";
+import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   return (
     <section className="flat-spacing">
@@ -40,7 +41,7 @@ export default function Collections() {
                       className="lazyload"
                       data-src={collection.imgSrc}
                       alt={`banner-cls-${index + 1}`}
-                      src={collection.imgSrc}
+                      src={safeImage(collection.imgSrc)}
                       width={657}
                       height={875}
                     />

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import safeImage from "@/utlis/safeImage";
 
 export default function Hero() {
   return (
@@ -27,7 +28,7 @@ export default function Hero() {
           <SwiperSlide className="swiper-slide" key={slide.id}>
             <div className="wrap-slider">
               <Image
-                src={slide.imageSrc}
+                src={safeImage(slide.imageSrc)}
                 alt={slide.alt}
                 className="lazyload"
                 width={1920}

@@ -7,6 +7,7 @@ import { Pagination } from "swiper/modules";
 import { testimonialsWithProduct9 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function Testimonials({ parentClass = "flat-spacing" }) {
   const { setQuickViewItem } = useContextElement();
   const [expandedStates, setExpandedStates] = React.useState(
@@ -144,7 +145,7 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
                       <div className="avatar avt-60 round">
                         <Image
                           alt="avt"
-                          src={testimonial.avatar}
+                          src={safeImage(testimonial.avatar)}
                           width={90}
                           height={91}
                         />

@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import QuantitySelect from "./QuantitySelect";
 import SizeSelect2 from "./SideSelect2";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 
 export default function ProductStikyBottom() {
   const {
@@ -31,7 +32,7 @@ export default function ProductStikyBottom() {
                   <Image
                     className="lazyload"
                     alt=""
-                    src={products41[2].imgSrc}
+                    src={safeImage(products41[2].imgSrc)}
                     width={600}
                     height={800}
                   />

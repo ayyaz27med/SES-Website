@@ -6,6 +6,7 @@ import { useContextElement } from "@/context/Context";
 import Image from "next/image";
 import { Pagination } from "swiper/modules";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function LookBook() {
   const { setQuickViewItem } = useContextElement();
   return (
@@ -45,7 +46,7 @@ export default function LookBook() {
                   <Image
                     className="lazyload"
                     alt={slide.imgAlt}
-                    src={slide.imgSrcBanner}
+                    src={safeImage(slide.imgSrcBanner)}
                     width={slide.imgWidth}
                     height={slide.imgHeight}
                   />
@@ -65,7 +66,7 @@ export default function LookBook() {
                         <div className="img-style">
                           <Image
                             alt="img"
-                            src={slide.imgSrc}
+                            src={safeImage(slide.imgSrc)}
                             width={300}
                             height={400}
                           />

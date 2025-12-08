@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import { products41 } from "@/data/products";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
+import safeImage from "@/utlis/safeImage";
 export default function CartModal() {
   const {
     cartProducts,
@@ -35,7 +36,7 @@ export default function CartModal() {
                         className="lazyload"
                         data-src={product.imgSrc}
                         alt={product.alt}
-                        src={product.imgSrc}
+                        src={safeImage(product.imgSrc)}
                         width={600}
                         height={800}
                       />
@@ -105,7 +106,7 @@ export default function CartModal() {
                               <Image
                                 className="lazyload"
                                 alt=""
-                                src={product.imgSrc}
+                                src={safeImage(product.imgSrc)}
                                 width={600}
                                 height={800}
                               />

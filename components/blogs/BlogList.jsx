@@ -4,6 +4,7 @@ import Pagination from "../common/Pagination";
 import Link from "next/link";
 import Image from "next/image";
 import { blogPosts6 } from "@/data/blogs";
+import safeImage from "@/utlis/safeImage";
 export default function BlogList() {
   return (
     <div className="main-content-page">
@@ -16,7 +17,7 @@ export default function BlogList() {
                   <Image
                     className="lazyload"
                     alt=""
-                    src={post.imgSrc}
+                    src={safeImage(post.imgSrc)}
                     width={600}
                     height={399}
                   />

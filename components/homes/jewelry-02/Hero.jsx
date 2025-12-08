@@ -2,6 +2,7 @@ import { banners } from "@/data/collections";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import safeImage from "@/utlis/safeImage";
 export default function Hero() {
   return (
     <section className="">
@@ -20,7 +21,7 @@ export default function Hero() {
                     <Image
                       data-src={banner.imgSrc}
                       alt={banner.alt}
-                      src={banner.imgSrc}
+                      src={safeImage(banner.imgSrc)}
                       width={946}
                       height={1260}
                     />
