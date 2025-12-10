@@ -1,11 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 export default function WhatsappButton({ hasPaddingBottom = false }) {
-  const router = useRouter();
-  const handleClick = (e) => {
-    router.push("https://wa.me/255710071612");
+  const handleClick = () => {
+    window.open("https://wa.me/255710071612", "_blank");
   };
 
   return (

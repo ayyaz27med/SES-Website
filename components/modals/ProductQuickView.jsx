@@ -19,7 +19,7 @@ export default function ProductQuickView() {
     quickViewItemId,
     quickViewItem
   } = useContextElement();
-  const { data, isLoading } = useProductDetails(quickViewItemId || quickViewItem?.id);
+  const { data, isLoading } = useProductDetails(quickViewItemId);
   const product = data;
 
   const categoriesName = data?.category.map(c => c.name).join(", ");

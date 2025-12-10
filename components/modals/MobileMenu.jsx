@@ -8,6 +8,17 @@ import useCategories from "@/services/tanstack/queries/useCategories";
 import MobileNavbarItem from "../headers/MobileNavbarItem";
 import ToastHelper from "@/helpers/toastHelper";
 
+const desiredOrder = [
+  "Skincare",
+  "Bodycare",
+  "Wellbeing",
+  "Haircare",
+  "Makeup",
+  "Baby & Child",
+  "Fragrance",
+  "Gifts",
+];
+
 export default function MobileMenu() {
   const pathname = usePathname();
   const { isAuthenticated, clearSession } = useSession();
@@ -27,6 +38,18 @@ export default function MobileMenu() {
   });
   const brands = brandsData?.data || [];
   const categories = categoriesData?.data || [];
+
+  const unique = categories.reduce((acc, curr) => {
+    if (!acc.some((item) => item.name === curr.name)) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  const sortedCategories = unique.sort(
+    (a, b) =>
+      desiredOrder.indexOf(a.name) - desiredOrder.indexOf(b.name)
+  );
 
   const handleLogout = () => {
     clearSession();
@@ -102,14 +125,20 @@ export default function MobileMenu() {
                   <span className="btn-open-sub" />
                 </a>
                 <div id="dropdown-menu-one" className="collapse">
+                  <Link
+                    href="/products"
+                    className="menu-heading text-decoration-underline sub-nav-link fw-6 pl_4"
+                  >
+                    View All Brands
+                  </Link>
                   <ul className="sub-nav-menu">
                     {brands.map((brand, i) => (
                       <li key={i}>
                         <Link
-                          href={brand?.id}
+                          href={`/products?brand=${brand?.id}`}
                           className={`sub-nav-link ${pathname.split("/")[1] == brand?.href?.split("/")[1]
-                              ? "active"
-                              : ""
+                            ? "active"
+                            : ""
                             } `}
                         >
                           {brand.name}
@@ -120,9 +149,14 @@ export default function MobileMenu() {
                 </div>
               </li>
               {!isCategoriesLoading &&
-                categories.map((category) => {
+                sortedCategories.map((category) => {
                   return <MobileNavbarItem category={category} key={category?.id} />;
                 })}
+              <li className="nav-mb-item">
+                <Link href="#" className="mb-menu-link">
+                  Sale
+                </Link>
+              </li>
               <li className="nav-mb-item">
                 <Link href="/blog-list" className="mb-menu-link">
                   Blog

@@ -15,7 +15,7 @@ export default function Hero() {
         slidesPerView={1}
         loop={true}
         modules={[EffectFade, Autoplay, Pagination]}
-        // autoplay={{ delay: 3000 }}
+        autoplay={{ delay: 3000 }}
         dir="ltr"
         pagination={{
           clickable: true,

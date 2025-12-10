@@ -3,7 +3,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-import { Pagination } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import { testimonialsWithProduct9 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
@@ -45,10 +45,14 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
                 pagination: { clickable: true },
               },
             }}
-            modules={[Pagination]}
+            modules={[Pagination, Autoplay]}
             pagination={{
               clickable: true,
               el: ".spd7",
+            }}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
             }}
             dir="ltr"
             loop={true}

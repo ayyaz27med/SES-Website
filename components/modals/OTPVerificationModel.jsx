@@ -12,16 +12,20 @@ export default function OTPVerificationModel({ loginModalRef }) {
   const { setSession, id } = useSession();
   const userId = id;
 
-  const { mutate: verifyOtp, isPending: isVerifyOtp } = useVerifyOtp({
+  const { mutate: verifyOtp } = useVerifyOtp({
     onSuccess: async (data) => {
-      const { data: userData, message } = data
+      const { data: userData, message, status } = data
+      if (!status) {
+        ToastHelper.error(message);
+        return;
+      }
       setSession({
         id: userData?.id,
         token: userData?.token,
         user: userData
       });
       loginModalRef.close()
-      ToastHelper.success(message || 'OTP verified successfully');
+      ToastHelper.success(message);
       setTimeout(() => {
         router.push('/')
       }, 1000);

@@ -151,7 +151,7 @@ export default function Footer1({
                       </p>
                     </div>
                     <div className="tf-payment">
-                      <p className="text-caption-1">Payment:</p>
+                      <p className="text-caption-1">We accept:</p>
                       <ul>
                         <li>
                           <Image

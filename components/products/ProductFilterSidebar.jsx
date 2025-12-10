@@ -6,7 +6,7 @@ import {
 import { useRouter } from "next/navigation";
 import RangeSlider from "react-range-slider-input";
 
-export default function ProductFilterSidebar({ allProps, brands, categories, category_id, subCategories, concerns, suitable, ingredients }) {
+export default function ProductFilterSidebar({ allProps, brands, categories, subCategories, concerns, suitable, ingredients }) {
   const router = useRouter();
   return (
     <div className="sidebar-filter canvas-filter left">
@@ -32,29 +32,31 @@ export default function ProductFilterSidebar({ allProps, brands, categories, cat
               ))}
             </ul>
           </div>
-          <div className="widget-facet facet-fieldset">
-            <h6 className="facet-title">Sub Categories</h6>
-            <div className="box-fieldset-item">
-              {subCategories.map((subCategory) => (
-                <fieldset
-                  key={subCategory.id}
-                  className="fieldset-item"
-                  onClick={() => allProps.setSubCategories(subCategory.name)}
-                >
-                  <input
-                    type="checkbox"
-                    name="subCategory"
-                    className="tf-check"
-                    readOnly
-                    checked={allProps.selectedSubCategories.includes(subCategory.name)}
-                  />
-                  <label>
-                    {subCategory.name}
-                  </label>
-                </fieldset>
-              ))}
+          {subCategories?.length > 0 && (
+            <div className="widget-facet facet-fieldset">
+              <h6 className="facet-title">Sub Categories</h6>
+              <div className="box-fieldset-item">
+                {subCategories.map((subCategory) => (
+                  <fieldset
+                    key={subCategory.id}
+                    className="fieldset-item"
+                    onClick={() => allProps.setSubCategories(subCategory.name)}
+                  >
+                    <input
+                      type="checkbox"
+                      name="subCategory"
+                      className="tf-check"
+                      readOnly
+                      checked={allProps.selectedSubCategories.includes(subCategory.name)}
+                    />
+                    <label>
+                      {subCategory.name}
+                    </label>
+                  </fieldset>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <div className="widget-facet facet-price">
             <h6 className="facet-title">Price</h6>
             <RangeSlider

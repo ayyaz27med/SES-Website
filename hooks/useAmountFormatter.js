@@ -1,6 +1,6 @@
 
 export const formatAmount = (value) => {
-  if (value === null || value === undefined || value === "") return "0";
+  if (value === null || value === undefined || value === "") return null;
 
   const num = Number(value);
 

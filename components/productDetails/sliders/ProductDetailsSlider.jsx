@@ -140,7 +140,7 @@ export default function ProductDetailsSlider({
               <Image
                 className="lazyload"
                 data-src={slide}
-                alt={slide}
+                alt={`Product thumbnail image ${index + 1}`}
                 src={safeImage(slide)}
                 width={600}
                 height={800}
@@ -173,7 +173,7 @@ export default function ProductDetailsSlider({
                 className="tf-image-zoom lazyload"
                 data-zoom={slide}
                 data-src={slide}
-                alt={slide}
+                alt={`Product image ${index + 1}`}
                 src={safeImage(slide)}
                 width={600}
                 height={800}

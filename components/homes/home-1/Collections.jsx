@@ -4,7 +4,7 @@ import { bestSelling } from "@/data/collections";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import safeImage from "@/utlis/safeImage";
 export default function Collections() {
   return (
@@ -31,15 +31,20 @@ export default function Collections() {
               480: { slidesPerView: 2, spaceBetween: 15 },
               0: { slidesPerView: 2, spaceBetween: 15 },
             }}
-            modules={[Pagination, Navigation]}
+            modules={[Pagination, Navigation, Autoplay]}
             pagination={{
               clickable: true,
               el: ".spd54",
+            }}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
             }}
             navigation={{
               prevEl: ".snbp12",
               nextEl: ".snbn12",
             }}
+            loop={true}
           >
             {bestSelling.map((collection, index) => (
               <SwiperSlide key={index}>

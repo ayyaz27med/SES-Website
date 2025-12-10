@@ -9,20 +9,18 @@ import ProductDetailsSlider from "../sliders/ProductDetailsSlider";
 import Link from "next/link";
 import Image from "next/image";
 import ProductDescription from "../descriptions/ProductDescription";
+import statusFormatter from "@/utlis/statusFormatter";
 
 export default function Details({ id }) {
   const [activeColor, setActiveColor] = useState("gray");
   const [quantity, setQuantity] = useState(1);
   const stickyRef = React.useRef(null);
 
-
   const {
     addProductToCart,
     isAddedToCartProducts,
     addToWishlist,
     isAddedtoWishlist,
-    isAddedtoCompareItem,
-    addToCompareItem,
     cartProducts,
     updateQuantity,
   } = useContextElement();
@@ -99,7 +97,7 @@ export default function Details({ id }) {
                         )}
                       </div>
                       <p className="text text-line-clamp-4">
-                        {product?.descr.slice(0, 280) + "..."}
+                        {product?.descr ? product?.descr.slice(0, 280) + "..." : ''}
                         {product?.descr.length > 280 && (
                           <span
                             style={{ cursor: "pointer", color: "#3DAB25", marginLeft: 4 }}
@@ -148,12 +146,12 @@ export default function Details({ id }) {
                           <span className="tf-qty-price total-price">
                             {formatWithCurrency(isAddedToCartProducts(product?.id)
                               ? (
-                                (product.new_selling_price > 0 ? product.new_selling_price : product.selling_price) *
+                                (product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price) *
                                 cartProducts.filter(
                                   (elm) => elm.id == product?.id
                                 )[0].quantity
                               )
-                              : (product.new_selling_price > 0 ? product.new_selling_price : product.selling_price) * quantity)}{" "}
+                              : (product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price) * quantity)}{" "}
                           </span>
                         </a>
                         <div
@@ -263,7 +261,7 @@ export default function Details({ id }) {
                       </li>
                       <li>
                         <p className="text-caption-1">Available:</p>
-                        <p className="text-caption-1 text-1">Instock</p>
+                        <p className="text-caption-1 text-1">{statusFormatter(product?.stock_status)}</p>
                       </li>
                     </ul>
                   </div>

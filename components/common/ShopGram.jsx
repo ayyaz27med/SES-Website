@@ -4,7 +4,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Pagination } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import safeImage from "@/utlis/safeImage";
 export default function ShopGram({ parentClass = "" }) {
   return (
@@ -25,10 +25,14 @@ export default function ShopGram({ parentClass = "" }) {
             768: { slidesPerView: 3 },
             0: { slidesPerView: 2 },
           }}
-          modules={[Pagination]}
+          modules={[Pagination, Autoplay]}
           pagination={{
             clickable: true,
             el: ".spb222",
+          }}
+          autoplay={{
+            delay: 2000,
+            disableOnInteraction: false,
           }}
         >
           {products2.slice(0, 5).map((item, i) => (

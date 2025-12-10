@@ -46,6 +46,12 @@ export default function MobileNavbarItem({ category }) {
         <span className="btn-open-sub" />
       </a>
       <div id={category?.id} className="collapse">
+        <Link
+          href="/products"
+          className="menu-heading text-decoration-underline sub-nav-link fw-6 pl_4"
+        >
+          View All {category?.name}
+        </Link>
         {subCategorySections
           .filter(
             (section) => !section.isLoading && section.data.length > 0

@@ -8,7 +8,7 @@ import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import safeImage from "@/utlis/safeImage";
 export default function ProductsCards6({ product }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+  const [currentImage, setCurrentImage] = useState(product.main_picture);
 
   const {
     setQuickAddItem,
@@ -21,9 +21,10 @@ export default function ProductsCards6({ product }) {
     isAddedToCartProducts,
   } = useContextElement();
 
-  useEffect(() => {
-    setCurrentImage(product.imgSrc);
-  }, [product]);
+  if (!product) {
+    return null;
+  }
+
   return (
     <div
       className="card-product style-list"
@@ -35,48 +36,43 @@ export default function ProductsCards6({ product }) {
           <Image
             className="lazyload img-product"
             src={safeImage(currentImage)}
-            alt={product.title}
+            alt={`${product.pname} front view`}
             width={600}
             height={800}
           />
           <Image
             className="lazyload img-hover"
-            src={safeImage(product.imgHover)}
-            alt={product.title}
+            src={safeImage(currentImage)}
+            alt={`${product.pname} hover view`}
             width={600}
             height={800}
           />
         </Link>
-        {product.isOnSale && (
+        {product.sales_percentage > 0 && (
           <div className="on-sale-wrap">
-            <span className="on-sale-item">-25%</span>
+            <span className="on-sale-item">-{product.sales_percentage}%</span>
           </div>
         )}
       </div>
       <div className="card-product-info">
         <Link href={`/product-detail/${product.id}`} className="title link">
-          {product.title}
+          {product.pname}
         </Link>
         <span className="price current-price">
-          {product.oldPrice && (
-            <span className="old-price">{formatWithCurrency(product.oldPrice)}</span>
-          )}{" "}
-          {formatWithCurrency(product.price)}
+          {product?.new_selling_price > 0 && <span className="old-price">{formatWithCurrency(product?.selling_price)}</span>}
+          {formatWithCurrency(product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price)}
         </span>
-        <p className="description text-secondary text-line-clamp-2">
-          The garments labelled as Committed are products that have been
-          produced using sustainable fibres or processes, reducing their
-          environmental impact.
-        </p>
+        {/* <p className="description text-secondary text-line-clamp-2">
+          {product?.descr}
+        </p> */}
         <div className="variant-wrap-list">
           {product.colors && (
             <ul className="list-color-product">
               {product.colors.map((color, index) => (
                 <li
                   key={index}
-                  className={`list-color-item color-swatch ${
-                    currentImage == color.imgSrc ? "active" : ""
-                  } `}
+                  className={`list-color-item color-swatch ${currentImage == color.imgSrc ? "active" : ""
+                    } `}
                   onMouseOver={() => setCurrentImage(color.imgSrc)}
                 >
                   <span className={`swatch-value ${color.bgColor}`} />

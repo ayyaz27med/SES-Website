@@ -49,7 +49,7 @@ export default function ProductCard({
           <Image
             className="lazyload img-product"
             src={safeImage(currentImage)}
-            alt={product.pname || product.title || "Product Image"}
+            alt={`${product.pname} front view`}
             width={600}
             height={800}
           />
@@ -57,127 +57,56 @@ export default function ProductCard({
           <Image
             className="lazyload img-hover"
             src={safeImage(currentImage)}
-            alt={product.pname || product.title || "Product Image"}
+            alt={`${product.pname} hover view`}
             width={600}
             height={800}
           />
         </Link>
-        {product.hotSale && (
+        {product?.sales_percentage && (
           <div className="marquee-product bg-main">
             <div className="marquee-wrapper">
-              <div className="initial-child-container">
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
+              {[...Array(5)].map((_, index) => (
+                <div className="initial-child-container" key={index}>
+                  <div className="marquee-child-item">
+                    <p className="font-2 text-btn-uppercase fw-6 text-white">
+                      LIMITED TIME SALE | {product?.sales_percentage}% OFF
+                    </p>
+                  </div>
+                  <div className="marquee-child-item">
+                    <span className="icon icon-lightning text-critical" />
+                  </div>
                 </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
-                </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
-                </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
-                </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
-                </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-              </div>
+              ))}
             </div>
             <div className="marquee-wrapper">
-              <div className="initial-child-container">
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
+              {[...Array(5)].map((_, index) => (
+                <div className="initial-child-container" key={index}>
+                  <div className="marquee-child-item">
+                    <p className="font-2 text-btn-uppercase fw-6 text-white">
+                      LIMITED TIME SALE | {product?.sales_percentage}% OFF
+                    </p>
+                  </div>
+                  <div className="marquee-child-item">
+                    <span className="icon icon-lightning text-critical" />
+                  </div>
                 </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
-                </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
-                </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
-                </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-                <div className="marquee-child-item">
-                  <p className="font-2 text-btn-uppercase fw-6 text-white">
-                    Hot Sale 25% OFF
-                  </p>
-                </div>
-                <div className="marquee-child-item">
-                  <span className="icon icon-lightning text-critical" />
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         )}
-        {product.isOnSale && (
+        {product.sales_percentage > 0 && (
           <div className="on-sale-wrap">
-            <span className="on-sale-item">-{product.salePercentage}</span>
+            <span className="on-sale-item">-{product.sales_percentage}</span>
           </div>
         )}
-        {product.countdown && (
+        {product.stock_status === 'out_of_stock' && (
           <div className="variant-wrap countdown-wrap">
             <div className="variant-box">
-              <div
-                className="js-countdown"
-                data-timer={product.countdown}
-                data-labels="D :,H :,M :,S"
-              >
-                <CountdownTimer />
+              <div className="js-countdown">
+                <div>Time's up!</div>
               </div>
             </div>
           </div>
-        )}
-        {product.oldPrice ? (
-          <div className="on-sale-wrap">
-            <span className="on-sale-item">-25%</span>
-          </div>
-        ) : (
-          ""
         )}
         <div className="list-product-btn">
           <a
@@ -245,8 +174,8 @@ export default function ProductCard({
           {product.pname}
         </Link>
         <span className="price">
-          {product.new_selling_price && <span className="old-price">{formatWithCurrency(product.selling_price)}</span>}
-          {formatWithCurrency(product.new_selling_price > 0 ? product.new_selling_price : product.selling_price)}
+          {product?.new_selling_price > 0 && <span className="old-price">{formatWithCurrency(product?.selling_price)}</span>}
+          {formatWithCurrency(product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price)}
         </span>
       </div>
     </div>

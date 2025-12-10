@@ -53,8 +53,8 @@ export default function Header({ fullWidth = false }) {
               <Image
                 alt=""
                 src="/images/logo/logo.png"
-                width={50}
-                height={50}
+                width={65}
+                height={65}
               />
             </Link>
           </div>

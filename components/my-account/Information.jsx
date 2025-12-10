@@ -14,6 +14,7 @@ export default function Information({ userDetails }) {
     name: userDetails?.name || "",
     email: userDetails?.email || "",
     mobile_no: userDetails?.mobile_no || "",
+    customer_language: userDetails?.customer_language || "",
   };
 
   const { mutate: updateProfile, isPending: isUpdatingProfile } =
@@ -21,10 +22,14 @@ export default function Information({ userDetails }) {
       onSuccess: async (data) => {
         const { data: userData, message } = data;
         setUser(userData);
-        ToastHelper.success(message || "OTP verified successfully");
+        ToastHelper.success(message);
         queryClient.invalidateQueries({
           queryKey: [queryKeys.userDetails],
         });
+      },
+      onError: (data) => {
+        const { message } = data;
+        ToastHelper.error(message);
       },
     });
 
@@ -46,23 +51,17 @@ export default function Information({ userDetails }) {
                 <div className="account-info">
                   <h5 className="title">Profile Information</h5>
                   <div className="tf-grid-layout lg-col-2 md-col-2 sm-col-2 mb_20">
-
-                    {/* FULL NAME */}
-                    <div className="col-12">
-                      <fieldset>
-                        <input
-                          type="text"
-                          placeholder="Name"
-                          name="name"
-                          value={formik.values.name}
-                          onChange={(e) =>
-                            formik.setFieldValue("name", e.target.value)
-                          }
-                        />
-                      </fieldset>
-                    </div>
-
-                    {/* EMAIL + PHONE */}
+                    <fieldset>
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        name="name"
+                        value={formik.values.name}
+                        onChange={(e) =>
+                          formik.setFieldValue("name", e.target.value)
+                        }
+                      />
+                    </fieldset>
                     <fieldset>
                       <input
                         type="email"
@@ -84,7 +83,12 @@ export default function Information({ userDetails }) {
                       />
                     </fieldset>
                     <fieldset>
-                      <LanguageFlagSelect topStart />
+                      <LanguageFlagSelect
+                        topStart
+                        value={formik.values.customer_language}
+                        placeholder="Select Language"
+                        onChange={(langValue) => formik.setFieldValue("customer_language", langValue)}
+                      />
                     </fieldset>
                   </div>
                   {/* </div> */}

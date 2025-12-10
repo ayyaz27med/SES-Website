@@ -1698,6 +1698,52 @@
   }
 }
 
+.modal-user-details {
+  .modal-dialog {
+    max-width: 660px !important;
+  }
+  .modal-content {
+    border: 0;
+    .modal-top {
+      position: relative;
+      border-radius: 10px 10px 0px 0px;
+      // overflow: hidden;
+      .icon {
+        position: absolute;
+        cursor: pointer;
+        top: 12px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        @include mixin.flex(center, center);
+        border-radius: 999px;
+        background-color: var(--white);
+        font-size: 16px;
+      }
+    }
+    .modal-bottom {
+      border-radius: 0px 0px 10px 10px;
+      background-color: var(--white);
+      padding: 40px 15px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 60%;
+      p {
+        margin-bottom: 8px;
+      }
+      h5 {
+        margin-bottom: 28px;
+      }
+    }
+    form {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 6px;
+    }
+  }
+}
+
 .hover-cursor-img {
   .hover-image {
     display: none;

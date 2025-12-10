@@ -83,25 +83,26 @@ export default function Products11() {
   const categories = categoriesData?.data || [];
 
   const debouncedPrice = useDebounce(price, 500);
-
+  console.log('selectedCategoryselectedCategory', selectedCategory)
   const buildProductParams = (override = {}) => {
     const applied = {
       price,
       ...override,
     };
 
-    const sort = productFilterOptions[sortingOption] || productFilterOptions["Sort by (Default)"];
-    console.log("selectedSubCategories", selectedSubCategories);
-    return {
+    const sort =
+      productFilterOptions[sortingOption] ||
+      productFilterOptions["Sort by (Default)"];
+
+    const params = {
       start: page,
       length,
       "order[0]": sort.key,
       "order[1]": sort.dir,
-      min_price: applied.price[0],
-      max_price: applied.price[1],
+      min_price: applied.price?.[0],
+      max_price: applied.price?.[1],
       sale: activeFilterOnSale,
 
-      // MULTIPLE (comma-separated)
       category_id: selectedCategory
         .map(name => categories.find(x => x.name === name)?.id)
         .filter(Boolean)
@@ -132,6 +133,20 @@ export default function Products11() {
         .filter(Boolean)
         .join(","),
     };
+
+    // 🔥 Remove empty keys ("" or null or undefined)
+    Object.keys(params).forEach(key => {
+      if (
+        params[key] === undefined ||
+        params[key] === null ||
+        params[key] === "" ||
+        params[key]?.length === 0
+      ) {
+        delete params[key];
+      }
+    });
+
+    return params;
   };
 
   const { data, isProductFetching } = useProducts(
@@ -147,85 +162,85 @@ export default function Products11() {
 
   // 2. Update your useEffect to only run when params are actually present:
 
-useEffect(() => {
-  // This effect syncs URL params to state
-  // It should ONLY depend on URL params and data availability, NOT on state values
-  
-  // ---- CATEGORY ----
-  if (categoryParam && categories.length > 0) {
-    const found = categories.find(sc => sc.id === categoryParam);
-    if (found) {
-      dispatch({ type: "SET_CATEGORY", payload: [found.name] });
+  useEffect(() => {
+    // This effect syncs URL params to state
+    // It should ONLY depend on URL params and data availability, NOT on state values
+
+    // ---- CATEGORY ----
+    if (categoryParam && categories.length > 0) {
+      const found = categories.find(sc => sc.id === categoryParam);
+      if (found) {
+        dispatch({ type: "SET_CATEGORY", payload: [found.name] });
+      }
+    } else if (!categoryParam) {
+      // Clear category when not in URL (menu navigation to different page)
+      dispatch({ type: "SET_CATEGORY", payload: [] });
     }
-  } else if (!categoryParam) {
-    // Clear category when not in URL (menu navigation to different page)
-    dispatch({ type: "SET_CATEGORY", payload: [] });
-  }
 
-  // ---- SUB-CATEGORY ----
-  if (subCategoryParam && subCategories.length > 0) {
-    const found = subCategories.find(sc => sc.id === subCategoryParam);
-    if (found) {
-      dispatch({ type: "SET_SUB_CATEGORIES", payload: [found.name] });
-    } 
-  } else if (!subCategoryParam) {
-    dispatch({ type: "SET_SUB_CATEGORIES", payload: [] });
-  }
-
-  // ---- CONCERNS ----
-  if (concernParam && concerns.length > 0) {
-    const found = concerns.find(sc => sc.id === concernParam);
-    if (found) {
-      dispatch({ type: "SET_CONCERNS", payload: [found.name] });
+    // ---- SUB-CATEGORY ----
+    if (subCategoryParam && subCategories.length > 0) {
+      const found = subCategories.find(sc => sc.id === subCategoryParam);
+      if (found) {
+        dispatch({ type: "SET_SUB_CATEGORIES", payload: [found.name] });
+      }
+    } else if (!subCategoryParam) {
+      dispatch({ type: "SET_SUB_CATEGORIES", payload: [] });
     }
-  } else if (!concernParam) {
-    dispatch({ type: "SET_CONCERNS", payload: [] });
-  }
 
-  // ---- SUITABLE ----
-  if (suitableParam && suitable.length > 0) {
-    const found = suitable.find(sc => sc.id === suitableParam);
-    if (found) {
-      dispatch({ type: "SET_SUITABLE", payload: [found.name] });
+    // ---- CONCERNS ----
+    if (concernParam && concerns.length > 0) {
+      const found = concerns.find(sc => sc.id === concernParam);
+      if (found) {
+        dispatch({ type: "SET_CONCERNS", payload: [found.name] });
+      }
+    } else if (!concernParam) {
+      dispatch({ type: "SET_CONCERNS", payload: [] });
     }
-  } else if (!suitableParam) {
-    dispatch({ type: "SET_SUITABLE", payload: [] });
-  }
 
-  // ---- INGREDIENTS ----
-  if (ingredientsParam && ingredients.length > 0) {
-    const found = ingredients.find(sc => sc.id === ingredientsParam);
-    if (found) {
-      dispatch({ type: "SET_INGREDIENTS", payload: [found.name] });
+    // ---- SUITABLE ----
+    if (suitableParam && suitable.length > 0) {
+      const found = suitable.find(sc => sc.id === suitableParam);
+      if (found) {
+        dispatch({ type: "SET_SUITABLE", payload: [found.name] });
+      }
+    } else if (!suitableParam) {
+      dispatch({ type: "SET_SUITABLE", payload: [] });
     }
-  } else if (!ingredientsParam) {
-    dispatch({ type: "SET_INGREDIENTS", payload: [] });
-  }
 
-  // ---- BRAND ----
-  if (brandParam && brands.length > 0) {
-    const found = brands.find(sc => sc.id === brandParam);
-    if (found) {
-      dispatch({ type: "SET_BRANDS", payload: [found.name] });
+    // ---- INGREDIENTS ----
+    if (ingredientsParam && ingredients.length > 0) {
+      const found = ingredients.find(sc => sc.id === ingredientsParam);
+      if (found) {
+        dispatch({ type: "SET_INGREDIENTS", payload: [found.name] });
+      }
+    } else if (!ingredientsParam) {
+      dispatch({ type: "SET_INGREDIENTS", payload: [] });
     }
-  } else if (!brandParam) {
-    dispatch({ type: "SET_BRANDS", payload: [] });
-  }
 
-}, [
-  categoryParam,
-  subCategoryParam,
-  concernParam,
-  suitableParam,
-  ingredientsParam,
-  brandParam,
-  categories.length,
-  subCategories.length,
-  concerns.length,
-  suitable.length,
-  ingredients.length,
-  brands.length,
-]);
+    // ---- BRAND ----
+    if (brandParam && brands.length > 0) {
+      const found = brands.find(sc => sc.id === brandParam);
+      if (found) {
+        dispatch({ type: "SET_BRANDS", payload: [found.name] });
+      }
+    } else if (!brandParam) {
+      dispatch({ type: "SET_BRANDS", payload: [] });
+    }
+
+  }, [
+    categoryParam,
+    subCategoryParam,
+    concernParam,
+    suitableParam,
+    ingredientsParam,
+    brandParam,
+    categories.length,
+    subCategories.length,
+    concerns.length,
+    suitable.length,
+    ingredients.length,
+    brands.length,
+  ]);
 
   // Sorted products
   const sorted = useMemo(() => {
@@ -261,7 +276,10 @@ useEffect(() => {
         ? dispatch({ type: "SET_AVAILABILITY", payload: "All" })
         : dispatch({ type: "SET_AVAILABILITY", payload: value }),
     setCategory: (category) => {
-      dispatch({ type: "SET_CATEGORY", payload: category });
+      const updated = selectedCategory.includes(category)
+        ? selectedCategory.filter((sc) => sc !== category)
+        : [...selectedCategory, category];
+      dispatch({ type: "SET_CATEGORY", payload: updated });
     },
     setBrands: (brand) => {
       const updated = selectedBrands.includes(brand)
@@ -393,7 +411,6 @@ useEffect(() => {
                   concerns={concerns}
                   suitable={suitable}
                   ingredients={ingredients}
-                  category_id={categoryParam}
                 />
               </div>
               <div className="col-xl-9">
@@ -419,7 +436,15 @@ useEffect(() => {
           </div>
         </div>
       </section>
-      <ProductFilterModal allProps={allProps} />
+      <ProductFilterModal
+        allProps={allProps}
+        brands={brands}
+        categories={categories}
+        subCategories={subCategories}
+        concerns={concerns}
+        suitable={suitable}
+        ingredients={ingredients}
+      />
     </>
   );
 }

@@ -5,102 +5,99 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const optionsData = [
-  {
-    value: "Swahili",
-    thumbnail: "/images/country/tz.png",
-    text: "Swahili",
-  },
-  {
-    value: "English",
-    thumbnail: "/images/country/uk.png",
-    text: "English",
-  },
+  { value: "swahili", thumbnail: "/images/country/tz.png", text: "Swahili" },
+  { value: "english", thumbnail: "/images/country/uk.png", text: "English" },
 ];
 
-export default function LanguageFlagSelect({ topStart = false, light = false }) {
-  const [selected, setSelected] = useState(optionsData[0]);
+export default function LanguageFlagSelect({
+  topStart = false,
+  light = false,
+  value,
+  onChange,
+  placeholder = "Select Language",
+}) {
   const [isDDOpen, setIsDDOpen] = useState(false);
-  const languageSelect = useRef();
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        languageSelect.current &&
-        !languageSelect.current.contains(event.target)
-      ) {
-        setIsDDOpen(false); // Close the dropdown if click is outside
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsDDOpen(false);
       }
     };
-    // Add the event listener when the component mounts
-    document.addEventListener("click", handleClickOutside);
 
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
+
+  const selectedItem = optionsData.find((o) => o.value === value) || null;
+
   return (
     <div
-      ref={languageSelect}
-      onClick={() => setIsDDOpen((pre) => !pre)}
-      className={`dropdown bootstrap-select image-select center style-default type-currencies language-select ${
-        light ? "color-white" : ""
-      } dropup`}
+      ref={wrapperRef}
+      className={`dropdown bootstrap-select image-select center style-default language-select ${light ? "color-white" : ""
+        } dropup`}
     >
+      {/* TOGGLE BUTTON */}
       <button
         type="button"
         tabIndex={-1}
-        className={`btn dropdown-toggle btn-light  ${isDDOpen ? "show" : ""} `}
+        onClick={() => setIsDDOpen(!isDDOpen)}
+        className={`btn dropdown-toggle btn-light ${isDDOpen ? "show" : ""}`}
       >
         <div className="filter-option">
           <div className="filter-option-inner">
             <div className="filter-option-inner-inner">
-              <Image
-                src={safeImage(selected.thumbnail)}
-                width="640"
-                height="480"
-                alt="image"
-              />
-              {selected.text}
+              {!selectedItem ? (
+                <span className="">{placeholder}</span>
+              ) : (
+                <>
+                  <Image
+                    src={safeImage(selectedItem.thumbnail)}
+                    width="20"
+                    height="14"
+                    alt="flag"
+                  />
+                  {selectedItem.text}
+                </>
+              )}
             </div>
-          </div>{" "}
+          </div>
         </div>
       </button>
+
+      {/* DROPDOWN MENU */}
       <div
-        className={`dropdown-menu ${isDDOpen ? "show" : ""} `}
+        className={`dropdown-menu ${isDDOpen ? "show" : ""}`}
         style={{
-          maxHeight: "899.688px",
-          overflow: "hidden",
-          minHeight: 0,
           position: "absolute",
           inset: topStart ? "" : "auto auto 0px 0px",
-          margin: 0,
           transform: `translate(0px, ${topStart ? 22 : -20}px)`,
+          minHeight: 0,
         }}
         data-popper-placement={`${!topStart ? "top" : "bottom"}-start`}
       >
-        <div
-          className="inner show"
-          style={{ maxHeight: "869.688px", overflowY: "auto", minHeight: 0 }}
-        >
-          <ul
-            className="dropdown-menu inner show"
-            role="presentation"
-            style={{ marginTop: 0, marginBottom: 0 }}
-          >
+        <div className="inner show" style={{ overflowY: "auto", minHeight: 0 }}>
+          <ul className="dropdown-menu inner show" role="presentation">
             {optionsData.map((elm, i) => (
-              <li onClick={() => setSelected(elm)} key={i}>
+              <li
+                key={i}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onChange(elm.value);
+                  setIsDDOpen(false);
+                }}
+              >
                 <a
-                  className={`dropdown-item ${
-                    selected == elm ? "active selected" : ""
-                  }`}
+                  className={`dropdown-item ${value === elm.value ? "active selected" : ""
+                    }`}
                 >
                   <span className="text">
                     <Image
                       src={safeImage(elm.thumbnail)}
-                      width="640"
-                      height="480"
-                      alt="image"
+                      width="20"
+                      height="14"
+                      alt="flag"
                     />
                     {elm.text}
                   </span>

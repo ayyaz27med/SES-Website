@@ -22,6 +22,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/utlis/queryClient";
 import { ToastContainer } from "react-toastify";
 import ProductQuickView from "@/components/modals/ProductQuickView";
+import UserDetailsModal from "@/components/modals/UserDetailsModal";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -139,6 +140,7 @@ export default function RootLayout({ children }) {
             <MobileMenu />
 
             <NewsLetterModal />
+            <UserDetailsModal />
             <SearchModal />
             <SizeGuide />
             <Wishlist />
