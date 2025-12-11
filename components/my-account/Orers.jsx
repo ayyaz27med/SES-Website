@@ -46,7 +46,7 @@ export default function Orers({ setActiveTab }) {
                     <div
                       className="tf-btn btn-fill radius-4"
                       onClick={() => {
-                        router.push(`/my-account?order_id=${order?.id}`)
+                        router.push(`/my-account?order_id=${order?.id}&tab=3`)
                         setActiveTab(3);
                       }}
                     >

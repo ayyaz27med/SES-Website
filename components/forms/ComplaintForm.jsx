@@ -55,16 +55,16 @@ export default function ComplaintForm() {
         }}
       >
         {(formik) => {
-          const error = formik.errors.mobile_no;
-          const touched = formik.touched.mobile_no;
+          const error = formik.errors.mobileno;
+          const touched = formik.touched.mobileno;
           return (
             <div
               className="form-leave-comment form-has-password form-login"
             >
-              <div className="wrap">
-                <div className="cols">
+              <div className="">
+                <div className="tf-grid-layout md-col-2 sm-col-1 mb_30">
                   <FormikInput name="customer_name" placeholder="Name" />
-                  <fieldset className="">
+                  <fieldset>
                     <PhoneInput
                       country={"tz"}
                       enableSearch={true}
@@ -115,35 +115,37 @@ export default function ComplaintForm() {
                     )}
                   </fieldset>
                 </div>
-                <div className="cols">
+                <div className="tf-grid-layout md-col-2 sm-col-1 mb_30">
                   <FormikInput name="date_of_visit" type="date" placeholder="Date" />
-                  <fieldset className="">
-                    <div className="file-picker">
-                      <input
-                        id="file"
-                        type="file"
-                        accept="image/*"
-                        className="file-input"
-                        onChange={(e) => {
-                          const file = e.target.files[0];
-                          if (file) {
-                            formik.setFieldValue("picture", file);
-                            setFileName(file.name);
-                          }
-                        }}
-                      />
-                      <label htmlFor="file" className="file-label">
-                        <svg width="16" height="16" aria-hidden>
-                          <path d="M2 10v3h12v-3" fill="none" stroke="currentColor" />
-                          <path d="M8 2v10" fill="none" stroke="currentColor" />
-                          <path d="M5 5l3-3 3 3" fill="none" stroke="currentColor" />
-                        </svg>
-                        <span>{fileName || "Upload Receipt Image"}</span>
-                      </label>
-                    </div>
-                  </fieldset>
+                  <div>
+                    <fieldset className="">
+                      <div className="file-picker">
+                        <input
+                          id="file"
+                          type="file"
+                          accept="image/*"
+                          className="file-input"
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                              formik.setFieldValue("picture", file);
+                              setFileName(file.name);
+                            }
+                          }}
+                        />
+                        <label htmlFor="file" className="file-label">
+                          <svg width="16" height="16" aria-hidden>
+                            <path d="M2 10v3h12v-3" fill="none" stroke="currentColor" />
+                            <path d="M8 2v10" fill="none" stroke="currentColor" />
+                            <path d="M5 5l3-3 3 3" fill="none" stroke="currentColor" />
+                          </svg>
+                          <span>{fileName || "Upload Receipt Image"}</span>
+                        </label>
+                      </div>
+                    </fieldset>
+                  </div>
                 </div>
-                <fieldset className="">
+                <fieldset className="mb_16">
                   <FormikTextArea
                     name="describe_issue"
                     placeholder="Describe Issue..."
@@ -159,6 +161,6 @@ export default function ComplaintForm() {
           )
         }}
       </FormikForm >
-    </div>
+    </div >
   );
 }

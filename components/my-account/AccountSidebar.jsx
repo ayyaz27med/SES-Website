@@ -20,7 +20,7 @@ export default function AccountSidebar({
   const { clearSession, setUser } = useSession();
   const [preview, setPreview] = useState(userDetails?.profile_photo);
 
-  const { mutate: uploadProfileImage, isPending: isUploadingProfileImage } =
+  const { mutate: uploadProfileImage } =
     useUploadProfileImage({
       onSuccess: async (data) => {
         const { data: userData, message, status } = data;

@@ -12,7 +12,7 @@ import FormikTextArea from "../common/FormikTextarea";
 const validationSchema = Yup.object().shape({
   customer_name: Yup.string().required("Name is required"),
   message: Yup.string().required("Message is required"),
-  mobile_no: Yup.string().required("Mobile Number is required"),
+  mobile_number: Yup.string().required("Mobile Number is required"),
 });
 
 export default function ContactForm() {
@@ -33,7 +33,7 @@ export default function ContactForm() {
       <FormikForm
         initialValues={{
           customer_name: "",
-          mobile_no: "",
+          mobile_number: "",
           mobile_country_code: "255",
           type: "contact",
           message: "",
@@ -50,18 +50,18 @@ export default function ContactForm() {
         }}
       >
         {(formik) => {
-          const error = formik.errors.mobile_no;
-          const touched = formik.touched.mobile_no;
+          const error = formik.errors.mobile_number;
+          const touched = formik.touched.mobile_number;
           return (
             <div
               className="form-leave-comment form-has-password form-login"
             >
-              <div className="wrap">
-                <div className="cols">
-                  <fieldset className="">
+              <div className="">
+                <div className="tf-grid-layout md-col-2 sm-col-1 mb_30">
+                  <fieldset>
                     <FormikInput name="customer_name" placeholder="Name" />
                   </fieldset>
-                  <fieldset className="">
+                  <fieldset>
                     <PhoneInput
                       country={"tz"}
                       enableSearch={true}
@@ -88,7 +88,7 @@ export default function ContactForm() {
                         }
 
                         setMobileNo(raw);
-                        formik.setFieldValue("mobile_no", raw);
+                        formik.setFieldValue("mobile_number", raw);
                       }}
                       onKeyDown={(e) => {
                         if (e.key === "Backspace") return;
@@ -112,7 +112,7 @@ export default function ContactForm() {
                     )}
                   </fieldset>
                 </div>
-                <fieldset className="">
+                <fieldset className="mb_16">
                   <FormikTextArea
                     name="message"
                     placeholder="Message..."

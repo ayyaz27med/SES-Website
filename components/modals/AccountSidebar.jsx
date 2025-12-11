@@ -1,6 +1,72 @@
-import React from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "@/store/session";
+import useUploadProfileImage from "@/services/tanstack/mutations/useUploadProfileImage";
+import ToastHelper from "@/helpers/toastHelper";
+import { queryClient } from "@/utlis/queryClient";
+import { queryKeys } from "@/services/tanstack/queries";
+import useUserDetails from "@/services/tanstack/queries/useUserDetails";
+import safeImage from "@/utlis/safeImage";
+import Image from "next/image";
+
 export default function AccountSidebar() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const tabFromUrl = searchParams.get("tab") || "1";
+  const [activeTab, setActiveTab] = useState(Number(tabFromUrl));
+  const { data } = useUserDetails();
+  const userDetails = data?.data;
+  const { clearSession, setUser } = useSession();
+  const [preview, setPreview] = useState(userDetails?.profile_photo);
+
+  useEffect(() => {
+    if (tabFromUrl) {
+      setActiveTab(Number(tabFromUrl))
+    }
+  }, [tabFromUrl])
+
+  const { mutate: uploadProfileImage } =
+    useUploadProfileImage({
+      onSuccess: async (data) => {
+        const { data: userData, message, status } = data;
+        setUser(userData);
+        if (!status) {
+          ToastHelper.error(message || "Profile photo update failed");
+          setPreview(userDetails?.profile_photo);
+          return;
+        }
+        ToastHelper.success(message || "User Profile Photo updated successfully");
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.userDetails],
+        });
+      },
+      onError: (error) => {
+        console.error("Error: ", error);
+        ToastHelper.error(error || "Profile photo update failed");
+      },
+    });
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPreview(URL.createObjectURL(file));
+    const formData = new FormData();
+    formData.append("photo", file);
+    uploadProfileImage(formData);
+  };
+
+  const handleLogout = () => {
+    clearSession();
+    ToastHelper.success("Logout Successful");
+    router.push("/");
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    router.push(`/my-account?tab=${tab}`);
+  };
+
   return (
     <div className="offcanvas offcanvas-start canvas-sidebar" id="mbAccount">
       <div className="canvas-wrapper">
@@ -15,15 +81,29 @@ export default function AccountSidebar() {
         <div className="canvas-body sidebar-mobile-append">
           <div className="sidebar-account">
             <div className="account-avatar">
-              <div className="image">
-                <img src="/images/avatar/user-account.jpg" alt="" />
-              </div>
-              <h6 className="mb_4">Tony Nguyen</h6>
-              <div className="body-text-1">themesflat@gmail.com</div>
+              <label className="image cursor-pointer position-relative">
+                <Image
+                  src={safeImage(preview || userDetails?.profile_photo || "/images/avatar/user-account.jpg")}
+                  alt="Profile"
+                  width={200}
+                  height={200}
+                  className="rounded-full object-cover"
+                />
+                <div className="position-relative">
+                  <svg className="profile-edit-icon" stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </div>
+                <input type="file" accept="image/*" hidden onChange={handleUpload} />
+              </label>
+              <h6 className="mb_4">{userDetails?.name}</h6>
+              <div className="body-text-1">+{userDetails?.mobile_country_code} {userDetails?.mobile_no}</div>
             </div>
             <ul className="my-account-nav">
               <li>
-                <span className="my-account-nav-item active">
+                <span
+                  className={`my-account-nav-item ${activeTab == 1 ? "active" : ""
+                    } `}
+                  onClick={() => handleTabChange(1)}
+                >
                   <svg
                     width={24}
                     height={24}
@@ -50,9 +130,11 @@ export default function AccountSidebar() {
                 </span>
               </li>
               <li>
-                <Link
-                  href={`/my-account-orders`}
-                  className="my-account-nav-item"
+                <div
+                  onClick={() => handleTabChange(2)}
+                  role="button"
+                  className={`my-account-nav-item ${activeTab == 2 ? "active" : ""
+                    } `}
                 >
                   <svg
                     width={24}
@@ -70,40 +152,15 @@ export default function AccountSidebar() {
                     />
                   </svg>
                   Your Orders
-                </Link>
+                </div>
               </li>
               <li>
-                <Link
-                  href={`/my-account-address`}
-                  className="my-account-nav-item"
+                <div
+                  role="button"
+                  className={`my-account-nav-item ${pathname == "/login" ? "active" : ""
+                    } `}
+                  onClick={handleLogout}
                 >
-                  <svg
-                    width={24}
-                    height={24}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z"
-                      stroke="#181818"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
-                      stroke="#181818"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  My Address
-                </Link>
-              </li>
-              <li>
-                <Link href={`/login`} className="my-account-nav-item">
                   <svg
                     width={24}
                     height={24}
@@ -134,7 +191,7 @@ export default function AccountSidebar() {
                     />
                   </svg>
                   Logout
-                </Link>
+                </div>
               </li>
             </ul>
           </div>
