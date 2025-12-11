@@ -1539,6 +1539,38 @@ ul.list-text {
   }
 }
 
+.file-picker {
+  .file-input {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .file-label {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: linear-gradient(0deg, #fff, #f7f7f7);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e3e3e3;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+
+    svg {
+      opacity: 0.9;
+    }
+  }
+
+  .file-name {
+    margin-top: 8px;
+    color: #444;
+    font-size: 13px;
+  }
+}
+
 .login-wrap {
   display: flex;
   justify-content: center;
@@ -1583,6 +1615,40 @@ ul.list-text {
           background: transparent;
           padding-left: 20px;
         }
+      }
+    }
+  }
+}
+.form-leave-comment {
+  .react-tel-input {
+    input {
+      width: 100%;
+      border: 2px solid var(--line);
+      outline: 0;
+      box-shadow: none;
+      font-size: 16px;
+      line-height: 26px;
+      border-radius: 8px;
+      padding: 9px 16px 9px 75px;
+      width: 100%;
+      background: var(--white);
+      color: var(--main);
+      font-weight: 400;
+      transition: all 0.3s ease;
+      letter-spacing: 0;
+      height: auto;
+    }
+
+    .flag-dropdown {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      border-right: 2px solid var(--line);
+
+      .selected-flag {
+        width: 60px;
+        background: transparent;
+        padding-left: 20px;
       }
     }
   }

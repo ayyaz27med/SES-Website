@@ -83,7 +83,6 @@ export default function Products11() {
   const categories = categoriesData?.data || [];
 
   const debouncedPrice = useDebounce(price, 500);
-  console.log('selectedCategoryselectedCategory', selectedCategory)
   const buildProductParams = (override = {}) => {
     const applied = {
       price,

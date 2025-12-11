@@ -1,57 +1,89 @@
-import { ErrorMessage, Field, useFormikContext } from 'formik'
-import Label from './Label'
+// FormikInput.jsx
+import React, { useRef } from "react";
+import { useField } from "formik";
+import Label from "./Label";
 
 const FormikInput = ({
   name,
   label,
-  type = 'text',
+  type = "text",
   placeholder,
-  fieldClass = '',
+  fieldClass = "",
   required = false,
-  maxLength = '',
+  maxLength = "",
   readOnly = false,
   leftIcon,
   rightIcon,
-  labelClassName = '',
+  labelClassName = "",
   ...props
 }) => {
-  const { errors, touched } = useFormikContext()
-  const hasError = errors[name] && touched[name]
+  const [field, meta, helpers] = useField(name);
+  const inputRef = useRef(null);
+
+  const handleFocus = (e) => {
+    // If browser supports showPicker (Chromium), trigger it so clicking input opens calendar
+    if (type === "date" && inputRef.current && typeof inputRef.current.showPicker === "function") {
+      try {
+        inputRef.current.showPicker();
+      } catch (err) {
+        // ignore if not allowed
+      }
+    }
+
+    if (props.onFocus) props.onFocus(e);
+  };
+
+  const handleClick = (e) => {
+    // Some mobile/desktop combos open on click, ensure showPicker called also on click
+    if (type === "date" && inputRef.current && typeof inputRef.current.showPicker === "function") {
+      try {
+        inputRef.current.showPicker();
+      } catch (err) {}
+    }
+    if (props.onClick) props.onClick(e);
+  };
+
+  const onWheel = (e) => {
+    if (type === "number") {
+      e.currentTarget.blur();
+    }
+    if (props.onWheel) props.onWheel(e);
+  };
+
   return (
     <fieldset>
-      {label && <Label label={label} required={required || false} className={labelClassName} />}
-      <div className="relative">
-        {leftIcon && (
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10">
-            {leftIcon}
-          </div>
-        )}
-        <Field
+      {label && (
+        <Label label={label} required={required || false} className={labelClassName} />
+      )}
+      <div className={`relative ${fieldClass}`}>
+        <input
+          {...field}
           id={name}
           name={name}
           type={type}
           placeholder={placeholder}
           maxLength={maxLength}
-          onWheel={(e) => e.currentTarget.blur()}
           readOnly={readOnly}
-          className={`
-            rightIcon && 'pr_8',
-            hasError && 'border-red-300 focus:border-red-500 focus:ring-red-500/20',
-            fieldClass
-          `}
+          ref={inputRef}
+          onFocus={handleFocus}
+          onClick={handleClick}
+          onWheel={onWheel}
+          onChange={(e) => {
+            // default Formik field change
+            field.onChange(e);
+            if (props.onChange) props.onChange(e);
+          }}
           {...props}
         />
-        {rightIcon && (
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10">
-            {rightIcon}
-          </div>
-        )}
       </div>
-      <ErrorMessage name={name}>
-        {(msg) => <div className="text-red-500 text-sm">{msg}</div>}
-      </ErrorMessage>
-    </fieldset>
-  )
-}
 
-export default FormikInput
+      {meta.touched && meta.error ? (
+        <div className="small" style={{ color: "red" }}>
+          {meta.error}
+        </div>
+      ) : null}
+    </fieldset>
+  );
+};
+
+export default FormikInput;

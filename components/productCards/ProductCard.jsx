@@ -96,7 +96,7 @@ export default function ProductCard({
         )}
         {product.sales_percentage > 0 && (
           <div className="on-sale-wrap">
-            <span className="on-sale-item">-{product.sales_percentage}</span>
+            <span className="on-sale-item">-{product.sales_percentage}%</span>
           </div>
         )}
         {product.stock_status === 'out_of_stock' && (

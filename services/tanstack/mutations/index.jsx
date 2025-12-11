@@ -3,4 +3,6 @@ export const mutationKeys = {
   verifyOtp: 'verifyOtp',
   updateProfile: 'updateProfile',
   uploadProfileImage: 'uploadProfileImage',
+  getInTouch: 'getInTouch',
+  instoreComplaint: 'instoreComplaint',
 }

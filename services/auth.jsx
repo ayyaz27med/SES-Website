@@ -19,7 +19,3 @@ export const uploadProfileImage = async (payload) => {
   })
   return data
 }
-
-// - mobile slider
-// - auto slide for all sliders
-// 

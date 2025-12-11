@@ -15,7 +15,7 @@ export default function Login() {
   const { mutate: login, isPending: isLoginLoading } = useLoginOrRegister({
     onSuccess: async (data) => {
       setUserId(data?.data);
-      ToastHelper.success(data?.error || 'OTP Send to Your Whatsapp number');
+      ToastHelper.success(data?.error);
       loginModalRef.open();
     },
   });

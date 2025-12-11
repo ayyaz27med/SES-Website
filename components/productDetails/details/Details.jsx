@@ -89,7 +89,7 @@ export default function Details({ id }) {
                               {formatWithCurrency(product?.selling_price)}
                             </div>
                             <div className="badges-on-sale text-btn-uppercase">
-                              -25%
+                              -{product?.sales_percentage}%
                             </div>
                           </>
                         ) : (

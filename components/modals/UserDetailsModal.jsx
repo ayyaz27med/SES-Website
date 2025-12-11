@@ -16,7 +16,6 @@ export default function UserDetailsModal() {
   const modalElement = useRef();
   const modalInstanceRef = useRef(null);
   const { user, setUser } = useSession();
-  console.log('useruseruseruseruser', user)
 
   const initialValues = {
     name: user?.name || "",

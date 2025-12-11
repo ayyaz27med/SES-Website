@@ -1,8 +1,8 @@
 "use client";
 
 import FormikForm from "./FormikForm";
-import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { useState } from "react";
 
 export default function LoginForm({ onLoginOrRegister, isLoading }) {
