@@ -15,9 +15,9 @@ export default function AccountSidebar() {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "1";
   const [activeTab, setActiveTab] = useState(Number(tabFromUrl));
-  const { data } = useUserDetails();
+  const { clearSession, setUser, id } = useSession();
+  const { data } = useUserDetails(id);
   const userDetails = data?.data;
-  const { clearSession, setUser } = useSession();
   const [preview, setPreview] = useState(userDetails?.profile_photo);
 
   useEffect(() => {

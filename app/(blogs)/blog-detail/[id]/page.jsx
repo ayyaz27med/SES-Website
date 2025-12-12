@@ -1,3 +1,4 @@
+import BlogDetail from "@/components/blogs/BlogDetail";
 import BlogDetail1 from "@/components/blogs/BlogDetail1";
 import BlogGrid from "@/components/blogs/BlogGrid";
 import RelatedBlogs from "@/components/blogs/RelatedBlogs";
@@ -10,13 +11,11 @@ import React from "react";
 
 export default async function BlogDetailsPage1({ params }) {
   const { id } = await params;
-
-  const blog = allBlogs.filter((p) => p.id == id)[0] || allBlogs[0];
   return (
     <>
       <Topbar />
       <Header />
-      <BlogDetail1 blog={blog} />
+      <BlogDetail id={id} />
       <RelatedBlogs />
       <Footer1 />
     </>

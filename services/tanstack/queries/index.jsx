@@ -7,4 +7,6 @@ export const queryKeys = {
   orderDetails: 'order-details',
   productDetails: 'product-details',
   products: 'products',
+  blogs: 'blogs',
+  blogDetails: 'blog-details',
 }

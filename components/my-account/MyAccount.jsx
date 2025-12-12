@@ -6,12 +6,14 @@ import Orers from "@/components/my-account/Orers";
 import useUserDetails from "@/services/tanstack/queries/useUserDetails";
 import OrderDetails from "./OrderDetails";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "@/store/session";
 
 export default function MyAccountInfo() {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "1";
   const [activeTab, setActiveTab] = useState(Number(tabFromUrl) || 1);
-  const { data } = useUserDetails();
+  const { id } = useSession();
+  const { data } = useUserDetails(id);
   const userDetails = data?.data;
 
   useEffect(() => {

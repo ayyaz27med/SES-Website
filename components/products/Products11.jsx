@@ -415,7 +415,12 @@ export default function Products11() {
               <div className="col-xl-9">
                 {activeLayout === 1 ? (
                   <div className="tf-list-layout wrapper-shop" id="listLayout">
-                    <Listview products={sorted} />
+                    <Listview
+                      products={sorted}
+                      page={page}
+                      totalPages={totalPages}
+                      setPage={setPage}
+                    />
                   </div>
                 ) : (
                   <div

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-export default function Pagination({ currentPage, totalPages, onPageChange }) {
+export default function Pagination({ currentPage = 1, totalPages = 1, onPageChange }) {
   if (!totalPages || totalPages < 1) totalPages = 1;
 
   const handle = (p) => {
@@ -13,9 +13,8 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       {/* Prev */}
       <li onClick={() => handle(currentPage - 1)}>
         <div
-          className={`pagination-item text-button ${
-            currentPage === 1 ? "disabled" : ""
-          }`}
+          className={`pagination-item text-button ${currentPage === 1 ? "disabled" : ""
+            }`}
         >
           <i className="icon-arrLeft" />
         </div>
@@ -35,9 +34,8 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       {/* Next */}
       <li onClick={() => handle(currentPage + 1)}>
         <div
-          className={`pagination-item text-button ${
-            currentPage === totalPages ? "disabled" : ""
-          }`}
+          className={`pagination-item text-button ${currentPage === totalPages ? "disabled" : ""
+            }`}
         >
           <i className="icon-arrRight" />
         </div>

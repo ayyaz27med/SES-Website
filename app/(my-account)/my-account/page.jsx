@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Footer1 from "@/components/footers/Footer1";
 import Link from "next/link";
 import MyAccountInfo from "@/components/my-account/MyAccount";
@@ -50,7 +50,9 @@ export default function MyAccountPage() {
 
       <section className="flat-spacing">
         <div className="container">
-          <MyAccountInfo />
+          <Suspense fallback={<div>Loading...</div>}>
+            <MyAccountInfo />
+          </Suspense>
         </div>
       </section>
       <Footer1 />

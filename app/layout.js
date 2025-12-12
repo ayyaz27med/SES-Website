@@ -4,7 +4,7 @@ import "../public/scss/main.scss";
 import "photoswipe/style.css";
 import "react-range-slider-input/dist/style.css";
 import "../public/css/image-compare-viewer.min.css";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Context from "@/context/Context";
 import CartModal from "@/components/modals/CartModal";
 import QuickView from "@/components/modals/QuickView";
@@ -146,7 +146,9 @@ export default function RootLayout({ children }) {
             <Wishlist />
             <DemoModal />
             <Categories />
-            <AccountSidebar />
+            <Suspense fallback={<div>Loading...</div>}>
+              <AccountSidebar />
+            </Suspense>
           </Context>
         </QueryClientProvider>
       </body>

@@ -18,25 +18,21 @@ export default function BlogListPage() {
         <div className="container-full">
           <div className="row">
             <div className="col-12">
-              <h3 className="heading text-center">Blog Default</h3>
+              <h3 className="heading text-center">Blogs</h3>
               <ul className="breadcrumbs d-flex align-items-center justify-content-center">
                 <li>
                   <Link className="link" href={`/`}>
-                    Homepage
+                    Home
                   </Link>
                 </li>
                 <li>
                   <i className="icon-arrRight" />
                 </li>
                 <li>
-                  <a className="link" href="#">
-                    Blog
-                  </a>
+                  <Link className="link" href="/blog-list">
+                    Blogs
+                  </Link>
                 </li>
-                <li>
-                  <i className="icon-arrRight" />
-                </li>
-                <li>Blog List</li>
               </ul>
             </div>
           </div>

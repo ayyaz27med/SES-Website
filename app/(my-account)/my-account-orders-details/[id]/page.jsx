@@ -5,10 +5,9 @@ import Link from "next/link";
 import OrderDetails from "@/components/my-account/OrderDetails";
 import React from "react";
 import useUserDetails from "@/services/tanstack/queries/useUserDetails";
-import { useParams } from "next/navigation";
-import useOrderDetails from "@/services/tanstack/queries/useOrderDetails";
 import Topbar from "@/components/headers/Topbar";
 import Header from "@/components/headers/Header";
+import { useSession } from "@/store/session";
 
 // export const metadata = {
 //   title:
@@ -16,10 +15,9 @@ import Header from "@/components/headers/Header";
 //   description: "Modave - Multipurpose React Nextjs eCommerce Template",
 // };
 
-export default function MyAccountOrdersDetailsPage({ params }) {
-  const { id } = useParams();
-  const { data } = useUserDetails();
-  const { data: orderDetails } = useOrderDetails(id);
+export default function MyAccountOrdersDetailsPage() {
+  const { id } = useSession();
+  const { data } = useUserDetails(id);
   const userDetails = data?.data;
 
   return (
