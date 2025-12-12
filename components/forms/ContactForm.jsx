@@ -35,7 +35,7 @@ export default function ContactForm() {
           customer_name: "",
           mobile_number: "",
           mobile_country_code: "255",
-          type: "contact",
+          type: "get-in-touch",
           message: "",
         }}
         validationSchema={validationSchema}

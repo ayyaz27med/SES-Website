@@ -1,12 +1,14 @@
 "use client";
 import React from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import { products } from "@/data/products";
 import ProductCard1 from "../productCards/ProductCard1";
-export default function RelatedProducts() {
+import useProductDetails from "@/services/tanstack/queries/useProductDetails";
+import ProductCard from "../productCards/ProductCard";
+export default function RelatedProducts({ id }) {
+  const { data } = useProductDetails(id);
+  const product = data;
+
   return (
     <section className="flat-spacing">
       <div className="container flat-animate-tab">
@@ -30,9 +32,9 @@ export default function RelatedProducts() {
               el: ".spd4",
             }}
           >
-            {products.slice(0, 6).map((product, i) => (
+            {product?.related_products.map((product, i) => (
               <SwiperSlide key={i} className="swiper-slide">
-                <ProductCard1 product={product} />
+                <ProductCard product={product} />
               </SwiperSlide>
             ))}
 

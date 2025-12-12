@@ -19,7 +19,6 @@ import useDebounce from "@/utlis/useDebounce";
 export default function Products11() {
   const router = useRouter();
   const [activeLayout, setActiveLayout] = useState(4);
-
   const [page, setPage] = useState(1);
   const length = 10;
   const searchParams = useSearchParams();

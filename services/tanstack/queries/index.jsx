@@ -9,4 +9,6 @@ export const queryKeys = {
   products: 'products',
   blogs: 'blogs',
   blogDetails: 'blog-details',
+  googleReviews: 'googleReviews',
+  instagramPosts: 'instagramPosts',
 }

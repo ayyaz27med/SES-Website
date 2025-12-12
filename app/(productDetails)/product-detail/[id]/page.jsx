@@ -21,7 +21,7 @@ export default async function ProductDetailPage({ params }) {
       <ProductBreadcumb id={id} />
       <Details id={id} />
       {/* <Descriptions1 /> */}
-      <RelatedProducts />
+      <RelatedProducts id={id} />
       <Footer1 hasPaddingBottom />
     </>
   );

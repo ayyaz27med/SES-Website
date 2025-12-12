@@ -5,11 +5,13 @@ import Link from "next/link";
 import ToolbarBottom from "../headers/ToolbarBottom";
 import { footerLinks, socialLinks } from "@/data/footerLinks";
 import WhatsappButton from "../common/WhatsappButton";
+import { useSession } from "@/store/session";
 export default function Footer1({
   border = true,
   dark = false,
   hasPaddingBottom = false,
 }) {
+  const { isAuthenticated } = useSession();
   useEffect(() => {
     const headings = document.querySelectorAll(".footer-heading-mobile");
 
@@ -43,7 +45,7 @@ export default function Footer1({
         id="footer"
         className={`footer ${dark ? "bg-main" : ""} ${
           hasPaddingBottom ? "has-pb" : ""
-        } `}
+          } `}
       >
         <div className={`footer-wrap ${!border ? "border-0" : ""}`}>
           <div className="footer-body">
@@ -62,7 +64,7 @@ export default function Footer1({
                           }
                           width={65}
                           height={65}
-                          // style={{ width: "auto", height: "auto" }}
+                        // style={{ width: "auto", height: "auto" }}
                         />
                       </Link>
                     </div>
@@ -72,7 +74,7 @@ export default function Footer1({
                         href={`/contact-02`}
                         className={`tf-btn-default fw-6 ${
                           dark ? "style-white" : ""
-                        } `}
+                          } `}
                       >
                         GET DIRECTION
                         <i className="icon-arrowUpRight" />
@@ -91,7 +93,7 @@ export default function Footer1({
                     <ul
                       className={`tf-social-icon  ${
                         dark ? "style-white" : ""
-                      } `}
+                        } `}
                     >
                       {socialLinks.map((link, index) => (
                         <li key={index}>
@@ -112,25 +114,29 @@ export default function Footer1({
                         </div>
                         <div className="tf-collapse-content">
                           <ul className="footer-menu-list">
-                            {section.items.map((item, itemIndex) => (
-                              <li className="text-caption-1" key={itemIndex}>
-                                {item.isLink ? (
-                                  <Link
-                                    href={item.href}
-                                    className="footer-menu_item"
-                                  >
-                                    {item.label}
-                                  </Link>
-                                ) : (
-                                  <a
-                                    href={item.href}
-                                    className="footer-menu_item"
-                                  >
-                                    {item.label}
-                                  </a>
-                                )}
-                              </li>
-                            ))}
+                            {section.items.map((item, itemIndex) => {
+                              // Condition: My Account click → redirect based on auth
+                              const finalHref =
+                                item.label === "My Account"
+                                  ? isAuthenticated
+                                    ? "/my-account"
+                                    : "/login"
+                                  : item.href;
+
+                              return (
+                                <li className="text-caption-1" key={itemIndex}>
+                                  {item.isLink ? (
+                                    <Link href={finalHref} className="footer-menu_item">
+                                      {item.label}
+                                    </Link>
+                                  ) : (
+                                    <Link href={finalHref} className="footer-menu_item">
+                                      {item.label}
+                                    </Link>
+                                  )}
+                                </li>
+                              );
+                            })}
                           </ul>
                         </div>
                       </div>
