@@ -1,7 +1,5 @@
 "use client"
 import React from "react";
-import Comments from "./Comments";
-import CommentForm from "./CommentForm";
 import Image from "next/image";
 import useBlogDetails from "@/services/tanstack/queries/useBlogDetails";
 import { formatDate } from "@/helpers/dateTime";

@@ -6,6 +6,12 @@ import Topbar from "@/components/headers/Topbar";
 import Link from "next/link";
 import React from "react";
 
+export const metadata = {
+  title:
+    "Blogs || Modave - Multipurpose React Nextjs eCommerce Template",
+  description: "Modave - Multipurpose React Nextjs eCommerce Template",
+};
+
 export default function BlogListPage() {
   return (
     <>

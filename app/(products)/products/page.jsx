@@ -6,6 +6,11 @@ import Products11 from "@/components/products/Products11";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
+export const metadata = {
+  title: "Products || Modave - Multipurpose React Nextjs eCommerce Template",
+  description: "Modave - Multipurpose React Nextjs eCommerce Template",
+};
+
 export default function Products() {
   return (
     <>

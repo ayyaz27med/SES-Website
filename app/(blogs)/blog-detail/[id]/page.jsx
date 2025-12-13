@@ -4,6 +4,11 @@ import Header from "@/components/headers/Header";
 import Topbar from "@/components/headers/Topbar";
 import React from "react";
 
+export const metadata = {
+  title: "Blog Details || Modave - Multipurpose React Nextjs eCommerce Template",
+  description: "Modave - Multipurpose React Nextjs eCommerce Template",
+};
+
 export default async function BlogDetailsPage1({ params }) {
   const { id } = await params;
   return (

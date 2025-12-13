@@ -6,7 +6,7 @@ import Topbar from "@/components/headers/Topbar";
 import Header from "@/components/headers/Header";
 import ContactTab from "@/components/contacts/ContactTab";
 export const metadata = {
-  title: "Countact 02 || Modave - Multipurpose React Nextjs eCommerce Template",
+  title: "Countact Us || Modave - Multipurpose React Nextjs eCommerce Template",
   description: "Modave - Multipurpose React Nextjs eCommerce Template",
 };
 
