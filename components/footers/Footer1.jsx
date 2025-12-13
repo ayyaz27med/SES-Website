@@ -162,28 +162,25 @@ export default function Footer1({
                         <li>
                           <Image
                             alt=""
-                            src="/images/payment/cash.png"
+                            src="/images/payment/cash-money.png"
                             width={100}
                             height={64}
-                            className="rounded-1"
                           />
                         </li>
                         <li>
                           <Image
                             alt=""
-                            src="/images/payment/Mpesa.png"
+                            src="/images/payment/mpesa.png"
                             width={100}
                             height={64}
-                            className="rounded-1"
                           />
                         </li>
                         <li>
                           <Image
                             alt=""
-                            src="/images/payment/airtelmoney.png"
+                            src="/images/payment/airtel-money.png"
                             width={100}
                             height={64}
-                            className="rounded-1"
                           />
                         </li>
                         <li>
@@ -192,7 +189,6 @@ export default function Footer1({
                             src="/images/payment/mixxbyyas.png"
                             width={98}
                             height={64}
-                            className="rounded-1"
                           />
                         </li>
                       </ul>

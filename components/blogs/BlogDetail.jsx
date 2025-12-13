@@ -5,13 +5,21 @@ import CommentForm from "./CommentForm";
 import Image from "next/image";
 import useBlogDetails from "@/services/tanstack/queries/useBlogDetails";
 import { formatDate } from "@/helpers/dateTime";
+import ToastHelper from "@/helpers/toastHelper";
 
 export default function BlogDetail({ id }) {
   const { data, isLoading } = useBlogDetails(id)
   const blog = data
 
+  const handleShare = () => {
+    if (typeof window === "undefined") return;
+    const url = `${window.location.origin}${window.location.pathname}`;
+    navigator.clipboard.writeText(url);
+    ToastHelper.success("Link copied!");
+  };
+
   return (
-    <div className="blog-detail-wrap">
+    <div className="blog-detail-wrap mb_36">
       <div className="image"
         style={{
           backgroundImage: `url(${blog?.banner_image})`,
@@ -19,13 +27,6 @@ export default function BlogDetail({ id }) {
       />
       <div className="inner">
         <div className="heading">
-          <ul className="list-tags has-bg justify-content-center">
-            <li>
-              <a href="#" className="link">
-                Fashion Trends
-              </a>
-            </li>
-          </ul>
           <h3 className="fw-5">{blog?.title}</h3>
           <div className="meta justify-content-center">
             <div className="meta-item gap-8">
@@ -33,17 +34,6 @@ export default function BlogDetail({ id }) {
                 <i className="icon-calendar" />
               </div>
               <p className="body-text-1">{formatDate(blog?.publish_at, "MMMM DD, yyyy")}</p>
-            </div>
-            <div className="meta-item gap-8">
-              <div className="icon">
-                <i className="icon-user" />
-              </div>
-              <p className="body-text-1">
-                by{" "}
-                <a className="link" href="#">
-                  Themesflat
-                </a>
-              </p>
             </div>
           </div>
         </div>
@@ -85,54 +75,16 @@ export default function BlogDetail({ id }) {
           </ul>
           <div className="d-flex align-items-center justify-content-between gap-16">
             <p>Share this post:</p>
-            <ul className="tf-social-icon style-1">
-              <li>
-                <a href="#" className="social-facebook">
-                  <i className="icon icon-fb" />
-                </a>
-              </li>
-              <li>
-                <a href="#" className="social-twiter">
-                  <i className="icon icon-x" />
-                </a>
-              </li>
-              <li>
-                <a href="#" className="social-pinterest">
-                  <i className="icon icon-pinterest" />
-                </a>
-              </li>
-              <li>
-                <a href="#" className="social-instagram">
-                  <i className="icon icon-instagram" />
-                </a>
-              </li>
-            </ul>
+            <div className="tf-social-icon box-icon hover-tooltip compare btn-icon-action btn-style-4 radius-3 p-0 radius-60" style={{ width: '40px', height: '40px' }} onClick={handleShare}>
+              <div className="icon">
+                <i className="icon-share" />
+              </div>
+              <span className="tooltip text-caption-2">
+                Share
+              </span>
+            </div>
           </div>
         </div>
-        <div className="related-post">
-          <div className="pre w-50">
-            <div className="text-btn-uppercase">
-              <a href="#">Previous</a>
-            </div>
-            <h6 className="fw-5">
-              <a className="link" href="#">
-                How to choose the right customer
-              </a>
-            </h6>
-          </div>
-          <div className="next w-50">
-            <div className="text-btn-uppercase text-end">
-              <a href="#">Next</a>
-            </div>
-            <h6 className="fw-5 text-end">
-              <a className="link" href="#">
-                Starting your traveling blog with Vasco
-              </a>
-            </h6>
-          </div>
-        </div>
-        <Comments />
-        <CommentForm />
       </div>
     </div>
   );

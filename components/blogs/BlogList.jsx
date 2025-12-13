@@ -61,17 +61,6 @@ export default function BlogList() {
                         </div>
                         <p className="text-caption-1">{blog?.createdAt}</p>
                       </div>
-                      <div className="meta-item gap-8">
-                        <div className="icon">
-                          <i className="icon-user" />
-                        </div>
-                        <p className="text-caption-1">
-                          by{" "}
-                          <a className="link" href="#">
-                            {blog?.author}
-                          </a>
-                        </p>
-                      </div>
                     </div>
                   </div>
                   <h5 className="title">
