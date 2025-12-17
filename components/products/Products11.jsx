@@ -6,7 +6,6 @@ import { useEffect, useMemo, useReducer, useState } from "react";
 import useProducts from "@/services/tanstack/queries/useProducts";
 import useBrands from "@/services/tanstack/queries/useBrands";
 import useCategories from "@/services/tanstack/queries/useCategories";
-import useSubCategories from "@/services/tanstack/queries/useSubCategories";
 import { useRouter, useSearchParams } from "next/navigation";
 import { initialState, productFilterOptions, reducer } from "@/utlis/productList";
 import ProductsSorting from "./ProductsSorting";
@@ -15,6 +14,7 @@ import ProductFilterMeta from "./ProductFilterMeta";
 import ProductFilterModal from "./ProductFilterModal";
 import ProductGridView from "./ProductGridView";
 import useDebounce from "@/utlis/useDebounce";
+import { useMultiSubCategories } from "@/utlis/useMultiSubCategories";
 
 export default function Products11() {
   const router = useRouter();
@@ -28,6 +28,15 @@ export default function Products11() {
   const suitableParam = searchParams.get("suitable");
   const ingredientsParam = searchParams.get("ingredients");
   const brandParam = searchParams.get("brand");
+
+  const parseMultiParam = (param) => {
+    if (!param) return [];
+    return param.split("_").filter(Boolean);
+  };
+
+  const categoryIds = useMemo(() => {
+    return parseMultiParam(categoryParam);
+  }, [categoryParam]);
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
@@ -57,27 +66,26 @@ export default function Products11() {
     "order[0][1]": "ASC",
   });
 
-  const { data: subCategoriesData } = useSubCategories({
-    category_id: categoryParam,
-    type: 'sub_category',
-  });
-  const { data: concernsData } = useSubCategories({
-    category_id: categoryParam,
-    type: 'concerns',
-  });
-  const { data: suitableData } = useSubCategories({
-    category_id: categoryParam,
-    type: 'suitable',
-  });
-  const { data: ingredientsData } = useSubCategories({
-    category_id: categoryParam,
-    type: 'ingredients',
-  });
+  const { data: subCategories } = useMultiSubCategories(
+    categoryIds,
+    "sub_category"
+  );
 
-  const subCategories = subCategoriesData?.sub_category || []
-  const concerns = concernsData?.concerns || []
-  const suitable = suitableData?.suitable || []
-  const ingredients = ingredientsData?.ingredients || []
+  const { data: concerns } = useMultiSubCategories(
+    categoryIds,
+    "concerns"
+  );
+
+  const { data: suitable } = useMultiSubCategories(
+    categoryIds,
+    "suitable"
+  );
+
+  const { data: ingredients } = useMultiSubCategories(
+    categoryIds,
+    "ingredients"
+  );
+
   const brands = brandsData?.data || [];
   const categories = categoriesData?.data || [];
 
@@ -132,7 +140,7 @@ export default function Products11() {
         .join(","),
     };
 
-    // 🔥 Remove empty keys ("" or null or undefined)
+    // Remove empty keys ("" or null or undefined)
     Object.keys(params).forEach(key => {
       if (
         params[key] === undefined ||
@@ -156,30 +164,29 @@ export default function Products11() {
   const products = data?.data || [];
   const total = Number(data?.count || 0);
   const totalPages = Math.ceil(total / length);
-  if (isProductFetching) return <div>Loading...</div>;
-
-  // 2. Update your useEffect to only run when params are actually present:
 
   useEffect(() => {
-    // This effect syncs URL params to state
-    // It should ONLY depend on URL params and data availability, NOT on state values
-
     // ---- CATEGORY ----
     if (categoryParam && categories.length > 0) {
-      const found = categories.find(sc => sc.id === categoryParam);
-      if (found) {
-        dispatch({ type: "SET_CATEGORY", payload: [found.name] });
+      const ids = parseMultiParam(categoryParam);
+      const names = categories
+        .filter(c => ids.includes(String(c.id)))
+        .map(c => c.name);
+      if (names) {
+        dispatch({ type: "SET_CATEGORY", payload: names });
       }
     } else if (!categoryParam) {
-      // Clear category when not in URL (menu navigation to different page)
       dispatch({ type: "SET_CATEGORY", payload: [] });
     }
 
     // ---- SUB-CATEGORY ----
     if (subCategoryParam && subCategories.length > 0) {
-      const found = subCategories.find(sc => sc.id === subCategoryParam);
-      if (found) {
-        dispatch({ type: "SET_SUB_CATEGORIES", payload: [found.name] });
+      const ids = parseMultiParam(subCategoryParam);
+      const names = subCategories
+        .filter(c => ids.includes(String(c.id)))
+        .map(c => c.name);
+      if (names) {
+        dispatch({ type: "SET_SUB_CATEGORIES", payload: names });
       }
     } else if (!subCategoryParam) {
       dispatch({ type: "SET_SUB_CATEGORIES", payload: [] });
@@ -187,9 +194,12 @@ export default function Products11() {
 
     // ---- CONCERNS ----
     if (concernParam && concerns.length > 0) {
-      const found = concerns.find(sc => sc.id === concernParam);
-      if (found) {
-        dispatch({ type: "SET_CONCERNS", payload: [found.name] });
+      const ids = parseMultiParam(concernParam);
+      const names = concerns
+        .filter(c => ids.includes(String(c.id)))
+        .map(c => c.name);
+      if (names) {
+        dispatch({ type: "SET_CONCERNS", payload: names });
       }
     } else if (!concernParam) {
       dispatch({ type: "SET_CONCERNS", payload: [] });
@@ -197,9 +207,12 @@ export default function Products11() {
 
     // ---- SUITABLE ----
     if (suitableParam && suitable.length > 0) {
-      const found = suitable.find(sc => sc.id === suitableParam);
-      if (found) {
-        dispatch({ type: "SET_SUITABLE", payload: [found.name] });
+      const ids = parseMultiParam(suitableParam);
+      const names = suitable
+        .filter(c => ids.includes(String(c.id)))
+        .map(c => c.name);
+      if (names) {
+        dispatch({ type: "SET_SUITABLE", payload: names });
       }
     } else if (!suitableParam) {
       dispatch({ type: "SET_SUITABLE", payload: [] });
@@ -207,9 +220,12 @@ export default function Products11() {
 
     // ---- INGREDIENTS ----
     if (ingredientsParam && ingredients.length > 0) {
-      const found = ingredients.find(sc => sc.id === ingredientsParam);
-      if (found) {
-        dispatch({ type: "SET_INGREDIENTS", payload: [found.name] });
+      const ids = parseMultiParam(ingredientsParam);
+      const names = ingredients
+        .filter(c => ids.includes(String(c.id)))
+        .map(c => c.name);
+      if (names) {
+        dispatch({ type: "SET_INGREDIENTS", payload: names });
       }
     } else if (!ingredientsParam) {
       dispatch({ type: "SET_INGREDIENTS", payload: [] });
@@ -224,7 +240,6 @@ export default function Products11() {
     } else if (!brandParam) {
       dispatch({ type: "SET_BRANDS", payload: [] });
     }
-
   }, [
     categoryParam,
     subCategoryParam,
@@ -343,10 +358,6 @@ export default function Products11() {
       dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
       dispatch({ type: "SET_ITEM_PER_PAGE", payload: value });
     },
-    // clearFilter: () => {
-    //   dispatch({ type: "CLEAR_FILTER" })
-    //   router.push(window.location.pathname);
-    // },
     clearFilter: () => {
       dispatch({ type: "CLEAR_FILTER" });
       setPage(1);
@@ -355,6 +366,8 @@ export default function Products11() {
       }, 0);
     },
   };
+
+  if (isProductFetching) return <div>Loading...</div>;
 
   return (
     <>

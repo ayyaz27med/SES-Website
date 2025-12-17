@@ -16,7 +16,6 @@ export default function NewsLetterModal() {
 
   const popupData = data?.data
   const bannerImage = popupData?.homePagePopupImages[0]?.image ?? null
-  console.log('gggggggggggg', isShowWelcomePopup)
 
   useEffect(() => {
     if (!isShowWelcomePopup) return;
