@@ -98,6 +98,13 @@ header.header-hidden {
 .icv__label {
   height: fit-content !important;
 }
+.star-icon i {
+  color: #e0e0e0;
+}
+.star-icon.active i {
+  color: #f5a623;
+}
+
 .home-gaming-testimonials {
   @media (max-width: 1200px) {
     .nav-prev-testimonial {

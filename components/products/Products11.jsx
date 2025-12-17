@@ -57,19 +57,19 @@ export default function Products11() {
     "order[0][1]": "ASC",
   });
 
-  const { data: subCategoriesData, isLoading: isLoadingSubCategories } = useSubCategories({
+  const { data: subCategoriesData } = useSubCategories({
     category_id: categoryParam,
     type: 'sub_category',
   });
-  const { data: concernsData, isLoading: isLoadingConcerns } = useSubCategories({
+  const { data: concernsData } = useSubCategories({
     category_id: categoryParam,
     type: 'concerns',
   });
-  const { data: suitableData, isLoading: isLoadingSuitable } = useSubCategories({
+  const { data: suitableData } = useSubCategories({
     category_id: categoryParam,
     type: 'suitable',
   });
-  const { data: ingredientsData, isLoading: isLoadingIngredients } = useSubCategories({
+  const { data: ingredientsData } = useSubCategories({
     category_id: categoryParam,
     type: 'ingredients',
   });
@@ -93,6 +93,7 @@ export default function Products11() {
       productFilterOptions["Sort by (Default)"];
 
     const params = {
+      isServerSidePagination: true,
       start: page,
       length,
       "order[0]": sort.key,
@@ -100,7 +101,6 @@ export default function Products11() {
       min_price: applied.price?.[0],
       max_price: applied.price?.[1],
       sale: activeFilterOnSale,
-
       category_id: selectedCategory
         .map(name => categories.find(x => x.name === name)?.id)
         .filter(Boolean)

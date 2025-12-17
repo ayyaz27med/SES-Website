@@ -19,7 +19,7 @@ export default function MyAccountPage() {
         {/* page-title */}
         <div
           className="page-title"
-          style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
+          style={{ backgroundImage: "url(/images/banner/4-min.png)" }}
         >
           <div className="container-full">
             <div className="row">

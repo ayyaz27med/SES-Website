@@ -12,9 +12,9 @@ export default function Orers({ setActiveTab }) {
   let length = 10;
 
   const { data, isLoading } = useUserOrders({
+    isServerSidePagination: true,
     start: page,
     length,
-    isServerSidePagination: true,
   });
 
   const orders = data?.data || [];

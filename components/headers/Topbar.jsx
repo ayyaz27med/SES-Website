@@ -16,7 +16,7 @@ export default function Topbar({ parentClass = "tf-topbar style-2 d-none d-xl-bl
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/ses.tanzania/" target="_blank" className="social-instagram">
+                <a href="https://www.instagram.com/sescosmetics.tz" target="_blank" className="social-instagram">
                   <i className="icon icon-instagram" />
                 </a>
               </li>

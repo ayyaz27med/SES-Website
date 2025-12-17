@@ -19,7 +19,7 @@ export default function ShopingCartPage() {
       <Header />
       <div
         className="page-title"
-        style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
+        style={{ backgroundImage: "url(/images/banner/2-min.png)" }}
       >
         <div className="container">
           <h3 className="heading text-center">Shopping Cart</h3>

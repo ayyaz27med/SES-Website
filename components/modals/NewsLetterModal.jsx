@@ -2,83 +2,73 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import axios from "axios";
+import useHomePagePopupDetails from "@/services/tanstack/queries/useHomePagePopupDetails";
+import { useSession } from "@/store/session";
+import safeImage from "@/utlis/safeImage";
+
 export default function NewsLetterModal() {
   const pathname = usePathname();
-  const modalElement = useRef();
-  // useEffect(() => {
-  //   const showModal = async () => {
-  //     if (pathname === "/") {
-  //       const bootstrap = await import("bootstrap"); // dynamically import bootstrap
-  //       const myModal = new bootstrap.Modal(
-  //         document.getElementById("newsletterPopup"),
-  //         {
-  //           keyboard: false,
-  //         }
-  //       );
+  const modalRef = useRef(null);
+  const modalInstanceRef = useRef(null);
+  const timeoutRef = useRef(null);
+  const { setIsShowWelcomePopup, isShowWelcomePopup } = useSession();
+  const { data } = useHomePagePopupDetails()
 
-  //       // Show the modal after a delay using a promise
-  //       await new Promise((resolve) => setTimeout(resolve, 2000));
-  //       myModal.show();
+  const popupData = data?.data
+  const bannerImage = popupData?.homePagePopupImages[0]?.image ?? null
+  console.log('gggggggggggg', isShowWelcomePopup)
 
-  //       modalElement.current.addEventListener("hidden.bs.modal", () => {
-  //         myModal.hide();
-  //       });
-  //     }
-  //   };
+  useEffect(() => {
+    if (!isShowWelcomePopup) return;
+    if (pathname !== "/") return;
 
-  //   showModal();
-  // }, [pathname]);
-  const [success, setSuccess] = useState(true);
-  const [showMessage, setShowMessage] = useState(false);
-  const handleShowMessage = () => {
-    setShowMessage(true);
-    setTimeout(() => {
-      setShowMessage(false);
-    }, 2000);
-  };
-  const sendEmail = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    const email = e.target.email.value;
+    let isCancelled = false;
 
-    try {
-      const response = await axios.post(
-        "https://express-brevomail.vercel.app/api/contacts",
-        {
-          email,
-        }
+    const initModal = async () => {
+      const bootstrap = await import("bootstrap");
+
+      if (isCancelled) return;
+
+      modalInstanceRef.current = new bootstrap.Modal(
+        modalRef.current,
+        { keyboard: false }
       );
 
-      if ([200, 201].includes(response.status)) {
-        e.target.reset(); // Reset the form
-        setSuccess(true); // Set success state
-        handleShowMessage();
-      } else {
-        setSuccess(false); // Handle unexpected responses
-        handleShowMessage();
-      }
-    } catch (error) {
-      console.error("Error:", error.response?.data || "An error occurred");
-      setSuccess(false); // Set error state
-      handleShowMessage();
-      e.target.reset(); // Reset the form
-    }
-  };
+      timeoutRef.current = setTimeout(() => {
+        if (!isCancelled && isShowWelcomePopup) {
+          modalInstanceRef.current.show();
+        }
+      }, 2000);
+
+      modalRef.current.addEventListener("hidden.bs.modal", () => {
+        setIsShowWelcomePopup(false);
+      });
+    };
+
+    initModal();
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(timeoutRef.current);
+      modalInstanceRef.current?.hide();
+      modalInstanceRef.current = null;
+    };
+  }, [pathname, isShowWelcomePopup, setIsShowWelcomePopup]);
 
   return (
     <div
       className="modal modalCentered fade auto-popup modal-newleter"
       id="newsletterPopup"
-      ref={modalElement}
+      ref={modalRef}
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-top">
             <Image
               className="lazyload"
-              data-src="/images/section/newsletter.jpg"
+              data-src={bannerImage}
               alt="/images"
-              src="/images/section/newsletter.jpg"
+              src={safeImage(bannerImage)}
               width={660}
               height={440}
             />
@@ -89,52 +79,13 @@ export default function NewsLetterModal() {
           </div>
           <div className="modal-bottom text-center">
             <p className="text-btn-uppercase fw-4 font-2">
-              Subscribe To Our Newletter!
+              {popupData?.upper_title}
             </p>
             <h5>
-              Receive 10% OFF your next order, exclusive offers &amp; more!
+              {popupData?.main_title}
             </h5>
-            <div
-              className={`tfSubscribeMsg  footer-sub-element ${
-                showMessage ? "active" : ""
-              }`}
-            >
-              {success ? (
-                <p style={{ color: "rgb(52, 168, 83)" }}>
-                  You have successfully subscribed.
-                </p>
-              ) : (
-                <p style={{ color: "red" }}>Something went wrong</p>
-              )}
-            </div>
-            <form
-              id="subscribe-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                sendEmail(e);
-              }}
-              className="form-newsletter-subscribe"
-            >
-              <div id="subscribe-content">
-                <input
-                  type="email"
-                  name="email"
-                  id="subscribe-email"
-                  placeholder="Enter your e-mail"
-                  required
-                />
-                <button
-                  type="submit"
-                  id="subscribe-button"
-                  className="btn-style-2 radius-12 w-100 justify-content-center"
-                >
-                  <span className="text text-btn-uppercase">SUBSCRIBE</span>
-                </button>
-              </div>
-              <div id="subscribe-msg" />
-            </form>
             <ul className="tf-social-icon style-default justify-content-center">
-              <li>
+              {/* <li>
                 <a href="#" className="social-facebook">
                   <i className="icon icon-fb" />
                 </a>
@@ -153,7 +104,29 @@ export default function NewsLetterModal() {
                 <a href="#" className="social-pinterest">
                   <i className="icon icon-pinterest" />
                 </a>
+              </li> */}
+
+              <li>
+                <a href="https://share.google/9GZMCEiVDjxAmu6GF" target="_blank" className="social-google">
+                  <i className="icon icon-google" />
+                </a>
               </li>
+              <li>
+                <a href="https://www.instagram.com/sescosmetics.tz" target="_blank" className="social-instagram">
+                  <i className="icon icon-instagram" />
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/255710071612" target="_blank" className="social-whatsapp">
+                  <i className="icon icon-whatsapp" />
+                </a>
+              </li>
+              <li>
+                <a href="https://www.tiktok.com/@ses.tz" target="_blank" className="social-tiktok">
+                  <i className="icon icon-tiktok" />
+                </a>
+              </li>
+
             </ul>
           </div>
         </div>

@@ -16,7 +16,7 @@ export default function FAQSPage() {
       <Header />
       <div
         className="page-title"
-        style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
+        style={{ backgroundImage: "url(/images/banner/3-min.png)" }}
       >
         <div className="container-full">
           <div className="row">
@@ -25,16 +25,8 @@ export default function FAQSPage() {
               <ul className="breadcrumbs d-flex align-items-center justify-content-center">
                 <li>
                   <Link className="link" href={`/`}>
-                    Homepage
+                    Home
                   </Link>
-                </li>
-                <li>
-                  <i className="icon-arrRight" />
-                </li>
-                <li>
-                  <a className="link" href="#">
-                    Pages
-                  </a>
                 </li>
                 <li>
                   <i className="icon-arrRight" />

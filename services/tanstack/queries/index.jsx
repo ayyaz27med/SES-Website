@@ -11,4 +11,7 @@ export const queryKeys = {
   blogDetails: 'blog-details',
   googleReviews: 'googleReviews',
   instagramPosts: 'instagramPosts',
+  faqs: 'faqs',
+  wishlist: 'wishlist',
+  homePagePopupDetails: 'homePagePopupDetails',
 }

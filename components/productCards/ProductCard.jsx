@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
-import PlaceholderImage from "../../public/images/home-categories/placeholder-image.png";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import safeImage from "@/utlis/safeImage";
+import useToggleWishlist from "@/services/tanstack/mutations/useToggleWishlist";
+import ToastHelper from "@/helpers/toastHelper";
+import { queryClient } from "@/utlis/queryClient";
+import { queryKeys } from "@/services/tanstack/queries";
 
 export default function ProductCard({
   product,
@@ -14,6 +16,7 @@ export default function ProductCard({
   parentClass = "card-product wow fadeInUp",
   isNotImageRatio = false,
   radiusClass = "",
+  // toggleWishlist,
 }) {
   const [currentImage, setCurrentImage] = useState(product.main_picture);
   const {
@@ -35,6 +38,19 @@ export default function ProductCard({
   if (!product) {
     return null;
   }
+
+  const { mutate: toggleWishlistS, isPending } = useToggleWishlist({
+    onSuccess: async (data) => {
+      const { data: userData, message } = data;
+      ToastHelper.success(message);
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.wishlist],
+      });
+    },
+    onError: (error) => {
+      ToastHelper.error(error.message);
+    },
+  });
 
   return (
     <div
@@ -110,7 +126,10 @@ export default function ProductCard({
         )}
         <div className="list-product-btn">
           <a
-            onClick={() => addToWishlist(product.id)}
+            onClick={() => {
+              addToWishlist(product.id);
+              toggleWishlistS({ product_id: product.id });
+            }}
             className="box-icon wishlist btn-icon-action"
           >
             <span className="icon icon-heart" />

@@ -12,22 +12,14 @@ export default function CheckoutPage() {
       <Header />
       <div
         className="page-title"
-        style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
+        style={{ backgroundImage: "url(/images/banner/2-min.png)" }}
       >
         <div className="container">
           <h3 className="heading text-center">Check Out</h3>
           <ul className="breadcrumbs d-flex align-items-center justify-content-center">
             <li>
               <Link className="link" href={`/`}>
-                Homepage
-              </Link>
-            </li>
-            <li>
-              <i className="icon-arrRight" />
-            </li>
-            <li>
-              <Link className="link" href={`/shop-default-grid`}>
-                Shop
+                Home
               </Link>
             </li>
             <li>

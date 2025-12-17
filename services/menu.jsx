@@ -15,3 +15,8 @@ export const fetchSubCategories = async (params) => {
   const { data } = await authApi.get("menu", { params });
   return data?.data;
 };
+
+export const fetchHomePagePopupDetails = async () => {
+  const { data } = await authApi.get(`home-page-popup`);
+  return data;
+};

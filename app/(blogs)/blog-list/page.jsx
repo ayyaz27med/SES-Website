@@ -19,7 +19,7 @@ export default function BlogListPage() {
       <Header />
       <div
         className="page-title"
-        style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
+        style={{ backgroundImage: "url(/images/banner/3-min.png)" }}
       >
         <div className="container-full">
           <div className="row">

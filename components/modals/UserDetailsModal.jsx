@@ -16,6 +16,7 @@ export default function UserDetailsModal() {
   const modalElement = useRef();
   const modalInstanceRef = useRef(null);
   const { user, setUser } = useSession();
+  const { isShowUserDetailsPopup, setIsShowUserDetailsPopup } = useSession();
 
   const initialValues = {
     name: user?.name || "",
@@ -29,7 +30,6 @@ export default function UserDetailsModal() {
 
   const shouldShowModal = isNameMissing || isEmailMissing || isLanguageMissing;
 
-
   const { mutate: updateProfile, isPending: isUpdatingProfile } =
     useUpdateProfile({
       onSuccess: async (data) => {
@@ -40,6 +40,7 @@ export default function UserDetailsModal() {
           queryKey: [queryKeys.userDetails],
         });
         modalInstanceRef.current?.hide(); // <-- FIXED
+        setIsShowUserDetailsPopup(false)
       },
       onError: (data) => {
         const { message } = data;
@@ -49,28 +50,44 @@ export default function UserDetailsModal() {
 
 
   useEffect(() => {
-    const showModal = async () => {
+    let modalEl;
+    let modal;
+
+    const initModal = async () => {
       if (!user?.id) return;
 
-      // show only if something is missing
-      if (!shouldShowModal) return;
+      if (!shouldShowModal && !isShowUserDetailsPopup) return;
 
-      if (pathname === "/") {
+      if (pathname === "/" && isShowUserDetailsPopup) {
         const bootstrap = await import("bootstrap");
 
-        modalInstanceRef.current = new bootstrap.Modal(
-          document.getElementById("userDetailsPopup"),
-          { keyboard: false }
-        );
+        modalEl = document.getElementById("userDetailsPopup");
+        modal = new bootstrap.Modal(modalEl, {
+          keyboard: false,
+          backdrop: true,
+        });
+
+        modalInstanceRef.current = modal;
+
+        modalEl.addEventListener("hidden.bs.modal", handleModalClose);
 
         await new Promise((resolve) => setTimeout(resolve, 2000));
-
-        modalInstanceRef.current.show();
+        modal.show();
       }
     };
 
-    showModal();
-  }, [pathname, user?.id, shouldShowModal]);
+    const handleModalClose = () => {
+      setIsShowUserDetailsPopup(false);
+    };
+
+    initModal();
+
+    return () => {
+      if (modalEl) {
+        modalEl.removeEventListener("hidden.bs.modal", handleModalClose);
+      }
+    };
+  }, [pathname, user?.id, shouldShowModal, isShowUserDetailsPopup]);
 
   return (
     <div

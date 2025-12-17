@@ -5,4 +5,6 @@ export const mutationKeys = {
   uploadProfileImage: 'uploadProfileImage',
   getInTouch: 'getInTouch',
   instoreComplaint: 'instoreComplaint',
+  toggleWishlist: 'toggleWishlist',
+  rateOrder: 'rate-order'
 }

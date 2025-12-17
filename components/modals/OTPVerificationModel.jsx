@@ -9,7 +9,7 @@ import { useSession } from "@/store/session";
 
 export default function OTPVerificationModel({ loginModalRef }) {
   const router = useRouter();
-  const { setSession, id } = useSession();
+  const { setSession, id, setIsShowUserDetailsPopup } = useSession();
   const userId = id;
 
   const { mutate: verifyOtp } = useVerifyOtp({
@@ -24,6 +24,7 @@ export default function OTPVerificationModel({ loginModalRef }) {
         token: userData?.token,
         user: userData
       });
+      setIsShowUserDetailsPopup(true);
       loginModalRef.close()
       ToastHelper.success(message);
       setTimeout(() => {

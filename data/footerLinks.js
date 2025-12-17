@@ -1,6 +1,6 @@
 export const socialLinks = [
   { href: "https://share.google/9GZMCEiVDjxAmu6GF", className: "social-google", iconClass: "icon-google" },
-  { href: "https://www.instagram.com/ses.tanzania/", className: "social-instagram", iconClass: "icon-instagram" },
+  { href: "https://www.instagram.com/sescosmetics.tz", className: "social-instagram", iconClass: "icon-instagram" },
   { href: "https://wa.me/255710071612", className: "social-whatsapp", iconClass: "icon-whatsapp" },
   { href: "https://www.tiktok.com/@ses.tz", className: "social-tiktok", iconClass: "icon-tiktok" },
 ];
