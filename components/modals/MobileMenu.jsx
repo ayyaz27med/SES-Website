@@ -153,7 +153,7 @@ export default function MobileMenu() {
                   return <MobileNavbarItem category={category} key={category?.id} />;
                 })}
               <li className="nav-mb-item">
-                <Link href="#" className="mb-menu-link">
+                <Link href={`/products?sale=active`} className="mb-menu-link">
                   Sale
                 </Link>
               </li>

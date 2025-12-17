@@ -20,7 +20,7 @@ export default function Products11() {
   const router = useRouter();
   const [activeLayout, setActiveLayout] = useState(4);
   const [page, setPage] = useState(1);
-  const length = 10;
+  const length = 12;
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
   const subCategoryParam = searchParams.get("sub_category");
@@ -28,6 +28,7 @@ export default function Products11() {
   const suitableParam = searchParams.get("suitable");
   const ingredientsParam = searchParams.get("ingredients");
   const brandParam = searchParams.get("brand");
+  const saleParam = searchParams.get("sale");
 
   const parseMultiParam = (param) => {
     if (!param) return [];
@@ -240,6 +241,11 @@ export default function Products11() {
     } else if (!brandParam) {
       dispatch({ type: "SET_BRANDS", payload: [] });
     }
+
+    // ---- SALE ----
+    if (saleParam) {
+      dispatch({ type: "FILTER_ON_SALE", payload: [] });
+    }
   }, [
     categoryParam,
     subCategoryParam,
@@ -253,6 +259,7 @@ export default function Products11() {
     suitable.length,
     ingredients.length,
     brands.length,
+    saleParam
   ]);
 
   // Sorted products
@@ -294,6 +301,11 @@ export default function Products11() {
         : [...selectedCategory, category];
       dispatch({ type: "SET_CATEGORY", payload: updated });
     },
+    removeCategory: (category) =>
+      dispatch({
+        type: "SET_CATEGORY",
+        payload: selectedCategory.filter((sc) => sc !== category),
+      }),
     setBrands: (brand) => {
       const updated = selectedBrands.includes(brand)
         ? selectedBrands.filter((b) => b !== brand)
@@ -333,7 +345,7 @@ export default function Products11() {
         : [...selectedConcerns, concern];
       dispatch({ type: "SET_CONCERNS", payload: updated });
     },
-    removeSuitable: (concern) =>
+    removeConcerns: (concern) =>
       dispatch({
         type: "SET_CONCERNS",
         payload: selectedConcerns.filter((sc) => sc !== concern),

@@ -1,5 +1,4 @@
 import { useQueries } from "@tanstack/react-query";
-import useSubCategories from "@/services/tanstack/queries/useSubCategories";
 import { fetchSubCategories } from "@/services/menu";
 
 export function useMultiSubCategories(categoryIds, type) {

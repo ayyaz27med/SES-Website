@@ -33,6 +33,8 @@ export const reducer = (state, action) => {
             return { ...state, sortingOption: action.payload };
         case "SET_CURRENT_PAGE":
             return { ...state, currentPage: action.payload };
+        case "FILTER_ON_SALE":
+            return { ...state, activeFilterOnSale: true };
         case "TOGGLE_FILTER_ON_SALE":
             return { ...state, activeFilterOnSale: !state.activeFilterOnSale };
         case "SET_ITEM_PER_PAGE":

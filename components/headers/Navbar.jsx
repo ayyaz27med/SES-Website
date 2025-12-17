@@ -103,7 +103,7 @@ export default function Navbar() {
           return <NavbarItem category={category} key={category?.id} />;
         })}
       <li className="menu-item">
-        <Link href="#" className="item-link">
+        <Link href={`/products?sale=active`} className="item-link">
           Sale
         </Link>
       </li>
