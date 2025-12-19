@@ -154,12 +154,7 @@ export default function Details({ id }) {
                               : (product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price) * quantity)}{" "}
                           </span>
                         </a>
-                        <div
-                          // href="#compare"
-                          // data-bs-toggle="offcanvas"
-                          // aria-controls="compare"
-                          className="box-icon hover-tooltip compare btn-icon-action"
-                        >
+                        <div className="box-icon hover-tooltip compare btn-icon-action">
                           <div className="icon">
                             <i className="icon-share" />
                           </div>

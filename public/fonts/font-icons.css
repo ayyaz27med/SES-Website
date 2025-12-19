@@ -218,6 +218,9 @@
 .icon-heart:before {
   content: "\e93a";
 }
+.icon-heart.fill {
+  background-color: red;
+}
 .icon-lightning:before {
   content: "\e93b";
 }

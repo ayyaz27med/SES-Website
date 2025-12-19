@@ -1,8 +1,8 @@
 "use client";
 
-import { useContextElement } from "@/context/Context";
+import { useCartContextElement } from "@/context/CartContext";
 
 export default function CartLength() {
-  const { cartProducts } = useContextElement();
+  const { cartProducts } = useCartContextElement();
   return <>{cartProducts.length}</>;
 }

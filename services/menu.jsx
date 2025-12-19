@@ -6,6 +6,11 @@ export const fetchBrands = async (params) => {
   return data?.data;
 };
 
+export const fetchBrandsGroup = async (params) => {
+  const { data } = await api.get("menu/brands-group", { params });
+  return data?.data;
+};
+
 export const fetchCategories = async (params) => {
   const { data } = await authApi.get("menu/categories", { params });
   return data?.data;

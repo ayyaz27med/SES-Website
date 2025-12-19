@@ -15,11 +15,13 @@ import ProductFilterModal from "./ProductFilterModal";
 import ProductGridView from "./ProductGridView";
 import useDebounce from "@/utlis/useDebounce";
 import { useMultiSubCategories } from "@/utlis/useMultiSubCategories";
+import { useSession } from "@/store/session";
 
 export default function Products11() {
   const router = useRouter();
   const [activeLayout, setActiveLayout] = useState(4);
   const [page, setPage] = useState(1);
+  const { id } = useSession()
   const length = 12;
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
@@ -110,6 +112,7 @@ export default function Products11() {
       min_price: applied.price?.[0],
       max_price: applied.price?.[1],
       sale: activeFilterOnSale,
+      customer_id: id,
       category_id: selectedCategory
         .map(name => categories.find(x => x.name === name)?.id)
         .filter(Boolean)

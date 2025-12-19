@@ -1584,40 +1584,40 @@ ul.list-text {
     .heading {
       margin-bottom: 28px;
     }
+  }
+  .react-tel-input {
+    input {
+      width: 100%;
+      border: 2px solid var(--line);
+      outline: 0;
+      box-shadow: none;
+      font-size: 16px;
+      line-height: 26px;
+      border-radius: 8px;
+      padding: 9px 16px 9px 75px;
+      width: 100%;
+      background: var(--white);
+      color: var(--main);
+      font-weight: 400;
+      transition: all 0.3s ease;
+      letter-spacing: 0;
+      height: auto;
+    }
 
-    .react-tel-input {
-      input {
-        width: 100%;
-        border: 2px solid var(--line);
-        outline: 0;
-        box-shadow: none;
-        font-size: 16px;
-        line-height: 26px;
-        border-radius: 8px;
-        padding: 9px 16px 9px 75px;
-        width: 100%;
-        background: var(--white);
-        color: var(--main);
-        font-weight: 400;
-        transition: all 0.3s ease;
-        letter-spacing: 0;
-        height: auto;
-      }
+    .flag-dropdown {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      border-right: 2px solid var(--line);
 
-      .flag-dropdown {
+      .selected-flag {
+        width: 60px;
         background: transparent;
-        border: none;
-        border-radius: 0;
-        border-right: 2px solid var(--line);
-
-        .selected-flag {
-          width: 60px;
-          background: transparent;
-          padding-left: 20px;
-        }
+        padding-left: 20px;
       }
     }
   }
+
 }
 .form-leave-comment {
   .react-tel-input {

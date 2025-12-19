@@ -1,7 +1,6 @@
 import Footer1 from "@/components/footers/Footer1";
 import Header from "@/components/headers/Header";
 import Topbar from "@/components/headers/Topbar";
-import RecentProducts from "@/components/otherPages/RecentProducts";
 import ShopCart from "@/components/otherPages/ShopCart";
 import Link from "next/link";
 import React from "react";
@@ -26,15 +25,7 @@ export default function ShopingCartPage() {
           <ul className="breadcrumbs d-flex align-items-center justify-content-center">
             <li>
               <Link className="link" href={`/`}>
-                Homepage
-              </Link>
-            </li>
-            <li>
-              <i className="icon-arrRight" />
-            </li>
-            <li>
-              <Link className="link" href={`/shop-default-grid`}>
-                Shop
+                Home
               </Link>
             </li>
             <li>
@@ -46,7 +37,6 @@ export default function ShopingCartPage() {
       </div>
 
       <ShopCart />
-      <RecentProducts />
       <Footer1 />
     </>
   );

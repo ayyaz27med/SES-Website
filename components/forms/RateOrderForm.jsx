@@ -6,7 +6,8 @@ import * as Yup from "yup";
 import FormikTextArea from "../common/FormikTextarea";
 import RatingStars from "../otherPages/RatingStars";
 import useRateOrder from "@/services/tanstack/mutations/useRateOrder";
-import { useSession } from "@/store/session";
+import useOrderDetails from "@/services/tanstack/queries/useOrderDetails";
+import { useRouter } from "next/navigation";
 
 const validationSchema = Yup.object().shape({
   delivery_rate: Yup.string().required("Delivery rate is required"),
@@ -16,10 +17,12 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function RateOrderForm({ id }) {
-  const { user } = useSession();
+  const router = useRouter();
+  const { data: orderDetails } = useOrderDetails(id);
   const { mutate: rateOrder, isPending: isLoading } = useRateOrder({
     onSuccess: async (data) => {
       ToastHelper.success(data?.message);
+      router.push('/');
     },
     onError: (data) => {
       ToastHelper.error(data?.message);
@@ -30,14 +33,11 @@ export default function RateOrderForm({ id }) {
     <div className="container flat-spacing-5">
       <FormikForm
         initialValues={{
-          order_number: "",
-          customer_name: user?.name,
-          customer_mobile_number: user?.mobile_no,
-          customer_mobile_country_code: user?.mobile_country_code,
-          message: "",
-          delivery_rate: "",
-          product_rate: "",
-          customer_service_rate: ""
+          order_id: id,
+          message: '',
+          delivery_rate: 0,
+          customer_service_rate: 0,
+          product_rate: 0
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
@@ -53,7 +53,7 @@ export default function RateOrderForm({ id }) {
             <div className="rate-order">
               <div className="px-lg-5 px-md-4 px-sm-1">
                 <div>
-                  <h6 className="mb_16">Order No: </h6>
+                  <h6 className="mb_16">Order No: {orderDetails?.order_no}</h6>
                   <div className="tf-grid-layout md-col-3 mb-4">
                     <RatingStars
                       label="Product Rating"

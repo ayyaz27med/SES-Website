@@ -2,13 +2,16 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useContextElement } from "@/context/Context";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import safeImage from "@/utlis/safeImage";
 import useToggleWishlist from "@/services/tanstack/mutations/useToggleWishlist";
 import ToastHelper from "@/helpers/toastHelper";
 import { queryClient } from "@/utlis/queryClient";
 import { queryKeys } from "@/services/tanstack/queries";
+import { useSession } from "@/store/session";
+import { GoHeart } from "react-icons/go";
+import { IoHeartSharp } from "react-icons/io5";
+import { useCartContextElement } from "@/context/CartContext";
 
 export default function ProductCard({
   product,
@@ -16,20 +19,15 @@ export default function ProductCard({
   parentClass = "card-product wow fadeInUp",
   isNotImageRatio = false,
   radiusClass = "",
-  // toggleWishlist,
 }) {
   const [currentImage, setCurrentImage] = useState(product.main_picture);
+  const { isAuthenticated } = useSession();
   const {
-    setQuickAddItem,
-    addToWishlist,
-    isAddedtoWishlist,
-    addToCompareItem,
-    isAddedtoCompareItem,
     setQuickViewItem,
     addProductToCart,
     isAddedToCartProducts,
     setQuickViewItemId,
-  } = useContextElement();
+  } = useCartContextElement();
 
   useEffect(() => {
     setCurrentImage(product.main_picture);
@@ -39,12 +37,12 @@ export default function ProductCard({
     return null;
   }
 
-  const { mutate: toggleWishlistS, isPending } = useToggleWishlist({
+  const { mutate: toggleWishlist } = useToggleWishlist({
     onSuccess: async (data) => {
-      const { data: userData, message } = data;
+      const { message } = data;
       ToastHelper.success(message);
       queryClient.invalidateQueries({
-        queryKey: [queryKeys.wishlist],
+        queryKey: [queryKeys.products],
       });
     },
     onError: (error) => {
@@ -125,34 +123,19 @@ export default function ProductCard({
           </div>
         )}
         <div className="list-product-btn">
-          <a
-            onClick={() => {
-              addToWishlist(product.id);
-              toggleWishlistS({ product_id: product.id });
-            }}
-            className="box-icon wishlist btn-icon-action"
-          >
-            <span className="icon icon-heart" />
-            <span className="tooltip">
-              {isAddedtoWishlist(product.id)
-                ? "Already Wishlished"
-                : "Wishlist"}
-            </span>
-          </a>
-          <a
-            href="#compare"
-            data-bs-toggle="offcanvas"
-            aria-controls="compare"
-            onClick={() => addToCompareItem(product.id)}
-            className="box-icon compare btn-icon-action"
-          >
-            <span className="icon icon-gitDiff" />
-            <span className="tooltip">
-              {isAddedtoCompareItem(product.id)
-                ? "Already compared"
-                : "Compare"}
-            </span>
-          </a>
+          {isAuthenticated && product?.sales_percentage == 0 && (
+            <a
+              onClick={() => toggleWishlist({ product_id: product.id })}
+              className="box-icon wishlist btn-icon-action"
+            >
+              {product.is_wishlist ? <IoHeartSharp color="red" size={50} /> : <GoHeart size={50} />}
+              <span className="tooltip">
+                {product.is_wishlist
+                  ? "Remove from wishlist"
+                  : "Add to wishlist"}
+              </span>
+            </a>
+          )}
           <a
             href="#productQuickView"
             onClick={() => {
@@ -167,25 +150,14 @@ export default function ProductCard({
           </a>
         </div>
         <div className="list-btn-main">
-          {product.addToCart == "Quick Add" ? (
-            <a
-              className="btn-main-product"
-              href="#quickAdd"
-              onClick={() => setQuickAddItem(product.id)}
-              data-bs-toggle="modal"
-            >
-              Quick Add
-            </a>
-          ) : (
-            <a
-              className="btn-main-product"
-              onClick={() => addProductToCart(product.id)}
-            >
-              {isAddedToCartProducts(product.id)
-                ? "Already Added"
-                : "ADD TO CART"}
-            </a>
-          )}
+          <a
+            className="btn-main-product"
+            onClick={() => addProductToCart(product)}
+          >
+            {isAddedToCartProducts(product.id)
+              ? "Already Added"
+              : "ADD TO CART"}
+          </a>
         </div>
       </div>
       <div className="card-product-info">
