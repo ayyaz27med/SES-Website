@@ -27,7 +27,7 @@ export default function OTPVerificationModel({ loginModalRef }) {
         user: userData
       });
       // ✅ STORE TOKEN IN COOKIE
-      document.cookie = `token=${userData?.token}; path=/; max-age=${60 * 60 * 24 * 7}`;
+      document.cookie = `token=${userData?.token}; path=/`;
 
       setIsShowUserDetailsPopup(true);
       loginModalRef.close()

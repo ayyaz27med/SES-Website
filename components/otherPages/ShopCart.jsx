@@ -41,6 +41,11 @@ export default function ShopCart() {
                   />
                   <div className="count-text">Your items aren’t reserved, checkout quickly to make sure you don’t miss out</div>
                 </div>
+                <div className="tf-product-info-list mw-100">
+                  <div className="text tf-product-info-sold">
+                    <i className="icon icon-lightning" /> Items are not reserved until order is placed.
+                  </div>
+                </div>
               </div>
               {cartProducts.length ? (
                 <form onSubmit={(e) => e.preventDefault()}>

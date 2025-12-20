@@ -23,7 +23,9 @@ export default function ProductFilterModal({ allProps, brands, categories, subCa
             <h6 className="facet-title">Categories</h6>
             <ul className="facet-content">
               {categories?.map((category, index) => (
-                <li key={index}>
+                <li
+                  key={`${category?.id}-${index}`}
+                >
                   <a href="#" className={`categories-item ${allProps.selectedCategory.includes(category.name) ? "active" : ""}`}
                     onClick={() => {
                       allProps.setCategory(category.name);
@@ -40,9 +42,9 @@ export default function ProductFilterModal({ allProps, brands, categories, subCa
             <div className="widget-facet facet-fieldset">
               <h6 className="facet-title">Sub Categories</h6>
               <div className="box-fieldset-item">
-                {subCategories?.map((subCategory) => (
+                {subCategories?.map((subCategory, index) => (
                   <fieldset
-                    key={subCategory.id}
+                    key={`${subCategory.id}-${index}`}
                     className="fieldset-item"
                     onClick={() => allProps.setSubCategories(subCategory.name)}
                   >
@@ -89,9 +91,9 @@ export default function ProductFilterModal({ allProps, brands, categories, subCa
           <div className="widget-facet facet-fieldset">
             <h6 className="facet-title">Brands</h6>
             <div className="box-fieldset-item">
-              {brands?.map((brand) => (
+              {brands?.map((brand, index) => (
                 <fieldset
-                  key={brand.id}
+                  key={`${brand.id}-${index}`}
                   className="fieldset-item"
                   onClick={() => allProps.setBrands(brand.name)}
                 >
@@ -138,9 +140,9 @@ export default function ProductFilterModal({ allProps, brands, categories, subCa
             <div className="widget-facet facet-fieldset">
               <h6 className="facet-title">Suitable</h6>
               <div className="box-fieldset-item">
-                {suitable?.map((suitable) => (
+                {suitable?.map((suitable, index) => (
                   <fieldset
-                    key={suitable.id}
+                    key={`${suitable.id}-${index}`}
                     className="fieldset-item"
                     onClick={() => allProps.setSuitable(suitable.name)}
                   >
@@ -163,9 +165,9 @@ export default function ProductFilterModal({ allProps, brands, categories, subCa
             <div className="widget-facet facet-fieldset">
               <h6 className="facet-title">Concerns</h6>
               <div className="box-fieldset-item">
-                {concerns?.map((concern) => (
+                {concerns?.map((concern, index) => (
                   <fieldset
-                    key={concern.id}
+                    key={`${concern.id}-${index}`}
                     className="fieldset-item"
                     onClick={() => allProps.setConcerns(concern.name)}
                   >
@@ -188,9 +190,9 @@ export default function ProductFilterModal({ allProps, brands, categories, subCa
             <div className="widget-facet facet-fieldset">
               <h6 className="facet-title">Ingredients</h6>
               <div className="box-fieldset-item">
-                {ingredients?.map((ingredient) => (
+                {ingredients?.map((ingredient, index) => (
                   <fieldset
-                    key={ingredient.id}
+                    key={`${ingredient.id}-${index}`}
                     className="fieldset-item"
                     onClick={() => allProps.setIngredients(ingredient.name)}
                   >

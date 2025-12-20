@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import QuantitySelect from "../QuantitySelect";
 import { useContextElement } from "@/context/Context";
-import ProductStikyBottom from "../ProductStikyBottom";
 import useProductDetails from "@/services/tanstack/queries/useProductDetails";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import ProductDetailsSlider from "../sliders/ProductDetailsSlider";
@@ -10,32 +9,104 @@ import Link from "next/link";
 import Image from "next/image";
 import ProductDescription from "../descriptions/ProductDescription";
 import statusFormatter from "@/utlis/statusFormatter";
+import { IoMdCopy } from "react-icons/io";
+import { AiOutlineMail } from "react-icons/ai";
+import ToastHelper from "@/helpers/toastHelper";
+import { useSession } from "@/store/session";
+import useToggleWishlist from "@/services/tanstack/mutations/useToggleWishlist";
+import { queryKeys } from "@/services/tanstack/queries";
+import { queryClient } from "@/utlis/queryClient";
+import { GoHeart } from "react-icons/go";
+import { IoHeartSharp } from "react-icons/io5";
+import { useCartContextElement } from "@/context/CartContext";
 
 export default function Details({ id }) {
+  const { id: customer_id, isAuthenticated } = useSession()
   const [activeColor, setActiveColor] = useState("gray");
   const [quantity, setQuantity] = useState(1);
   const stickyRef = React.useRef(null);
-
   const {
     addProductToCart,
     isAddedToCartProducts,
-    addToWishlist,
-    isAddedtoWishlist,
     cartProducts,
     updateQuantity,
-  } = useContextElement();
-  const { data, isLoading } = useProductDetails(id);
+  } = useCartContextElement();
+
+  const { data, isLoading } = useProductDetails(id, { customer_id });
+
   const product = data;
 
   const scrollToSticky = () => {
     stickyRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const [isDDOpen, setIsDDOpen] = useState(false);
+  const languageSelect = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        languageSelect.current &&
+        !languageSelect.current.contains(event.target)
+      ) {
+        setIsDDOpen(false); // Close the dropdown if click is outside
+      }
+    };
+    // Add the event listener when the component mounts
+    document.addEventListener("click", handleClickOutside);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const categoriesName = data?.category.map(c => c.name).join(", ");
+
+  const handleCopyLink = () => {
+    if (typeof window === "undefined") return;
+    const url = `${window.location.origin}${window.location.pathname}`;
+    navigator.clipboard.writeText(url);
+    ToastHelper.success("Link copied!");
+  };
+
+  const handleShareEmail = () => {
+    const url = window.location.href;
+
+    const subject = encodeURIComponent(`Check out ${product?.pname}`);
+    const body = encodeURIComponent(
+      `Hey,\n\nI found this product and thought you might like it:\n\n${url}`
+    );
+
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  };
+
+  const handleShareWhatsapp = () => {
+    const url = encodeURIComponent(window.location.href);
+
+    const message = encodeURIComponent(
+      `Hey,\n\nI found this product and thought you might like it:\n\n${url}`
+    );
+
+    window.open(`https://wa.me/?text=${message}`, "_blank");
+  };
+
+  const { mutate: toggleWishlist } = useToggleWishlist({
+    onSuccess: async (data) => {
+      const { message } = data;
+      ToastHelper.success(message);
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.productDetails],
+      });
+    },
+    onError: (error) => {
+      ToastHelper.error(error.message);
+    },
+  });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  const categoriesName = data?.category.map(c => c.name).join(", ");
 
   return (
     <section className="flat-spacing">
@@ -76,6 +147,19 @@ export default function Details({ id }) {
                             (134 reviews)
                           </div>
                         </div>
+                        <div className="tf-product-info-sold">
+                          <i className="icon icon-lightning" />
+                          <div className="text text-caption-1">
+                            {product?.stock === 1 && (
+                              "Last item in stock — order soon"
+                            )}
+
+                            {product?.stock > 1 && product?.stock < 3 && (
+                              "Low stock — limited quantities available."
+                            )}
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                     <div className="tf-product-info-desc">
@@ -135,7 +219,7 @@ export default function Details({ id }) {
                     <div>
                       <div className="tf-product-info-by-btn mb_10">
                         <a
-                          onClick={() => addProductToCart(product?.id, quantity)}
+                          onClick={() => addProductToCart(product, quantity)}
                           className="btn-style-2 flex-grow-1 text-btn-uppercase fw-6 btn-add-to-cart"
                         >
                           <span>
@@ -154,25 +238,88 @@ export default function Details({ id }) {
                               : (product?.new_selling_price > 0 ? product?.new_selling_price : product?.selling_price) * quantity)}{" "}
                           </span>
                         </a>
-                        <div className="box-icon hover-tooltip compare btn-icon-action">
-                          <div className="icon">
-                            <i className="icon-share" />
-                          </div>
-                          <span className="tooltip text-caption-2">
-                            Share
-                          </span>
-                        </div>
-                        <a
-                          onClick={() => addToWishlist(product?.id)}
-                          className="box-icon hover-tooltip text-caption-2 wishlist btn-icon-action"
+                        <div
+                          ref={languageSelect}
+                          onClick={() => setIsDDOpen((pre) => !pre)}
+                          className={`dropdown bootstrap-select image-select center style-default type-currencies color-white dropup position-relative`}
                         >
-                          <span className="icon icon-heart" />
-                          <span className="tooltip text-caption-2">
-                            {isAddedtoWishlist(product?.id)
-                              ? "Already Wishlished"
-                              : "Wishlist"}
-                          </span>
-                        </a>
+                          <div className={`box-icon hover-tooltip compare btn-icon-action pr_0 ${isDDOpen ? "show" : ""} `}>
+                            <div className="icon">
+                              <i className="icon-share" />
+                            </div>
+                            <span className="tooltip text-caption-2">
+                              Share
+                            </span>
+                          </div>
+                          <div
+                            className={`dropdown-menu no-after ${isDDOpen ? "show" : ""} `}
+                            style={{
+                              maxHeight: "899.688px",
+                              overflow: "hidden",
+                              minHeight: 0,
+                              position: "absolute",
+                              inset: "auto auto 0px 0px",
+                              margin: 0,
+                              transform: "translate(-60%, 82%)",
+                              right: 0,
+                              bottom: "-100%",
+                              minWidth: "150px",
+                              marginLeft: 0,
+                            }}
+                            data-popper-placement="bottom-start"
+                          >
+                            <div
+                              className="inner show"
+                              style={{ maxHeight: "869.688px", overflowY: "auto", minHeight: 0 }}
+                            >
+                              <ul
+                                className="dropdown-menu inner show"
+                                role="presentation"
+                                style={{ marginTop: 0, marginBottom: 0 }}
+                              >
+                                <li
+                                  className="dropdown-item d-flex align-items-center gap-8 px-1" style={{ cursor: 'pointer' }}
+                                  onClick={handleShareWhatsapp}
+                                >
+                                  <i className="icon icon-whatsapp" />
+                                  <span className="text">
+                                    Whatsapp
+                                  </span>
+                                </li>
+                                <li
+                                  className="dropdown-item d-flex align-items-center gap-8 px-1" style={{ cursor: 'pointer' }}
+                                  onClick={handleShareEmail}
+                                >
+                                  <AiOutlineMail size={20} />
+                                  <span className="text">
+                                    Email
+                                  </span>
+                                </li>
+                                <li className="dropdown-item d-flex align-items-center gap-8 px-1" style={{ cursor: 'pointer' }}
+                                  onClick={handleCopyLink}
+                                >
+                                  < IoMdCopy size={20} />
+                                  <span className="text">
+                                    Copy
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        {isAuthenticated && (
+                          <a
+                            onClick={() => toggleWishlist({ product_id: product.id })}
+                            className="box-icon hover-tooltip text-caption-2 wishlist btn-icon-action"
+                          >
+                            {product.is_wishlist ? <IoHeartSharp color="red" size={25} /> : <GoHeart size={25} />}
+                            <span className="tooltip text-caption-2">
+                              {product.is_wishlist
+                                ? "Already Wishlished"
+                                : "Wishlist"}
+                            </span>
+                          </a>
+                        )}
                       </div>
                       <a href="#" className="btn-style-3 text-btn-uppercase">
                         Buy it now
@@ -283,7 +430,7 @@ export default function Details({ id }) {
           </div>
         </div>
       </section>
-      <ProductStikyBottom />
+      {/* <ProductStikyBottom /> */}
     </section>
   );
 }

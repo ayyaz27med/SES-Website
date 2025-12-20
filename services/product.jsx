@@ -6,8 +6,8 @@ export const fetchProducts = async (params) => {
   return data?.data;
 };
 
-export const fetchProductDetails = async (id) => {
-  const { data } = await authApi.get(`product-list-front/${id}`);
+export const fetchProductDetails = async (id, params) => {
+  const { data } = await authApi.get(`product-list-front/${id}`, { params });
   return data?.data;
 };
 

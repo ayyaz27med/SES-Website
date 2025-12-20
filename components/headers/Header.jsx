@@ -14,6 +14,7 @@ export default function Header({ fullWidth = false }) {
 
   const handleLogout = () => {
     clearSession();
+    document.cookie = `token=; path=/; max-age=0`;
     ToastHelper.success("Logout Successful");
     router.push('/')
   };

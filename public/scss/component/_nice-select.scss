@@ -357,3 +357,7 @@
     }
   }
 }
+
+.no-after::after {
+  display: none;
+}

@@ -15,4 +15,5 @@ export const queryKeys = {
   faqs: 'faqs',
   wishlist: 'wishlist',
   homePagePopupDetails: 'homePagePopupDetails',
+  filters: 'filters',
 }

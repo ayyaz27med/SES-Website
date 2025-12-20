@@ -4,8 +4,6 @@ import LayoutHandler from "./LayoutHandler";
 import Listview from "./Listview";
 import { useEffect, useMemo, useReducer, useState } from "react";
 import useProducts from "@/services/tanstack/queries/useProducts";
-import useBrands from "@/services/tanstack/queries/useBrands";
-import useCategories from "@/services/tanstack/queries/useCategories";
 import { useRouter, useSearchParams } from "next/navigation";
 import { initialState, productFilterOptions, reducer } from "@/utlis/productList";
 import ProductsSorting from "./ProductsSorting";
@@ -14,15 +12,18 @@ import ProductFilterMeta from "./ProductFilterMeta";
 import ProductFilterModal from "./ProductFilterModal";
 import ProductGridView from "./ProductGridView";
 import useDebounce from "@/utlis/useDebounce";
-import { useMultiSubCategories } from "@/utlis/useMultiSubCategories";
 import { useSession } from "@/store/session";
+import useFilters from "@/services/tanstack/queries/useProductsFilters";
+import useCategories from "@/services/tanstack/queries/useCategories";
+import useBrands from "@/services/tanstack/queries/useBrands";
+import { useMultiSubCategories } from "@/utlis/useMultiSubCategories";
 
 export default function Products11() {
   const router = useRouter();
   const [activeLayout, setActiveLayout] = useState(4);
   const [page, setPage] = useState(1);
   const { id } = useSession()
-  const length = 12;
+  const length = 20;
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
   const subCategoryParam = searchParams.get("sub_category");
@@ -55,42 +56,46 @@ export default function Products11() {
     sortingOption,
   } = state;
 
-  const { data: brandsData } = useBrands({
-    isServerSidePagination: true,
-    start: 1,
-    length: 60,
-    "order[0][0]": "name",
-    "order[0][1]": "DESC",
-  });
+  const { data: filtersData } = useFilters();
+  const filters = filtersData || {};
 
-  const { data: categoriesData } = useCategories({
+  const brands = filters?.brands || [];
+  const categories = filters?.categories || [];
+  const subCategories = filters?.sub_categories || [];
+  const concerns = filters?.concerns || [];
+  const suitable = filters?.suitable || [];
+  const ingredients = filters?.ingredient || [];
+
+  const { data: brandsAPIData } = useBrands();
+
+  const { data: categoriesAPIData } = useCategories({
     isServerSidePagination: true,
     "order[0][0]": "name",
     "order[0][1]": "ASC",
   });
 
-  const { data: subCategories } = useMultiSubCategories(
+  const { data: subCategoriesData } = useMultiSubCategories(
     categoryIds,
     "sub_category"
   );
 
-  const { data: concerns } = useMultiSubCategories(
+  const { data: concernsData } = useMultiSubCategories(
     categoryIds,
     "concerns"
   );
 
-  const { data: suitable } = useMultiSubCategories(
+  const { data: suitableData } = useMultiSubCategories(
     categoryIds,
     "suitable"
   );
 
-  const { data: ingredients } = useMultiSubCategories(
+  const { data: ingredientsData } = useMultiSubCategories(
     categoryIds,
     "ingredients"
   );
 
-  const brands = brandsData?.data || [];
-  const categories = categoriesData?.data || [];
+  const brandsData = brandsAPIData?.data || [];
+  const categoriesData = categoriesAPIData?.data || [];
 
   const debouncedPrice = useDebounce(price, 500);
   const buildProductParams = (override = {}) => {
@@ -114,32 +119,32 @@ export default function Products11() {
       sale: activeFilterOnSale,
       customer_id: id,
       category_id: selectedCategory
-        .map(name => categories.find(x => x.name === name)?.id)
+        .map(name => categoriesData.find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       sub_category_id: selectedSubCategories
-        .map(name => subCategories.find(x => x.name === name)?.id)
+        .map(name => subCategoriesData.find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       suitable_id: selectedSuitable
-        .map(name => suitable.find(x => x.name === name)?.id)
+        .map(name => suitableData.find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       concern_id: selectedConcerns
-        .map(name => concerns.find(x => x.name === name)?.id)
+        .map(name => concernsData.find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       ingredients_id: selectedIngredients
-        .map(name => ingredients.find(x => x.name === name)?.id)
+        .map(name => ingredientsData.find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       brand_id: selectedBrands
-        .map(name => brands.find(x => x.name === name)?.id)
+        .map(name => brandsData.find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
     };
@@ -171,78 +176,69 @@ export default function Products11() {
 
   useEffect(() => {
     // ---- CATEGORY ----
-    if (categoryParam && categories.length > 0) {
+    if (categoryParam && categories.length > 0 && categoriesData.length > 0) {
       const ids = parseMultiParam(categoryParam);
-      const names = categories
+      const names = categoriesData
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
         dispatch({ type: "SET_CATEGORY", payload: names });
       }
-    } else if (!categoryParam) {
-      dispatch({ type: "SET_CATEGORY", payload: [] });
     }
 
     // ---- SUB-CATEGORY ----
-    if (subCategoryParam && subCategories.length > 0) {
+    if (subCategoryParam && subCategories.length > 0 && subCategoriesData.length > 0) {
       const ids = parseMultiParam(subCategoryParam);
-      const names = subCategories
+      const names = subCategoriesData
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
         dispatch({ type: "SET_SUB_CATEGORIES", payload: names });
       }
-    } else if (!subCategoryParam) {
-      dispatch({ type: "SET_SUB_CATEGORIES", payload: [] });
     }
 
     // ---- CONCERNS ----
-    if (concernParam && concerns.length > 0) {
+    if (concernParam && concerns.length > 0 && concernsData.length > 0) {
       const ids = parseMultiParam(concernParam);
-      const names = concerns
+      const names = concernsData
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
         dispatch({ type: "SET_CONCERNS", payload: names });
       }
-    } else if (!concernParam) {
-      dispatch({ type: "SET_CONCERNS", payload: [] });
     }
 
     // ---- SUITABLE ----
-    if (suitableParam && suitable.length > 0) {
+    if (suitableParam && suitable.length > 0 && suitableData.length > 0) {
       const ids = parseMultiParam(suitableParam);
-      const names = suitable
+      const names = suitableData
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
         dispatch({ type: "SET_SUITABLE", payload: names });
       }
-    } else if (!suitableParam) {
-      dispatch({ type: "SET_SUITABLE", payload: [] });
     }
 
     // ---- INGREDIENTS ----
-    if (ingredientsParam && ingredients.length > 0) {
+    if (ingredientsParam && ingredients.length > 0 && ingredientsData.length > 0) {
       const ids = parseMultiParam(ingredientsParam);
-      const names = ingredients
+      const names = ingredientsData
         .filter(c => ids.includes(String(c.id)))
-        .map(c => c.name);
+        .map(c => c.name || c.bname);
       if (names) {
         dispatch({ type: "SET_INGREDIENTS", payload: names });
       }
-    } else if (!ingredientsParam) {
-      dispatch({ type: "SET_INGREDIENTS", payload: [] });
     }
 
     // ---- BRAND ----
-    if (brandParam && brands.length > 0) {
-      const found = brands.find(sc => sc.id === brandParam);
-      if (found) {
-        dispatch({ type: "SET_BRANDS", payload: [found.name] });
+    if (brandParam && brands.length > 0 && brandsData.length > 0) {
+      const ids = parseMultiParam(brandParam);
+      const names = brandsData
+        .filter(c => ids.includes(String(c.id)))
+        .map(c => c.name);
+      if (names) {
+        dispatch({ type: "SET_BRANDS", payload: names });
       }
-    } else if (!brandParam) {
-      dispatch({ type: "SET_BRANDS", payload: [] });
     }
 
     // ---- SALE ----
@@ -262,6 +258,12 @@ export default function Products11() {
     suitable.length,
     ingredients.length,
     brands.length,
+    categoriesData.length,
+    subCategoriesData.length,
+    concernsData.length,
+    suitableData.length,
+    ingredientsData.length,
+    brandsData.length,
     saleParam
   ]);
 
@@ -367,12 +369,6 @@ export default function Products11() {
     setSortingOption: (value) =>
       dispatch({ type: "SET_SORTING_OPTION", payload: value }),
     toggleFilterWithOnSale: () => dispatch({ type: "TOGGLE_FILTER_ON_SALE" }),
-    setCurrentPage: (value) =>
-      dispatch({ type: "SET_CURRENT_PAGE", payload: value }),
-    setItemPerPage: (value) => {
-      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
-      dispatch({ type: "SET_ITEM_PER_PAGE", payload: value });
-    },
     clearFilter: () => {
       dispatch({ type: "CLEAR_FILTER" });
       setPage(1);

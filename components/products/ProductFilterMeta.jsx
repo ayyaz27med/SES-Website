@@ -30,9 +30,9 @@ export default function ProductFilterMeta({ allProps, productLength }) {
         )}
         {allProps.selectedCategory.length ? (
           <React.Fragment>
-            {allProps.selectedCategory.map((category) => (
+            {allProps.selectedCategory.map((category, index) => (
               <span
-                key={category}
+                key={`${category}-${index}`}
                 className="filter-tag"
                 onClick={() => allProps.removeCategory(category)}
               >
@@ -46,9 +46,9 @@ export default function ProductFilterMeta({ allProps, productLength }) {
         )}
         {allProps.selectedSubCategories.length ? (
           <React.Fragment>
-            {allProps.selectedSubCategories.map((subCategory) => (
+            {allProps.selectedSubCategories.map((subCategory, index) => (
               <span
-                key={subCategory}
+                key={`${subCategory}-${index}`}
                 className="filter-tag"
                 onClick={() => allProps.removeSubCategories(subCategory)}
               >
@@ -62,9 +62,9 @@ export default function ProductFilterMeta({ allProps, productLength }) {
         )}
         {allProps.selectedConcerns.length ? (
           <React.Fragment>
-            {allProps.selectedConcerns.map((concern) => (
+            {allProps.selectedConcerns.map((concern, index) => (
               <span
-                key={concern}
+                key={`${concern}-${index}`}
                 className="filter-tag"
                 onClick={() => allProps.removeConcerns(concern)}
               >
@@ -79,9 +79,9 @@ export default function ProductFilterMeta({ allProps, productLength }) {
         
         {allProps.selectedSuitable.length ? (
           <React.Fragment>
-            {allProps.selectedSuitable.map((suitable) => (
+            {allProps.selectedSuitable.map((suitable, index) => (
               <span
-                key={suitable}
+                key={`${suitable}-${index}`}
                 className="filter-tag"
                 onClick={() => allProps.removeSuitable(suitable)}
               >
@@ -96,9 +96,9 @@ export default function ProductFilterMeta({ allProps, productLength }) {
 
         {allProps.selectedIngredients.length ? (
           <React.Fragment>
-            {allProps.selectedIngredients.map((ingredient) => (
+            {allProps.selectedIngredients.map((ingredient, index) => (
               <span
-                key={ingredient}
+                key={`${ingredient}-${index}`}
                 className="filter-tag"
                 onClick={() => allProps.removeIngredients(ingredient)}
               >
@@ -112,9 +112,9 @@ export default function ProductFilterMeta({ allProps, productLength }) {
         )}
         {allProps.selectedBrands.length ? (
           <React.Fragment>
-            {allProps.selectedBrands.map((brand) => (
+            {allProps.selectedBrands.map((brand, index) => (
               <span
-                key={brand}
+                key={`${brand}-${index}`}
                 className="filter-tag"
                 onClick={() => allProps.removeBrand(brand)}
               >
