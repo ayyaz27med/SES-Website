@@ -17,6 +17,8 @@ import useFilters from "@/services/tanstack/queries/useProductsFilters";
 import useCategories from "@/services/tanstack/queries/useCategories";
 import useBrands from "@/services/tanstack/queries/useBrands";
 import { useMultiSubCategories } from "@/utlis/useMultiSubCategories";
+import FullScreenLoader from "../common/FullScreenLoader";
+import ContentLoader from "../common/ContentLoader";
 
 export default function Products11() {
   const router = useRouter();
@@ -55,8 +57,8 @@ export default function Products11() {
     activeFilterOnSale,
     sortingOption,
   } = state;
-
-  const { data: filtersData } = useFilters();
+  console.log('Selected state:', state);
+  const { data: filtersData, isLoading: isFiltersLoading } = useFilters();
   const filters = filtersData || {};
 
   const brands = filters?.brands || [];
@@ -66,33 +68,35 @@ export default function Products11() {
   const suitable = filters?.suitable || [];
   const ingredients = filters?.ingredient || [];
 
-  const { data: brandsAPIData } = useBrands();
+  const { data: brandsAPIData, isLoading: isBrandsLoading } = useBrands();
 
-  const { data: categoriesAPIData } = useCategories({
+  const { data: categoriesAPIData, isLoading: isCategoriesLoading } = useCategories({
     isServerSidePagination: true,
     "order[0][0]": "name",
     "order[0][1]": "ASC",
   });
 
-  const { data: subCategoriesData } = useMultiSubCategories(
+  const { data: subCategoriesData, isLoading: isSubCategoriesLoading } = useMultiSubCategories(
     categoryIds,
     "sub_category"
   );
 
-  const { data: concernsData } = useMultiSubCategories(
+  const { data: concernsData, isLoading: isConcernsLoading } = useMultiSubCategories(
     categoryIds,
     "concerns"
   );
 
-  const { data: suitableData } = useMultiSubCategories(
+  const { data: suitableData, isLoading: isSuitableLoading } = useMultiSubCategories(
     categoryIds,
     "suitable"
   );
 
-  const { data: ingredientsData } = useMultiSubCategories(
+  const { data: ingredientsData, isLoading: isIngredientsLoading } = useMultiSubCategories(
     categoryIds,
     "ingredients"
   );
+
+  const isSidebarLoading = isFiltersLoading || isCategoriesLoading || isBrandsLoading || isSubCategoriesLoading || isConcernsLoading || isSuitableLoading || isIngredientsLoading;
 
   const brandsData = brandsAPIData?.data || [];
   const categoriesData = categoriesAPIData?.data || [];
@@ -103,7 +107,6 @@ export default function Products11() {
       price,
       ...override,
     };
-
     const sort =
       productFilterOptions[sortingOption] ||
       productFilterOptions["Sort by (Default)"];
@@ -119,35 +122,36 @@ export default function Products11() {
       sale: activeFilterOnSale,
       customer_id: id,
       category_id: selectedCategory
-        .map(name => categoriesData.find(x => x.name === name)?.id)
+        .map(name => (categoriesData?.length ? categoriesData : categories).find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       sub_category_id: selectedSubCategories
-        .map(name => subCategoriesData.find(x => x.name === name)?.id)
+        .map(name => (subCategoriesData?.length ? subCategoriesData : subCategories).find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
-      suitable_id: selectedSuitable
-        .map(name => suitableData.find(x => x.name === name)?.id)
+      suitable_id: selectedSuitable 
+        .map(name => (suitableData?.length ? suitableData : suitable).find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       concern_id: selectedConcerns
-        .map(name => concernsData.find(x => x.name === name)?.id)
+        .map(name => (concernsData?.length ? concernsData : concerns).find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       ingredients_id: selectedIngredients
-        .map(name => ingredientsData.find(x => x.name === name)?.id)
+        .map(name => (ingredientsData?.length ? ingredientsData : ingredients).find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
 
       brand_id: selectedBrands
-        .map(name => brandsData.find(x => x.name === name)?.id)
+        .map(name => (brandsData.length > 0 ? brandsData : brands).find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
     };
+    console.log('Applied filters for product params:', params, 'selectedSubCategories', selectedSubCategories, 'subCategoriesData', subCategoriesData);
 
     // Remove empty keys ("" or null or undefined)
     Object.keys(params).forEach(key => {
@@ -164,11 +168,38 @@ export default function Products11() {
     return params;
   };
 
-  const { data, isProductFetching } = useProducts(
-    buildProductParams({
-      price: debouncedPrice
-    })
-  );
+
+  const productParams = useMemo(() => {
+    return buildProductParams({
+      price: debouncedPrice,
+    });
+  }, [
+    debouncedPrice,
+    page,
+    sortingOption,
+    activeFilterOnSale,
+    selectedCategory,
+    selectedSubCategories,
+    selectedConcerns,
+    selectedIngredients,
+    selectedSuitable,
+    selectedBrands,
+    categoriesData,
+    subCategoriesData,
+    concernsData,
+    suitableData,
+    ingredientsData,
+    brandsData,
+    id
+  ]);
+
+  const { data, isLoading: isProductFetching } = useProducts(productParams);
+
+  // const { data, isLoading: isProductFetching } = useProducts(
+  //   buildProductParams({
+  //     price: debouncedPrice
+  //   })
+  // );
 
   const products = data?.data || [];
   const total = Number(data?.count || 0);
@@ -176,9 +207,9 @@ export default function Products11() {
 
   useEffect(() => {
     // ---- CATEGORY ----
-    if (categoryParam && categories.length > 0 && categoriesData.length > 0) {
+    if (categoryParam) {
       const ids = parseMultiParam(categoryParam);
-      const names = categoriesData
+      const names = (categoriesData || categories)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
@@ -187,9 +218,9 @@ export default function Products11() {
     }
 
     // ---- SUB-CATEGORY ----
-    if (subCategoryParam && subCategories.length > 0 && subCategoriesData.length > 0) {
+    if (subCategoryParam) {
       const ids = parseMultiParam(subCategoryParam);
-      const names = subCategoriesData
+      const names = (subCategoriesData || subCategories)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
@@ -198,9 +229,9 @@ export default function Products11() {
     }
 
     // ---- CONCERNS ----
-    if (concernParam && concerns.length > 0 && concernsData.length > 0) {
+    if (concernParam) {
       const ids = parseMultiParam(concernParam);
-      const names = concernsData
+      const names = (concernsData || concerns)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
@@ -209,9 +240,9 @@ export default function Products11() {
     }
 
     // ---- SUITABLE ----
-    if (suitableParam && suitable.length > 0 && suitableData.length > 0) {
+    if (suitableParam) {
       const ids = parseMultiParam(suitableParam);
-      const names = suitableData
+      const names = (suitableData || suitable)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
@@ -220,9 +251,9 @@ export default function Products11() {
     }
 
     // ---- INGREDIENTS ----
-    if (ingredientsParam && ingredients.length > 0 && ingredientsData.length > 0) {
+    if (ingredientsParam) {
       const ids = parseMultiParam(ingredientsParam);
-      const names = ingredientsData
+      const names = (ingredientsData || ingredients)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name || c.bname);
       if (names) {
@@ -231,9 +262,9 @@ export default function Products11() {
     }
 
     // ---- BRAND ----
-    if (brandParam && brands.length > 0 && brandsData.length > 0) {
+    if (brandParam) {
       const ids = parseMultiParam(brandParam);
-      const names = brandsData
+      const names = (brandsData || brands)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
       if (names) {
@@ -252,18 +283,18 @@ export default function Products11() {
     suitableParam,
     ingredientsParam,
     brandParam,
-    categories.length,
-    subCategories.length,
-    concerns.length,
-    suitable.length,
-    ingredients.length,
-    brands.length,
-    categoriesData.length,
-    subCategoriesData.length,
-    concernsData.length,
-    suitableData.length,
-    ingredientsData.length,
-    brandsData.length,
+    categories,
+    subCategories,
+    concerns,
+    suitable,
+    ingredients,
+    brands,
+    categoriesData,
+    subCategoriesData,
+    concernsData,
+    suitableData,
+    ingredientsData,
+    brandsData,
     saleParam
   ]);
 
@@ -326,6 +357,7 @@ export default function Products11() {
       const updated = selectedSubCategories.includes(subCategory)
         ? selectedSubCategories.filter((sc) => sc !== subCategory)
         : [...selectedSubCategories, subCategory];
+      console.log('updated sub-categories:', updated);
       dispatch({ type: "SET_SUB_CATEGORIES", payload: updated });
     },
     removeSubCategories: (subCategory) =>
@@ -378,7 +410,7 @@ export default function Products11() {
     },
   };
 
-  if (isProductFetching) return <div>Loading...</div>;
+  if (isProductFetching && isSidebarLoading) return <FullScreenLoader image="/images/loaders/bags-happy.gif" />;
 
   return (
     <>
@@ -436,27 +468,33 @@ export default function Products11() {
                 />
               </div>
               <div className="col-xl-9">
-                {activeLayout === 1 ? (
-                  <div className="tf-list-layout wrapper-shop" id="listLayout">
-                    <Listview
-                      products={sorted}
-                      page={page}
-                      totalPages={totalPages}
-                      setPage={setPage}
-                    />
-                  </div>
+                {isProductFetching ? (
+                  <ContentLoader image="/images/loaders/nivea-nivea-shower.gif" height="100vh" />
                 ) : (
-                  <div
-                    className={`tf-grid-layout wrapper-shop tf-col-${activeLayout}`}
-                    id="gridLayout"
-                  >
-                    <ProductGridView
-                      products={sorted}
-                      page={page}
-                      totalPages={totalPages}
-                      setPage={setPage}
-                    />
-                  </div>
+                  <>
+                    {activeLayout === 1 ? (
+                      <div className="tf-list-layout wrapper-shop" id="listLayout">
+                        <Listview
+                          products={sorted}
+                          page={page}
+                          totalPages={totalPages}
+                          setPage={setPage}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`tf-grid-layout wrapper-shop tf-col-${activeLayout}`}
+                        id="gridLayout"
+                      >
+                        <ProductGridView
+                          products={sorted}
+                          page={page}
+                          totalPages={totalPages}
+                          setPage={setPage}
+                        />
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>

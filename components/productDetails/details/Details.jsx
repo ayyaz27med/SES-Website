@@ -20,8 +20,8 @@ import { GoHeart } from "react-icons/go";
 import { IoHeartSharp } from "react-icons/io5";
 import { useCartContextElement } from "@/context/CartContext";
 
-export default function Details({ id }) {
-  const { id: customer_id, isAuthenticated } = useSession()
+export default function Details({ product }) {
+  const { isAuthenticated } = useSession()
   const [activeColor, setActiveColor] = useState("gray");
   const [quantity, setQuantity] = useState(1);
   const stickyRef = React.useRef(null);
@@ -31,10 +31,6 @@ export default function Details({ id }) {
     cartProducts,
     updateQuantity,
   } = useCartContextElement();
-
-  const { data, isLoading } = useProductDetails(id, { customer_id });
-
-  const product = data;
 
   const scrollToSticky = () => {
     stickyRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -61,7 +57,7 @@ export default function Details({ id }) {
     };
   }, []);
 
-  const categoriesName = data?.category.map(c => c.name).join(", ");
+  const categoriesName = product?.category.map(c => c.name).join(", ");
 
   const handleCopyLink = () => {
     if (typeof window === "undefined") return;
@@ -104,10 +100,6 @@ export default function Details({ id }) {
     },
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <section className="flat-spacing">
       <div className="tf-main-product section-image-zoom">
@@ -119,8 +111,8 @@ export default function Details({ id }) {
                 <ProductDetailsSlider
                   setActiveColor={setActiveColor}
                   activeColor={activeColor}
-                  firstItem={data?.main_picture}
-                  slideItems={data?.pictures}
+                  firstItem={product?.main_picture}
+                  slideItems={product?.pictures}
                 />
               </div>
             </div>

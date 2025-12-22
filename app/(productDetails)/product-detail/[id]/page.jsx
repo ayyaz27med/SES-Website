@@ -1,9 +1,7 @@
 import Footer1 from "@/components/footers/Footer1";
 import Header from "@/components/headers/Header";
 import Topbar from "@/components/headers/Topbar";
-import Details from "@/components/productDetails/details/Details";
-import ProductBreadcumb from "@/components/productDetails/ProductBreadcumb";
-import RelatedProducts from "@/components/productDetails/RelatedProducts";
+import ProductDetailsContent from "@/components/products/ProductDetailsContent";
 import React from "react";
 
 export const metadata = {
@@ -18,10 +16,7 @@ export default async function ProductDetailPage({ params }) {
     <>
       <Topbar />
       <Header />
-      <ProductBreadcumb id={id} />
-      <Details id={id} />
-      {/* <Descriptions1 /> */}
-      <RelatedProducts id={id} />
+      <ProductDetailsContent id={id} />
       <Footer1 hasPaddingBottom />
     </>
   );
