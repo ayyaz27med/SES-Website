@@ -4,17 +4,14 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { Autoplay, Pagination } from "swiper/modules";
-import { testimonialsWithProduct9 } from "@/data/products";
 import safeImage from "@/utlis/safeImage";
 import useGoogleReviews from "@/services/tanstack/queries/useGoogleReviews";
-import { useRouter } from "next/navigation";
 
 export default function Testimonials({ parentClass = "flat-spacing" }) {
-  const router = useRouter()
   const { data, isLoading } = useGoogleReviews()
   const googleReviews = data?.data || []
   const [expandedStates, setExpandedStates] = React.useState(
-    Array(testimonialsWithProduct9.length).fill(false)
+    Array(googleReviews.length).fill(false)
   );
 
   return (
@@ -65,7 +62,7 @@ export default function Testimonials({ parentClass = "flat-spacing" }) {
                 loop={googleReviews?.length > 3 ? true : false}
               >
                 {googleReviews.map((testimonial, index) => (
-                  <SwiperSlide key={index} onClick={() => window.open(
+                  <SwiperSlide key={testimonial?.id} onClick={() => window.open(
                     "https://share.google/eM0iD0eD2gnnaufg8",
                     "_blank",
                     "noopener,noreferrer"

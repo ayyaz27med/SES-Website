@@ -235,7 +235,7 @@ export default function ShopCart() {
                     <fieldset className="check-agree">
                       <label htmlFor="check-agree">
                         I agree with the {" "}
-                        <Link href={`/term-of-use`}>terms and conditions</Link>
+                        <Link href={`/terms-and-conditions`}>terms and conditions</Link>
                       </label>
                     </fieldset>
                     <Link
