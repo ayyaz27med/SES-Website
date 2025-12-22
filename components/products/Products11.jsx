@@ -19,6 +19,7 @@ import useBrands from "@/services/tanstack/queries/useBrands";
 import { useMultiSubCategories } from "@/utlis/useMultiSubCategories";
 import FullScreenLoader from "../common/FullScreenLoader";
 import ContentLoader from "../common/ContentLoader";
+import isEqual from "lodash/isEqual";
 
 export default function Products11() {
   const router = useRouter();
@@ -34,6 +35,28 @@ export default function Products11() {
   const ingredientsParam = searchParams.get("ingredients");
   const brandParam = searchParams.get("brand");
   const saleParam = searchParams.get("sale");
+
+  const updateQueryParam = (key, values) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (!values || values.length === 0) {
+      params.delete(key);
+    } else {
+      params.set(key, values.join("_"));
+    }
+
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
+  const toggleParamValue = (paramKey, value, paramValue) => {
+    const current = paramValue ? paramValue.split("_") : [];
+
+    const updated = current.includes(String(value))
+      ? current.filter(v => v !== String(value))
+      : [...current, String(value)];
+
+    updateQueryParam(paramKey, updated);
+  };
 
   const parseMultiParam = (param) => {
     if (!param) return [];
@@ -57,7 +80,7 @@ export default function Products11() {
     activeFilterOnSale,
     sortingOption,
   } = state;
-  console.log('Selected state:', state);
+
   const { data: filtersData, isLoading: isFiltersLoading } = useFilters();
   const filters = filtersData || {};
 
@@ -102,6 +125,7 @@ export default function Products11() {
   const categoriesData = categoriesAPIData?.data || [];
 
   const debouncedPrice = useDebounce(price, 500);
+
   const buildProductParams = (override = {}) => {
     const applied = {
       price,
@@ -131,7 +155,7 @@ export default function Products11() {
         .filter(Boolean)
         .join(","),
 
-      suitable_id: selectedSuitable 
+      suitable_id: selectedSuitable
         .map(name => (suitableData?.length ? suitableData : suitable).find(x => x.name === name)?.id)
         .filter(Boolean)
         .join(","),
@@ -151,7 +175,6 @@ export default function Products11() {
         .filter(Boolean)
         .join(","),
     };
-    console.log('Applied filters for product params:', params, 'selectedSubCategories', selectedSubCategories, 'subCategoriesData', subCategoriesData);
 
     // Remove empty keys ("" or null or undefined)
     Object.keys(params).forEach(key => {
@@ -195,86 +218,100 @@ export default function Products11() {
 
   const { data, isLoading: isProductFetching } = useProducts(productParams);
 
-  // const { data, isLoading: isProductFetching } = useProducts(
-  //   buildProductParams({
-  //     price: debouncedPrice
-  //   })
-  // );
-
   const products = data?.data || [];
   const total = Number(data?.count || 0);
   const totalPages = Math.ceil(total / length);
 
   useEffect(() => {
-    // ---- CATEGORY ----
-    if (categoryParam) {
+    /* ---------------- CATEGORY ---------------- */
+    if (categoryParam && (categoriesData.length || categories.length)) {
       const ids = parseMultiParam(categoryParam);
-      const names = (categoriesData || categories)
+      const names = (categoriesData.length ? categoriesData : categories)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
-      if (names) {
+
+      if (!isEqual(names, selectedCategory)) {
         dispatch({ type: "SET_CATEGORY", payload: names });
       }
+    } else if (!categoryParam && selectedCategory.length) {
+      dispatch({ type: "SET_CATEGORY", payload: [] });
     }
 
-    // ---- SUB-CATEGORY ----
-    if (subCategoryParam) {
+    /* ---------------- SUB CATEGORY ---------------- */
+    if (subCategoryParam && (subCategoriesData.length || subCategories.length)) {
       const ids = parseMultiParam(subCategoryParam);
-      const names = (subCategoriesData || subCategories)
+      const names = (subCategoriesData.length ? subCategoriesData : subCategories)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
-      if (names) {
+
+      if (!isEqual(names, selectedSubCategories)) {
         dispatch({ type: "SET_SUB_CATEGORIES", payload: names });
       }
+    } else if (!subCategoryParam && selectedSubCategories.length) {
+      dispatch({ type: "SET_SUB_CATEGORIES", payload: [] });
     }
 
-    // ---- CONCERNS ----
-    if (concernParam) {
+    /* ---------------- CONCERNS ---------------- */
+    if (concernParam && (concernsData.length || concerns.length)) {
       const ids = parseMultiParam(concernParam);
-      const names = (concernsData || concerns)
+      const names = (concernsData.length ? concernsData : concerns)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
-      if (names) {
+
+      if (!isEqual(names, selectedConcerns)) {
         dispatch({ type: "SET_CONCERNS", payload: names });
       }
+    } else if (!concernParam && selectedConcerns.length) {
+      dispatch({ type: "SET_CONCERNS", payload: [] });
     }
 
-    // ---- SUITABLE ----
-    if (suitableParam) {
+    /* ---------------- SUITABLE ---------------- */
+    if (suitableParam && (suitableData.length || suitable.length)) {
       const ids = parseMultiParam(suitableParam);
-      const names = (suitableData || suitable)
+      const names = (suitableData.length ? suitableData : suitable)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
-      if (names) {
+
+      if (!isEqual(names, selectedSuitable)) {
         dispatch({ type: "SET_SUITABLE", payload: names });
       }
+    } else if (!suitableParam && selectedSuitable.length) {
+      dispatch({ type: "SET_SUITABLE", payload: [] });
     }
 
-    // ---- INGREDIENTS ----
-    if (ingredientsParam) {
+    /* ---------------- INGREDIENTS ---------------- */
+    if (ingredientsParam && (ingredientsData.length || ingredients.length)) {
       const ids = parseMultiParam(ingredientsParam);
-      const names = (ingredientsData || ingredients)
-        .filter(c => ids.includes(String(c.id)))
-        .map(c => c.name || c.bname);
-      if (names) {
-        dispatch({ type: "SET_INGREDIENTS", payload: names });
-      }
-    }
-
-    // ---- BRAND ----
-    if (brandParam) {
-      const ids = parseMultiParam(brandParam);
-      const names = (brandsData || brands)
+      const names = (ingredientsData?.length ? ingredientsData : ingredients)
         .filter(c => ids.includes(String(c.id)))
         .map(c => c.name);
-      if (names) {
-        dispatch({ type: "SET_BRANDS", payload: names });
+
+      if (!isEqual(names, selectedIngredients)) {
+        dispatch({ type: "SET_INGREDIENTS", payload: names });
       }
+    } else if (!ingredientsParam && selectedIngredients.length) {
+      dispatch({ type: "SET_INGREDIENTS", payload: [] });
     }
 
-    // ---- SALE ----
-    if (saleParam) {
-      dispatch({ type: "FILTER_ON_SALE", payload: [] });
+    /* ---------------- BRANDS ---------------- */
+    if (brandParam && (brandsData.length || brands.length)) {
+      const ids = parseMultiParam(brandParam);
+      const names = (brandsData?.length ? brandsData : brands)
+        .filter(c => ids.includes(String(c.id)))
+        .map(c => c.name);
+
+      if (!isEqual(names, selectedBrands)) {
+        dispatch({ type: "SET_BRANDS", payload: names });
+      }
+    } else if (!brandParam && selectedBrands.length) {
+      dispatch({ type: "SET_BRANDS", payload: [] });
+    }
+
+    /* ---------------- SALE ---------------- */
+    if (saleParam && !activeFilterOnSale) {
+      dispatch({ type: "FILTER_ON_SALE" });
+    } else if (!saleParam && activeFilterOnSale) {
+      dispatch({ type: "FILTER_ON_SALE" });
     }
   }, [
     categoryParam,
@@ -283,19 +320,13 @@ export default function Products11() {
     suitableParam,
     ingredientsParam,
     brandParam,
-    categories,
-    subCategories,
-    concerns,
-    suitable,
-    ingredients,
-    brands,
+    saleParam,
     categoriesData,
     subCategoriesData,
     concernsData,
     suitableData,
     ingredientsData,
     brandsData,
-    saleParam
   ]);
 
   // Sorted products
@@ -326,87 +357,114 @@ export default function Products11() {
   // ------------------------------
   const allProps = {
     ...state,
+
+    /* ---------------- PRICE (local only) ---------------- */
     setPrice: (value) => dispatch({ type: "SET_PRICE", payload: value }),
+
+    /* ---------------- AVAILABILITY (local only) ---------------- */
     setAvailability: (value) =>
       value === availability
         ? dispatch({ type: "SET_AVAILABILITY", payload: "All" })
         : dispatch({ type: "SET_AVAILABILITY", payload: value }),
-    setCategory: (category) => {
-      const updated = selectedCategory.includes(category)
-        ? selectedCategory.filter((sc) => sc !== category)
-        : [...selectedCategory, category];
-      dispatch({ type: "SET_CATEGORY", payload: updated });
+
+    /* ---------------- CATEGORY ---------------- */
+    setCategory: (name) => {
+      const allSubCategories = [...categoriesData, ...categories]
+      const id = allSubCategories.find(c => c.name === name)?.id;
+      if (!id) return;
+      toggleParamValue("category", id, categoryParam);
     },
-    removeCategory: (category) =>
-      dispatch({
-        type: "SET_CATEGORY",
-        payload: selectedCategory.filter((sc) => sc !== category),
-      }),
-    setBrands: (brand) => {
-      const updated = selectedBrands.includes(brand)
-        ? selectedBrands.filter((b) => b !== brand)
-        : [...selectedBrands, brand];
-      dispatch({ type: "SET_BRANDS", payload: updated });
+    removeCategory: (name) => {
+      const allSubCategories = [...categoriesData, ...categories]
+      const id = allSubCategories.find(c => c.name === name)?.id;
+      const updated = parseMultiParam(categoryParam).filter(v => v !== String(id));
+      updateQueryParam("category", updated);
     },
-    removeBrand: (brand) =>
-      dispatch({
-        type: "SET_BRANDS",
-        payload: selectedBrands.filter((b) => b !== brand),
-      }),
-    setSubCategories: (subCategory) => {
-      const updated = selectedSubCategories.includes(subCategory)
-        ? selectedSubCategories.filter((sc) => sc !== subCategory)
-        : [...selectedSubCategories, subCategory];
-      console.log('updated sub-categories:', updated);
-      dispatch({ type: "SET_SUB_CATEGORIES", payload: updated });
+
+    /* ---------------- SUB CATEGORY ---------------- */
+    setSubCategories: (name) => {
+      const allSubCategories = [...subCategoriesData, ...subCategories]
+      const id = allSubCategories.find(c => c.name === name)?.id;
+      if (!id) return;
+      toggleParamValue("sub_category", id, subCategoryParam);
     },
-    removeSubCategories: (subCategory) =>
-      dispatch({
-        type: "SET_SUB_CATEGORIES",
-        payload: selectedSubCategories.filter((sc) => sc !== subCategory),
-      }),
-    setSuitable: (suitable) => {
-      const updated = selectedSuitable.includes(suitable)
-        ? selectedSuitable.filter((sc) => sc !== suitable)
-        : [...selectedSuitable, suitable];
-      dispatch({ type: "SET_SUITABLE", payload: updated });
+    removeSubCategories: (name) => {
+      const allSubCategories = [...subCategoriesData, ...subCategories]
+      const id = allSubCategories.find(c => c.name === name)?.id;
+      const updated = parseMultiParam(subCategoryParam).filter(v => v !== String(id));
+      updateQueryParam("sub_category", updated);
     },
-    removeSuitable: (suitable) =>
-      dispatch({
-        type: "SET_SUITABLE",
-        payload: selectedSuitable.filter((sc) => sc !== suitable),
-      }),
-    setConcerns: (concern) => {
-      const updated = selectedConcerns.includes(concern)
-        ? selectedConcerns.filter((sc) => sc !== concern)
-        : [...selectedConcerns, concern];
-      dispatch({ type: "SET_CONCERNS", payload: updated });
+
+    /* ---------------- SUITABLE ---------------- */
+    setSuitable: (name) => {
+      const allSuitable = [...suitableData, ...suitable]
+      const id = allSuitable.find(c => c.name === name)?.id;
+      if (!id) return;
+      toggleParamValue("suitable", id, suitableParam);
     },
-    removeConcerns: (concern) =>
-      dispatch({
-        type: "SET_CONCERNS",
-        payload: selectedConcerns.filter((sc) => sc !== concern),
-      }),
-    setIngredients: (ingredient) => {
-      const updated = selectedIngredients.includes(ingredient)
-        ? selectedIngredients.filter((sc) => sc !== ingredient)
-        : [...selectedIngredients, ingredient];
-      dispatch({ type: "SET_INGREDIENTS", payload: updated });
+    removeSuitable: (name) => {
+      const allSuitable = [...suitableData, ...suitable]
+      const id = allSuitable.find(c => c.name === name)?.id;
+      const updated = parseMultiParam(suitableParam).filter(v => v !== String(id));
+      updateQueryParam("suitable", updated);
     },
-    removeIngredients: (ingredient) =>
-      dispatch({
-        type: "SET_INGREDIENTS",
-        payload: selectedIngredients.filter((sc) => sc !== ingredient),
-      }),
+
+    /* ---------------- CONCERNS ---------------- */
+    setConcerns: (name) => {
+      const allConcerns = [...concernsData, ...concerns]
+      const id = allConcerns.find(c => c.name === name)?.id;
+      if (!id) return;
+      toggleParamValue("concerns", id, concernParam);
+    },
+    removeConcerns: (name) => {
+      const allConcerns = [...concernsData, ...concerns]
+      const id = allConcerns.find(c => c.name === name)?.id;
+      const updated = parseMultiParam(concernParam).filter(v => v !== String(id));
+      updateQueryParam("concerns", updated);
+    },
+
+    /* ---------------- INGREDIENTS ---------------- */
+    setIngredients: (name) => {
+      const allIngredients = [...ingredientsData, ...ingredients]
+      const id = allIngredients.find(c => c.name === name)?.id;
+      if (!id) return;
+      toggleParamValue("ingredients", id, ingredientsParam);
+    },
+    removeIngredients: (name) => {
+      const allIngredients = [...ingredientsData, ...ingredients]
+      const id = allIngredients.find(c => c.name === name)?.id;
+      const updated = parseMultiParam(ingredientsParam).filter(v => v !== String(id));
+      updateQueryParam("ingredients", updated);
+    },
+
+    /* ---------------- BRANDS ---------------- */
+    setBrands: (name) => {
+      const allBrands = [...brandsData, ...brands]
+      const id = allBrands.find(b => b.name === name)?.id;
+      if (!id) return;
+      toggleParamValue("brand", id, brandParam);
+    },
+    removeBrand: (name) => {
+      const allBrands = [...brandsData, ...brands]
+      const id = allBrands.find(b => b.name === name)?.id;
+      const updated = parseMultiParam(brandParam).filter(v => v !== String(id));
+      updateQueryParam("brand", updated);
+    },
+
+    /* ---------------- SORTING ---------------- */
     setSortingOption: (value) =>
       dispatch({ type: "SET_SORTING_OPTION", payload: value }),
-    toggleFilterWithOnSale: () => dispatch({ type: "TOGGLE_FILTER_ON_SALE" }),
+
+    /* ---------------- SALE ---------------- */
+    toggleFilterWithOnSale: () => {
+      const value = saleParam ? [] : ["1"];
+      updateQueryParam("sale", value);
+    },
+
+    /* ---------------- CLEAR ALL ---------------- */
     clearFilter: () => {
-      dispatch({ type: "CLEAR_FILTER" });
       setPage(1);
-      setTimeout(() => {
-        router.replace(window.location.pathname);
-      }, 0);
+      router.replace(window.location.pathname);
     },
   };
 

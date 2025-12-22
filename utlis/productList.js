@@ -41,7 +41,16 @@ export const reducer = (state, action) => {
             return { ...state, itemPerPage: action.payload };
         case "CLEAR_FILTER":
             return {
-                ...initialState,
+                price: [20, 100000],
+                availability: "All",
+                activeFilterOnSale: false,
+                selectedBrands: [],
+                selectedSubCategories: [],
+                selectedSuitable: [],
+                selectedConcerns: [],
+                selectedIngredients: [],
+                selectedCategory: [],
+                sortingOption: "Sort by (Default)",
             }
         default:
             return state;
