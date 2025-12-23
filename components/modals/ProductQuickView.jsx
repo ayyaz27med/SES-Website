@@ -25,8 +25,9 @@ export default function ProductQuickView() {
     cartProducts,
     updateQuantity,
     quickViewItemId,
+    setQuickViewItemId
   } = useCartContextElement();
-  console.log("Quick View Item ID:", quickViewItemId);
+
   const { data, isLoading } = useProductDetails(quickViewItemId, { customer_id });
   const product = data;
 
@@ -37,7 +38,10 @@ export default function ProductQuickView() {
       const { message } = data;
       ToastHelper.success(message);
       queryClient.invalidateQueries({
-        queryKey: [queryKeys.productDetails, quickViewItemId, { customer_id }],
+        queryKey: [queryKeys.productDetails],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.products],
       });
     },
     onError: (error) => {
@@ -62,6 +66,7 @@ export default function ProductQuickView() {
                 <div className="header">
                   <h5 className="title">Quick View</h5>
                   <span
+                    onClick={() => setQuickViewItemId('')}
                     className="icon-close icon-close-popup"
                     data-bs-dismiss="modal"
                   />

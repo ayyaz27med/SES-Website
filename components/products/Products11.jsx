@@ -71,13 +71,6 @@ export default function Products11() {
   const {
     price,
     availability,
-    selectedBrands,
-    selectedSubCategories,
-    selectedConcerns,
-    selectedIngredients,
-    selectedSuitable,
-    selectedCategory,
-    activeFilterOnSale,
     sortingOption,
   } = state;
 
@@ -131,6 +124,7 @@ export default function Products11() {
       price,
       ...override,
     };
+
     const sort =
       productFilterOptions[sortingOption] ||
       productFilterOptions["Sort by (Default)"];
@@ -141,42 +135,22 @@ export default function Products11() {
       length,
       "order[0]": sort.key,
       "order[1]": sort.dir,
+
       min_price: applied.price?.[0],
       max_price: applied.price?.[1],
-      sale: activeFilterOnSale,
+
+      sale: isSaleActive,
       customer_id: id,
-      category_id: selectedCategory
-        .map(name => (categoriesData?.length ? categoriesData : categories).find(x => x.name === name)?.id)
-        .filter(Boolean)
-        .join(","),
 
-      sub_category_id: selectedSubCategories
-        .map(name => (subCategoriesData?.length ? subCategoriesData : subCategories).find(x => x.name === name)?.id)
-        .filter(Boolean)
-        .join(","),
-
-      suitable_id: selectedSuitable
-        .map(name => (suitableData?.length ? suitableData : suitable).find(x => x.name === name)?.id)
-        .filter(Boolean)
-        .join(","),
-
-      concern_id: selectedConcerns
-        .map(name => (concernsData?.length ? concernsData : concerns).find(x => x.name === name)?.id)
-        .filter(Boolean)
-        .join(","),
-
-      ingredients_id: selectedIngredients
-        .map(name => (ingredientsData?.length ? ingredientsData : ingredients).find(x => x.name === name)?.id)
-        .filter(Boolean)
-        .join(","),
-
-      brand_id: selectedBrands
-        .map(name => (brandsData.length > 0 ? brandsData : brands).find(x => x.name === name)?.id)
-        .filter(Boolean)
-        .join(","),
+      category_id: selectedCategoryIds.join(","),
+      sub_category_id: selectedSubCategoryIds.join(","),
+      concern_id: selectedConcernIds.join(","),
+      suitable_id: selectedSuitableIds.join(","),
+      ingredients_id: selectedIngredientIds.join(","),
+      brand_id: selectedBrandIds.join(","),
     };
 
-    // Remove empty keys ("" or null or undefined)
+    // cleanup empty values
     Object.keys(params).forEach(key => {
       if (
         params[key] === undefined ||
@@ -191,29 +165,55 @@ export default function Products11() {
     return params;
   };
 
+  const selectedCategoryIds = useMemo(
+    () => parseMultiParam(categoryParam),
+    [categoryParam]
+  );
+
+  const selectedSubCategoryIds = useMemo(
+    () => {
+      console.log('Selected SubCategory Ids Memo:', subCategoryParam, parseMultiParam(subCategoryParam));
+      return parseMultiParam(subCategoryParam);
+    },
+    [subCategoryParam]
+  );
+
+  const selectedConcernIds = useMemo(
+    () => parseMultiParam(concernParam),
+    [concernParam]
+  );
+
+  const selectedSuitableIds = useMemo(
+    () => parseMultiParam(suitableParam),
+    [suitableParam]
+  );
+
+  const selectedIngredientIds = useMemo(
+    () => parseMultiParam(ingredientsParam),
+    [ingredientsParam]
+  );
+
+  const selectedBrandIds = useMemo(
+    () => parseMultiParam(brandParam),
+    [brandParam]
+  );
+
+  const isSaleActive = Boolean(saleParam);
 
   const productParams = useMemo(() => {
-    return buildProductParams({
-      price: debouncedPrice,
-    });
+    return buildProductParams({ price: debouncedPrice });
   }, [
     debouncedPrice,
     page,
     sortingOption,
-    activeFilterOnSale,
-    selectedCategory,
-    selectedSubCategories,
-    selectedConcerns,
-    selectedIngredients,
-    selectedSuitable,
-    selectedBrands,
-    categoriesData,
-    subCategoriesData,
-    concernsData,
-    suitableData,
-    ingredientsData,
-    brandsData,
-    id
+    isSaleActive,
+    selectedCategoryIds,
+    selectedSubCategoryIds,
+    selectedConcernIds,
+    selectedSuitableIds,
+    selectedIngredientIds,
+    selectedBrandIds,
+    id,
   ]);
 
   const { data, isLoading: isProductFetching } = useProducts(productParams);
@@ -223,111 +223,11 @@ export default function Products11() {
   const totalPages = Math.ceil(total / length);
 
   useEffect(() => {
-    /* ---------------- CATEGORY ---------------- */
-    if (categoryParam && (categoriesData.length || categories.length)) {
-      const ids = parseMultiParam(categoryParam);
-      const names = (categoriesData.length ? categoriesData : categories)
-        .filter(c => ids.includes(String(c.id)))
-        .map(c => c.name);
-
-      if (!isEqual(names, selectedCategory)) {
-        dispatch({ type: "SET_CATEGORY", payload: names });
-      }
-    } else if (!categoryParam && selectedCategory.length) {
-      dispatch({ type: "SET_CATEGORY", payload: [] });
+    if (brandParam === "all" && brands?.length) {
+      const ids = brands.map(b => String(b.id));
+      updateQueryParam("brand", ids);
     }
-
-    /* ---------------- SUB CATEGORY ---------------- */
-    if (subCategoryParam && (subCategoriesData.length || subCategories.length)) {
-      const ids = parseMultiParam(subCategoryParam);
-      const names = (subCategoriesData.length ? subCategoriesData : subCategories)
-        .filter(c => ids.includes(String(c.id)))
-        .map(c => c.name);
-
-      if (!isEqual(names, selectedSubCategories)) {
-        dispatch({ type: "SET_SUB_CATEGORIES", payload: names });
-      }
-    } else if (!subCategoryParam && selectedSubCategories.length) {
-      dispatch({ type: "SET_SUB_CATEGORIES", payload: [] });
-    }
-
-    /* ---------------- CONCERNS ---------------- */
-    if (concernParam && (concernsData.length || concerns.length)) {
-      const ids = parseMultiParam(concernParam);
-      const names = (concernsData.length ? concernsData : concerns)
-        .filter(c => ids.includes(String(c.id)))
-        .map(c => c.name);
-
-      if (!isEqual(names, selectedConcerns)) {
-        dispatch({ type: "SET_CONCERNS", payload: names });
-      }
-    } else if (!concernParam && selectedConcerns.length) {
-      dispatch({ type: "SET_CONCERNS", payload: [] });
-    }
-
-    /* ---------------- SUITABLE ---------------- */
-    if (suitableParam && (suitableData.length || suitable.length)) {
-      const ids = parseMultiParam(suitableParam);
-      const names = (suitableData.length ? suitableData : suitable)
-        .filter(c => ids.includes(String(c.id)))
-        .map(c => c.name);
-
-      if (!isEqual(names, selectedSuitable)) {
-        dispatch({ type: "SET_SUITABLE", payload: names });
-      }
-    } else if (!suitableParam && selectedSuitable.length) {
-      dispatch({ type: "SET_SUITABLE", payload: [] });
-    }
-
-    /* ---------------- INGREDIENTS ---------------- */
-    if (ingredientsParam && (ingredientsData.length || ingredients.length)) {
-      const ids = parseMultiParam(ingredientsParam);
-      const names = (ingredientsData?.length ? ingredientsData : ingredients)
-        .filter(c => ids.includes(String(c.id)))
-        .map(c => c.name);
-
-      if (!isEqual(names, selectedIngredients)) {
-        dispatch({ type: "SET_INGREDIENTS", payload: names });
-      }
-    } else if (!ingredientsParam && selectedIngredients.length) {
-      dispatch({ type: "SET_INGREDIENTS", payload: [] });
-    }
-
-    /* ---------------- BRANDS ---------------- */
-    if (brandParam && (brandsData.length || brands.length)) {
-      const ids = parseMultiParam(brandParam);
-      const names = (brandsData?.length ? brandsData : brands)
-        .filter(c => ids.includes(String(c.id)))
-        .map(c => c.name);
-
-      if (!isEqual(names, selectedBrands)) {
-        dispatch({ type: "SET_BRANDS", payload: names });
-      }
-    } else if (!brandParam && selectedBrands.length) {
-      dispatch({ type: "SET_BRANDS", payload: [] });
-    }
-
-    /* ---------------- SALE ---------------- */
-    if (saleParam && !activeFilterOnSale) {
-      dispatch({ type: "FILTER_ON_SALE" });
-    } else if (!saleParam && activeFilterOnSale) {
-      dispatch({ type: "FILTER_ON_SALE" });
-    }
-  }, [
-    categoryParam,
-    subCategoryParam,
-    concernParam,
-    suitableParam,
-    ingredientsParam,
-    brandParam,
-    saleParam,
-    categoriesData,
-    subCategoriesData,
-    concernsData,
-    suitableData,
-    ingredientsData,
-    brandsData,
-  ]);
+  }, [brandParam, brands]);
 
   // Sorted products
   const sorted = useMemo(() => {
@@ -352,11 +252,38 @@ export default function Products11() {
     return temp;
   }, [products, sortingOption]);
 
+  // Utility function to merge and remove duplicates by `id`
+  const mergeUniqueById = (arr1 = [], arr2 = []) => {
+    const map = new Map();
+    [...arr1, ...arr2].forEach(item => {
+      const key = item.id ?? item.name; // fallback to name if id is missing
+      if (!map.has(key)) {
+        map.set(key, item);
+      }
+    });
+    return Array.from(map.values());
+  };
+
+  // Merge and remove duplicates
+  const allCategories = mergeUniqueById(categoriesData, categories);
+  const allSubCategories = mergeUniqueById(subCategoriesData, subCategories);
+  const allSuitable = mergeUniqueById(suitableData, suitable);
+  const allIngredients = mergeUniqueById(ingredientsData, ingredients);
+  const allConcerns = mergeUniqueById(concernsData, concerns);
+  const allBrands = mergeUniqueById(brandsData, brands);
+
   // ------------------------------
   // ALL PROPS FOR CHILD COMPONENTS
   // ------------------------------
   const allProps = {
     ...state,
+    selectedBrandIds,
+    selectedCategoryIds,
+    selectedSubCategoryIds,
+    selectedConcernIds,
+    selectedSuitableIds,
+    selectedIngredientIds,
+
 
     /* ---------------- PRICE (local only) ---------------- */
     setPrice: (value) => dispatch({ type: "SET_PRICE", payload: value }),
@@ -369,85 +296,79 @@ export default function Products11() {
 
     /* ---------------- CATEGORY ---------------- */
     setCategory: (name) => {
-      const allSubCategories = [...categoriesData, ...categories]
-      const id = allSubCategories.find(c => c.name === name)?.id;
+      const id = allCategories.find(c => c.name === name)?.id;
       if (!id) return;
       toggleParamValue("category", id, categoryParam);
     },
-    removeCategory: (name) => {
-      const allSubCategories = [...categoriesData, ...categories]
-      const id = allSubCategories.find(c => c.name === name)?.id;
-      const updated = parseMultiParam(categoryParam).filter(v => v !== String(id));
+    removeCategory: (id) => {
+      const updated = parseMultiParam(categoryParam).filter(
+        v => v !== String(id)
+      );
       updateQueryParam("category", updated);
     },
 
     /* ---------------- SUB CATEGORY ---------------- */
     setSubCategories: (name) => {
-      const allSubCategories = [...subCategoriesData, ...subCategories]
       const id = allSubCategories.find(c => c.name === name)?.id;
       if (!id) return;
       toggleParamValue("sub_category", id, subCategoryParam);
     },
-    removeSubCategories: (name) => {
-      const allSubCategories = [...subCategoriesData, ...subCategories]
-      const id = allSubCategories.find(c => c.name === name)?.id;
-      const updated = parseMultiParam(subCategoryParam).filter(v => v !== String(id));
+    removeSubCategories: (id) => {
+      const updated = parseMultiParam(subCategoryParam).filter(
+        v => v !== String(id)
+      );
       updateQueryParam("sub_category", updated);
     },
 
     /* ---------------- SUITABLE ---------------- */
     setSuitable: (name) => {
-      const allSuitable = [...suitableData, ...suitable]
       const id = allSuitable.find(c => c.name === name)?.id;
       if (!id) return;
       toggleParamValue("suitable", id, suitableParam);
     },
-    removeSuitable: (name) => {
-      const allSuitable = [...suitableData, ...suitable]
-      const id = allSuitable.find(c => c.name === name)?.id;
-      const updated = parseMultiParam(suitableParam).filter(v => v !== String(id));
+    removeSuitable: (id) => {
+      const updated = parseMultiParam(suitableParam).filter(
+        v => v !== String(id)
+      );
       updateQueryParam("suitable", updated);
     },
 
     /* ---------------- CONCERNS ---------------- */
     setConcerns: (name) => {
-      const allConcerns = [...concernsData, ...concerns]
       const id = allConcerns.find(c => c.name === name)?.id;
       if (!id) return;
       toggleParamValue("concerns", id, concernParam);
     },
-    removeConcerns: (name) => {
-      const allConcerns = [...concernsData, ...concerns]
-      const id = allConcerns.find(c => c.name === name)?.id;
-      const updated = parseMultiParam(concernParam).filter(v => v !== String(id));
+    removeConcerns: (id) => {
+      const updated = parseMultiParam(concernParam).filter(
+        v => v !== String(id)
+      );
       updateQueryParam("concerns", updated);
     },
 
     /* ---------------- INGREDIENTS ---------------- */
     setIngredients: (name) => {
-      const allIngredients = [...ingredientsData, ...ingredients]
       const id = allIngredients.find(c => c.name === name)?.id;
       if (!id) return;
       toggleParamValue("ingredients", id, ingredientsParam);
     },
-    removeIngredients: (name) => {
-      const allIngredients = [...ingredientsData, ...ingredients]
-      const id = allIngredients.find(c => c.name === name)?.id;
-      const updated = parseMultiParam(ingredientsParam).filter(v => v !== String(id));
+    removeIngredients: (id) => {
+      const updated = parseMultiParam(ingredientsParam).filter(
+        v => v !== String(id)
+      );
       updateQueryParam("ingredients", updated);
     },
 
     /* ---------------- BRANDS ---------------- */
     setBrands: (name) => {
-      const allBrands = [...brandsData, ...brands]
       const id = allBrands.find(b => b.name === name)?.id;
       if (!id) return;
       toggleParamValue("brand", id, brandParam);
     },
-    removeBrand: (name) => {
-      const allBrands = [...brandsData, ...brands]
-      const id = allBrands.find(b => b.name === name)?.id;
-      const updated = parseMultiParam(brandParam).filter(v => v !== String(id));
+    removeBrand: (id) => {
+      const updated = parseMultiParam(brandParam).filter(
+        v => v !== String(id)
+      );
       updateQueryParam("brand", updated);
     },
 
@@ -491,7 +412,7 @@ export default function Products11() {
               </a>
               <div
                 onClick={allProps.toggleFilterWithOnSale}
-                className={`d-none d-lg-flex shop-sale-text ${activeFilterOnSale ? "active" : ""
+                className={`d-none d-lg-flex shop-sale-text ${isSaleActive ? "active" : ""
                   }`}
               >
                 <i className="icon icon-checkCircle" />
@@ -512,7 +433,16 @@ export default function Products11() {
           </div>
 
           <div className="wrapper-control-shop">
-            <ProductFilterMeta productLength={products.length} allProps={allProps} />
+            <ProductFilterMeta
+              productLength={products.length}
+              allProps={allProps}
+              allBrands={allBrands}
+              allCategories={allCategories}
+              allSubCategories={allSubCategories}
+              allSuitable={allSuitable}
+              allIngredients={allIngredients}
+              allConcerns={allConcerns}
+            />
             <div className="row">
               <div className="col-xl-3">
                 <ProductFilterSidebar

@@ -36,7 +36,7 @@ export default function MobileNavbarItem({ category }) {
       </a>
       <div id={category?.id} className="collapse">
         <Link
-          href="/products"
+          href={`/products?category=${category?.id}`}
           className="menu-heading text-decoration-underline sub-nav-link fw-6 pl_4"
         >
           View All {category?.name}

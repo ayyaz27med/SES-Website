@@ -118,7 +118,7 @@ export default function MobileMenu() {
                 </a>
                 <div id="dropdown-menu-one" className="collapse">
                   <Link
-                    href="/products"
+                    href="/products?brand=all"
                     className="menu-heading text-decoration-underline sub-nav-link fw-6 pl_4"
                   >
                     View All Brands

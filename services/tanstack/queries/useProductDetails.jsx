@@ -7,6 +7,7 @@ const useProductDetails = (id, params) => {
     queryKey: [queryKeys.productDetails, id, params],
     queryFn: () => fetchProductDetails(id, params),
     enabled: !!id,
+    refetchOnMount: "always",
   });
 };
 

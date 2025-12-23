@@ -44,6 +44,9 @@ export default function ProductCard({
       queryClient.invalidateQueries({
         queryKey: [queryKeys.products],
       });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.productDetails],
+      });
     },
     onError: (error) => {
       ToastHelper.error(error.message);

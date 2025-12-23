@@ -35,13 +35,15 @@ export default function Wishlist() {
             ))}
 
             {/* pagination */}
-            <ul className="wg-pagination justify-content-center">
-              <Pagination
-                page={page}
-                totalPages={totalPages}
-                setPage={setPage}
-              />
-            </ul>
+            {totalPages > 1 && (
+              <ul className="wg-pagination justify-content-center">
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  setPage={setPage}
+                />
+              </ul>
+            )}
           </div>
         ) : (
           <div className="p-5">

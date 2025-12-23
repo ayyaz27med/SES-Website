@@ -1,23 +1,72 @@
-import React from "react";
+import React, { useMemo } from "react";
 
-export default function ProductFilterMeta({ allProps, productLength }) {
+export default function ProductFilterMeta({
+  allProps,
+  productLength,
+  allBrands = [],
+  allCategories = [],
+  allSubCategories = [],
+  allSuitable = [],
+  allIngredients = [],
+  allConcerns = [],
+}) {
+  const {
+    selectedSuitableIds = [],
+    selectedConcernIds = [],
+    selectedIngredientIds = [],
+    selectedBrandIds = [],
+    selectedSubCategoryIds = [],
+    selectedCategoryIds = [],
+  } = allProps;
 
-  const isShowRemoveAll = allProps.availability != "All" ||
-    allProps.selectedBrands.length ||
-    allProps.selectedCategory.length ||
-    allProps.selectedSuitable.length ||
-    allProps.selectedIngredients.length ||
-    allProps.selectedConcerns.length ||
-    allProps.selectedSubCategories.length
+  // Filter data to show only selected items
+  const filteredCategories = useMemo(
+    () => allCategories.filter(c => selectedCategoryIds.includes(String(c.id))),
+    [allCategories, selectedCategoryIds]
+  );
+
+  const filteredSubCategories = useMemo(
+    () => allSubCategories.filter(sc => selectedSubCategoryIds.includes(String(sc.id))),
+    [allSubCategories, selectedSubCategoryIds]
+  );
+
+  const filteredBrands = useMemo(
+    () => allBrands.filter(b => selectedBrandIds.includes(String(b.id))),
+    [allBrands, selectedBrandIds]
+  );
+
+  const filteredSuitable = useMemo(
+    () => allSuitable.filter(s => selectedSuitableIds.includes(String(s.id))),
+    [allSuitable, selectedSuitableIds]
+  );
+
+  const filteredIngredients = useMemo(
+    () => allIngredients.filter(i => selectedIngredientIds.includes(String(i.id))),
+    [allIngredients, selectedIngredientIds]
+  );
+
+  const filteredConcerns = useMemo(
+    () => allConcerns.filter(c => selectedConcernIds.includes(String(c.id))),
+    [allConcerns, selectedConcernIds]
+  );
+
+  const isShowRemoveAll =
+    allProps.availability !== "All" ||
+    filteredBrands.length ||
+    filteredCategories.length ||
+    filteredSuitable.length ||
+    filteredIngredients.length ||
+    filteredConcerns.length ||
+    filteredSubCategories.length;
 
   return (
-    <div className="meta-filter-shop" style={{}}>
+    <div className="meta-filter-shop">
       <div id="product-count-grid" className="count-text">
         <span className="count">{productLength}</span> Products Found
       </div>
 
       <div id="applied-filters">
-        {allProps.availability != "All" ? (
+        {allProps.availability !== "All" && (
           <span
             className="filter-tag"
             onClick={() => allProps.setAvailability("All")}
@@ -25,109 +74,75 @@ export default function ProductFilterMeta({ allProps, productLength }) {
             {allProps.availability.label}
             <span className="remove-tag icon-close" />
           </span>
-        ) : (
-          ""
-        )}
-        {allProps.selectedCategory.length ? (
-          <React.Fragment>
-            {allProps.selectedCategory.map((category, index) => (
-              <span
-                key={`${category}-${index}`}
-                className="filter-tag"
-                onClick={() => allProps.removeCategory(category)}
-              >
-                {category}
-                <span className="remove-tag icon-close" />
-              </span>
-            ))}
-          </React.Fragment>
-        ) : (
-          ""
-        )}
-        {allProps.selectedSubCategories.length ? (
-          <React.Fragment>
-            {allProps.selectedSubCategories.map((subCategory, index) => (
-              <span
-                key={`${subCategory}-${index}`}
-                className="filter-tag"
-                onClick={() => allProps.removeSubCategories(subCategory)}
-              >
-                {subCategory}
-                <span className="remove-tag icon-close" />
-              </span>
-            ))}
-          </React.Fragment>
-        ) : (
-          ""
-        )}
-        {allProps.selectedConcerns.length ? (
-          <React.Fragment>
-            {allProps.selectedConcerns.map((concern, index) => (
-              <span
-                key={`${concern}-${index}`}
-                className="filter-tag"
-                onClick={() => allProps.removeConcerns(concern)}
-              >
-                {concern}
-                <span className="remove-tag icon-close" />
-              </span>
-            ))}
-          </React.Fragment>
-        ) : (
-          ""
-        )}
-        
-        {allProps.selectedSuitable.length ? (
-          <React.Fragment>
-            {allProps.selectedSuitable.map((suitable, index) => (
-              <span
-                key={`${suitable}-${index}`}
-                className="filter-tag"
-                onClick={() => allProps.removeSuitable(suitable)}
-              >
-                {suitable}
-                <span className="remove-tag icon-close" />
-              </span>
-            ))}
-          </React.Fragment>
-        ) : (
-          ""
         )}
 
-        {allProps.selectedIngredients.length ? (
-          <React.Fragment>
-            {allProps.selectedIngredients.map((ingredient, index) => (
-              <span
-                key={`${ingredient}-${index}`}
-                className="filter-tag"
-                onClick={() => allProps.removeIngredients(ingredient)}
-              >
-                {ingredient}
-                <span className="remove-tag icon-close" />
-              </span>
-            ))}
-          </React.Fragment>
-        ) : (
-          ""
-        )}
-        {allProps.selectedBrands.length ? (
-          <React.Fragment>
-            {allProps.selectedBrands.map((brand, index) => (
-              <span
-                key={`${brand}-${index}`}
-                className="filter-tag"
-                onClick={() => allProps.removeBrand(brand)}
-              >
-                {brand}
-                <span className="remove-tag icon-close" />
-              </span>
-            ))}
-          </React.Fragment>
-        ) : (
-          ""
-        )}
+        {filteredCategories.map((category) => (
+          <span
+            key={category.id}
+            className="filter-tag"
+            onClick={() => allProps.removeCategory(category?.id)}
+          >
+            {category.name}
+            <span className="remove-tag icon-close" />
+          </span>
+        ))}
 
+        {filteredSubCategories.map((subCategory) => (
+          <span
+            key={subCategory.id}
+            className="filter-tag"
+            onClick={() => allProps.removeSubCategories(subCategory?.id)}
+          >
+            {subCategory.name}
+            <span className="remove-tag icon-close" />
+          </span>
+        ))}
+
+        {filteredBrands.map((brand) => (
+          <span
+            key={brand.id}
+            className="filter-tag"
+            onClick={() => allProps.removeBrand(brand?.id)}
+          >
+            {brand.name}
+            <span className="remove-tag icon-close" />
+          </span>
+        ))}
+
+        {filteredSuitable.map((suitable) => (
+          <span
+            key={suitable.id}
+            className="filter-tag"
+            onClick={() => allProps.removeSuitable(suitable?.id)}
+          >
+            {suitable.name}
+            <span className="remove-tag icon-close" />
+          </span>
+        ))}
+
+        {filteredIngredients.map((ingredient) => (
+          <span
+            key={ingredient.id}
+            className="filter-tag"
+            onClick={() => allProps.removeIngredients(ingredient?.id)}
+          >
+            {ingredient.name || ingredient.bname}
+            <span className="remove-tag icon-close" />
+          </span>
+        ))}
+
+        {filteredConcerns.map((concern) => (
+          <span
+            key={concern.id}
+            className="filter-tag"
+            onClick={() => allProps.removeConcerns(concern?.id)}
+          >
+            {concern.name}
+            <span className="remove-tag icon-close" />
+          </span>
+        ))}
       </div>
+
       {isShowRemoveAll ? (
         <button
           id="remove-all"
@@ -136,9 +151,7 @@ export default function ProductFilterMeta({ allProps, productLength }) {
         >
           REMOVE ALL <i className="icon icon-close" />
         </button>
-      ) : (
-        ""
-      )}
+      ) : null}
     </div>
   );
 }

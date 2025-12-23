@@ -76,7 +76,7 @@ export default function Navbar() {
             <div className="row">
               <div className="mega-menu-item">
                 <Link
-                  href={"/products"}
+                  href={"/products?brand=all"}
                   className="menu-heading text-decoration-underline"
                 >
                   View All Brands

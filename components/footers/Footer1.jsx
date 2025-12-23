@@ -97,7 +97,7 @@ export default function Footer1({
                     >
                       {socialLinks.map((link, index) => (
                         <li key={index}>
-                          <a href={link.href} className={link.className}>
+                          <a href={link.href} target="_blank" className={link.className}>
                             <i className={`icon ${link.iconClass}`} />
                           </a>
                         </li>
