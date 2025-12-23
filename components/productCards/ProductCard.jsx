@@ -164,7 +164,7 @@ export default function ProductCard({
             <span className="tooltip">Quick View</span>
           </a>
         </div>
-        {product.stock_status === 'out_of_stock' && (
+        {isAuthenticated && product.stock_status === 'out_of_stock' && (
           <div className="list-btn-main">
             <a
               className="btn-main-product"
