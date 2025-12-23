@@ -6,5 +6,6 @@ export const mutationKeys = {
   getInTouch: 'getInTouch',
   instoreComplaint: 'instoreComplaint',
   toggleWishlist: 'toggleWishlist',
-  rateOrder: 'rate-order'
+  rateOrder: 'rate-order',
+  notifyMe: 'notifyMe',
 }

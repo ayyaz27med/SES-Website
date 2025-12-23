@@ -25,3 +25,8 @@ export const rateOrder = async (payload) => {
   const { data } = await api.post(`feedback-and-complaint/rate-our-service`, payload)
   return data
 }
+
+export const notifyMe = async (payload) => {
+  const { data } = await api.post(`out-of-stock-notification`, payload)
+  return data
+}

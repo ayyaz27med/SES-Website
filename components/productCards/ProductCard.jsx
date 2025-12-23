@@ -12,6 +12,7 @@ import { useSession } from "@/store/session";
 import { GoHeart } from "react-icons/go";
 import { IoHeartSharp } from "react-icons/io5";
 import { useCartContextElement } from "@/context/CartContext";
+import useNotifyMe from "@/services/tanstack/mutations/useNotifyMe";
 
 export default function ProductCard({
   product,
@@ -52,6 +53,17 @@ export default function ProductCard({
       ToastHelper.error(error.message);
     },
   });
+
+  const { mutate: notifyMe } = useNotifyMe({
+    onSuccess: async (data) => {
+      const { message } = data;
+      ToastHelper.success(message);
+    },
+    onError: (error) => {
+      ToastHelper.error(error.message);
+    },
+  });
+
 
   return (
     <div
@@ -152,16 +164,31 @@ export default function ProductCard({
             <span className="tooltip">Quick View</span>
           </a>
         </div>
-        <div className="list-btn-main">
-          <a
-            className="btn-main-product"
-            onClick={() => addProductToCart(product)}
-          >
-            {isAddedToCartProducts(product.id)
-              ? "Already Added"
-              : "ADD TO CART"}
-          </a>
-        </div>
+        {product.stock_status === 'out_of_stock' && (
+          <div className="list-btn-main">
+            <a
+              className="btn-main-product"
+              onClick={() => notifyMe({
+                order_source_type: "Website",
+                product_id: product?.id
+              })}
+            >
+              Notify Me
+            </a>
+          </div>
+        )}
+        {product.stock_status === 'in_stock' && (
+          <div className="list-btn-main">
+            <a
+              className="btn-main-product"
+              onClick={() => addProductToCart(product)}
+            >
+              {isAddedToCartProducts(product.id)
+                ? "Already Added"
+                : "ADD TO CART"}
+            </a>
+          </div>
+        )}
       </div>
       <div className="card-product-info">
         <Link href={`/product-detail/${product.id}`} className="title link">
