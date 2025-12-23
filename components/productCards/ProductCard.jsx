@@ -123,7 +123,7 @@ export default function ProductCard({
           </div>
         )}
         <div className="list-product-btn">
-          {isAuthenticated && product?.sales_percentage == 0 && (
+          {isAuthenticated && product?.new_selling_price == 0 && (
             <a
               onClick={() => toggleWishlist({ product_id: product.id })}
               className="box-icon wishlist btn-icon-action"

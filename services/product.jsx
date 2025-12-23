@@ -12,7 +12,7 @@ export const fetchProductDetails = async (id, params) => {
 };
 
 export const fetchWishlist = async (params) => {
-  const { data } = await authApi.get("customer-wishlist", { params });
+  const { data } = await authApi.get("customer-wishlist/product", { params });
   return data?.data;
 };
 

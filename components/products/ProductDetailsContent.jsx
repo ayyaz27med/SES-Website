@@ -7,13 +7,14 @@ import useProductDetails from "@/services/tanstack/queries/useProductDetails";
 import { useSession } from "@/store/session";
 import React from "react";
 import ContentLoader from "../common/ContentLoader";
+import FullScreenLoader from "../common/FullScreenLoader";
 
 export default function ProductDetailsContent({ id }) {
     const { id: customer_id } = useSession()
     const { data, isLoading } = useProductDetails(id, { customer_id });
     const product = data;
     if (isLoading) {
-        return <ContentLoader image="/images/loaders/artistry-skin-nutrition-vitamin-c.gif" />;
+        return <FullScreenLoader image="/images/loaders/artistry-skin-nutrition-vitamin-c.gif" size={200} />;
     }
     return (
         <>

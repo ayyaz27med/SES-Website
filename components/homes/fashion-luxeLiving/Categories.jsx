@@ -2,46 +2,15 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import useCategories from "@/services/tanstack/queries/useCategories";
-import useSubCategories from "@/services/tanstack/queries/useSubCategories";
 
-export default function Categories() {
-  const { data: categoriesData } = useCategories({
-    isServerSidePagination: true,
-    "order[0][0]": "name",
-    "order[0][1]": "ASC",
-  });
-  const categories = categoriesData?.data || []
-  const skincareCategory = categories.find((category) => category.name === "Skincare")
-  const bodycareCategory = categories.find((category) => category.name === "Bodycare")
-  const haircareCategory = categories.find((category) => category.name === "Haircare")
-
-  const { data: skincareSubCategoriesData } = useSubCategories({
-    category_id: skincareCategory?.id,
-    type: 'sub_category',
-  });
-  const skincareSubCategories = skincareSubCategoriesData?.sub_category ?? [];
-  const skincareToolSubCategory = skincareSubCategories.find(
-    c => c.name === "Skincare Tools"
-  );
-
-  const { data: bodycareSubCategoriesData } = useSubCategories({
-    category_id: bodycareCategory?.id,
-    type: 'sub_category',
-  });
-  const bodycareSubCategories = bodycareSubCategoriesData?.sub_category ?? [];
-  const bodycareToolSubCategory = bodycareSubCategories.find(
-    c => c.name === "Body Tools"
-  );
-
-  const { data: haircareSubCategoriesData } = useSubCategories({
-    category_id: haircareCategory?.id,
-    type: 'sub_category',
-  });
-  const haircareSubCategories = haircareSubCategoriesData?.sub_category ?? [];
-  const haircareToolSubCategory = haircareSubCategories.find(
-    c => c.name === "Hair Tools"
-  );
+export default function Categories({
+  skincareCategory,
+  bodycareCategory,
+  haircareCategory,
+  skincareToolSubCategory,
+  bodycareToolSubCategory,
+  haircareToolSubCategory,
+}) {
 
   return (
     <section className="flat-spacing">

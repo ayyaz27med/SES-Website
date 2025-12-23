@@ -7,13 +7,14 @@ import useUserDetails from "@/services/tanstack/queries/useUserDetails";
 import OrderDetails from "./OrderDetails";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "@/store/session";
+import FullScreenLoader from "../common/FullScreenLoader";
 
 export default function MyAccountInfo() {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "1";
   const [activeTab, setActiveTab] = useState(Number(tabFromUrl) || 1);
   const { id } = useSession();
-  const { data } = useUserDetails(id);
+  const { data, isLoading } = useUserDetails(id);
   const userDetails = data?.data;
 
   useEffect(() => {
@@ -21,6 +22,10 @@ export default function MyAccountInfo() {
       setActiveTab(Number(tabFromUrl))
     }
   }, [tabFromUrl])
+
+  if (isLoading && !userDetails) {
+    return <FullScreenLoader image="/images/loaders/bubu-dudu-sseeyall.gif" />;
+  }
 
   return (
     <div className="my-account-wrap widget-tabs">

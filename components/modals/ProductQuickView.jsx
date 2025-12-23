@@ -1,35 +1,58 @@
 "use client";
 import React, { useState } from "react";
-import { useContextElement } from "@/context/Context";
 import QuantitySelect from "../productDetails/QuantitySelect";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import useProductDetails from "@/services/tanstack/queries/useProductDetails";
 import ProductQuickViewGrid from "../productDetails/grids/ProductQuickViewGrid";
+import { useCartContextElement } from "@/context/CartContext";
+import { IoHeartSharp } from "react-icons/io5";
+import { GoHeart } from "react-icons/go";
+import { useSession } from "@/store/session";
+import useToggleWishlist from "@/services/tanstack/mutations/useToggleWishlist";
+import { queryKeys } from "@/services/tanstack/queries";
+import ToastHelper from "@/helpers/toastHelper";
+import { queryClient } from "@/utlis/queryClient";
+import ContentLoader from "../common/ContentLoader";
 
 export default function ProductQuickView() {
   const [quantity, setQuantity] = useState(1);
   const [isReadMoreExpanded, setIsReadMoreExpanded] = useState(false);
+  const { isAuthenticated, id: customer_id } = useSession();
+
   const {
     addProductToCart,
     isAddedToCartProducts,
-    addToWishlist,
-    isAddedtoWishlist,
     cartProducts,
     updateQuantity,
     quickViewItemId,
-    quickViewItem
-  } = useContextElement();
-  const { data, isLoading } = useProductDetails(quickViewItemId);
+  } = useCartContextElement();
+  console.log("Quick View Item ID:", quickViewItemId);
+  const { data, isLoading } = useProductDetails(quickViewItemId, { customer_id });
   const product = data;
 
   const categoriesName = data?.category.map(c => c.name).join(", ");
 
+  const { mutate: toggleWishlist } = useToggleWishlist({
+    onSuccess: async (data) => {
+      const { message } = data;
+      ToastHelper.success(message);
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.productDetails, quickViewItemId, { customer_id }],
+      });
+    },
+    onError: (error) => {
+      ToastHelper.error(error.message);
+    },
+  });
+
+  if (!quickViewItemId && isLoading) {
+    return <ContentLoader image="/images/loaders/nivea-nivea-shower.gif" height="100vh" />;
+  }
   return (
     <div className="modal fullRight fade modal-quick-view" id="productQuickView">
       <div className="modal-dialog">
         <div className="modal-content">
-          {isLoading && <div>Loading...</div>}
-          {!isLoading && (
+          {!isLoading ? (
             <>
               <ProductQuickViewGrid
                 firstItem={product?.main_picture}
@@ -142,10 +165,6 @@ export default function ProductQuickView() {
                           </span>
                         </a>
                         <a
-                          // href="#compare"
-                          // onClick={() => addToCompareItem(product?.id)}
-                          // data-bs-toggle="offcanvas"
-                          // aria-controls="compare"
                           className="box-icon hover-tooltip compare btn-icon-action show-compare"
                         >
                           <div className="icon">
@@ -155,17 +174,19 @@ export default function ProductQuickView() {
                             Share
                           </span>
                         </a>
-                        <a
-                          onClick={() => addToWishlist(product?.id)}
-                          className="box-icon hover-tooltip text-caption-2 wishlist btn-icon-action"
-                        >
-                          <span className="icon icon-heart" />
-                          <span className="tooltip text-caption-2">
-                            {isAddedtoWishlist(product?.id)
-                              ? "Already Wishlished"
-                              : "Wishlist"}
-                          </span>
-                        </a>
+                        {isAuthenticated && product?.new_selling_price == 0 && (
+                          <a
+                            onClick={() => toggleWishlist({ product_id: product.id })}
+                            className="box-icon hover-tooltip text-caption-2 wishlist btn-icon-action"
+                          >
+                            {product.is_wishlist ? <IoHeartSharp color="red" size={25} /> : <GoHeart size={25} />}
+                            <span className="tooltip text-caption-2">
+                              {product.is_wishlist
+                                ? "Remove from wishlist"
+                                : "Add to wishlist"}
+                            </span>
+                          </a>
+                        )}
                       </div>
                       <a href="#" className="btn-style-3 text-btn-uppercase">
                         Buy it now
@@ -175,6 +196,8 @@ export default function ProductQuickView() {
                 </div>
               </div>
             </>
+          ) : (
+            <ContentLoader image="/images/loaders/beauty-cute.gif" height="100vh" />
           )}
         </div>
       </div>

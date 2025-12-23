@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import QuantitySelect from "../QuantitySelect";
-import { useContextElement } from "@/context/Context";
-import useProductDetails from "@/services/tanstack/queries/useProductDetails";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import ProductDetailsSlider from "../sliders/ProductDetailsSlider";
 import Link from "next/link";
@@ -139,19 +137,22 @@ export default function Details({ product }) {
                             (134 reviews)
                           </div>
                         </div>
-                        <div className="tf-product-info-sold">
-                          <i className="icon icon-lightning" />
-                          <div className="text text-caption-1">
-                            {product?.stock === 1 && (
-                              "Last item in stock — order soon"
-                            )}
-
-                            {product?.stock > 1 && product?.stock < 3 && (
-                              "Low stock — limited quantities available."
-                            )}
+                        {product?.stock === 1 && (
+                          <div className="tf-product-info-sold">
+                            <i className="icon icon-lightning" />
+                            <div className="text text-caption-1">
+                              Last item in stock — order soon
+                            </div>
                           </div>
-                        </div>
-
+                        )}
+                        {product?.stock > 1 && product?.stock < 3 && (
+                          <div className="tf-product-info-sold">
+                            <i className="icon icon-lightning" />
+                            <div className="text text-caption-1">
+                              Low stock — limited quantities available."
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="tf-product-info-desc">

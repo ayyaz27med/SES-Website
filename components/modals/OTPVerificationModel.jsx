@@ -26,7 +26,6 @@ export default function OTPVerificationModel({ loginModalRef }) {
         token: userData?.token,
         user: userData
       });
-      // ✅ STORE TOKEN IN COOKIE
       document.cookie = `token=${userData?.token}; path=/`;
 
       setIsShowUserDetailsPopup(true);

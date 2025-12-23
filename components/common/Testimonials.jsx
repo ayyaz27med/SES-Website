@@ -5,11 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { Autoplay, Pagination } from "swiper/modules";
 import safeImage from "@/utlis/safeImage";
-import useGoogleReviews from "@/services/tanstack/queries/useGoogleReviews";
 
-export default function Testimonials({ parentClass = "flat-spacing" }) {
-  const { data, isLoading } = useGoogleReviews()
-  const googleReviews = data?.data || []
+export default function Testimonials({ parentClass = "flat-spacing", googleReviews = [], isLoading = false }) {
   const [expandedStates, setExpandedStates] = React.useState(
     Array(googleReviews.length).fill(false)
   );
