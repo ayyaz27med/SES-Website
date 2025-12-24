@@ -1,20 +1,20 @@
 "use client";
 
-import { bestSelling } from "@/data/collections";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import safeImage from "@/utlis/safeImage";
-export default function Collections() {
+
+export default function Collections({
+  bestSelling
+}) {
+
   return (
     <section className="flat-spacing-2 pb_0">
       <div className="container">
-        <div className="heading-section-2 wow fadeInUp">
+        <div className="heading-section-2 wow fadeInUp justify-content-center">
           <h3>Best Selling</h3>
-          <Link href={`/shop-collection`} className="btn-line">
-            View All Collection
-          </Link>
         </div>
         <div
           className="flat-collection-circle wow fadeInUp"
@@ -49,7 +49,7 @@ export default function Collections() {
             {bestSelling.map((collection, index) => (
               <SwiperSlide key={index}>
                 <div className="collection-circle hover-img">
-                  <Link href={`/shop-collection`} className="img-style">
+                  <div className="img-style">
                     <Image
                       className="lazyload"
                       data-src={collection.imgSrc}
@@ -58,16 +58,13 @@ export default function Collections() {
                       width={363}
                       height={363}
                     />
-                  </Link>
+                  </div>
                   <div className="collection-content text-center">
                     <div>
-                      <Link href={`/shop-collection`} className="cls-title">
+                      <Link href={collection.link} className="cls-title">
                         <h6 className="text">{collection.title}</h6>
                         <i className="icon icon-arrowUpRight" />
                       </Link>
-                    </div>
-                    <div className="count text-secondary">
-                      {collection.count}
                     </div>
                   </div>
                 </div>

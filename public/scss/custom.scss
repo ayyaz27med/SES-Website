@@ -104,6 +104,30 @@ header.header-hidden {
 .star-icon.active i {
   color: #f5a623;
 }
+.fullscreen-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffffff; // or rgba(0,0,0,0.5)
+}
+
+.content-loader {
+  width: 100%;
+  min-height: 300px; // adjust based on content
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f5f5f5; // no overlay
+}
+
 
 .home-gaming-testimonials {
   @media (max-width: 1200px) {

@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from ".";
 import { fetchProductDetails } from "@/services/product";
 
-const useProductDetails = (id) => {
+const useProductDetails = (id, params) => {
   return useQuery({
-    queryKey: [queryKeys.productDetails, id],
-    queryFn: () => fetchProductDetails(id),
+    queryKey: [queryKeys.productDetails, id, params],
+    queryFn: () => fetchProductDetails(id, params),
     enabled: !!id,
+    refetchOnMount: "always",
   });
 };
 

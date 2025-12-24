@@ -1,17 +1,12 @@
 "use client";
-import { products2 } from "@/data/products";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Autoplay, Pagination } from "swiper/modules";
 import safeImage from "@/utlis/safeImage";
-import useInstagramPosts from "@/services/tanstack/queries/useInstagramPosts";
 
-export default function ShopGram({ parentClass = "" }) {
-  const { data, isLoading } = useInstagramPosts()
-  const posts = data?.data || []
-
+export default function ShopGram({ parentClass = "", posts = [], isLoading = false }) {
   return (
     <section className={parentClass}>
       <div className="container">

@@ -6,13 +6,13 @@ export const fetchProducts = async (params) => {
   return data?.data;
 };
 
-export const fetchProductDetails = async (id) => {
-  const { data } = await authApi.get(`product-list-front/${id}`);
+export const fetchProductDetails = async (id, params) => {
+  const { data } = await authApi.get(`product-list-front/${id}`, { params });
   return data?.data;
 };
 
 export const fetchWishlist = async (params) => {
-  const { data } = await authApi.get("customer-wishlist", { params });
+  const { data } = await authApi.get("customer-wishlist/product", { params });
   return data?.data;
 };
 
@@ -23,5 +23,10 @@ export const toggleWishlist = async (payload) => {
 
 export const rateOrder = async (payload) => {
   const { data } = await api.post(`feedback-and-complaint/rate-our-service`, payload)
+  return data
+}
+
+export const notifyMe = async (payload) => {
+  const { data } = await api.post(`out-of-stock-notification`, payload)
   return data
 }

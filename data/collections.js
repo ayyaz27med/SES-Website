@@ -1406,17 +1406,17 @@ export const bestSelling = [
   {
     imgSrc: "/images/home-best-selling/Circle2.png",
     alt: "collection-img",
-    title: "Body Tools",
+    title: "Hyperpigmentation",
   },
   {
     imgSrc: "/images/home-best-selling/Circle3.png",
     alt: "collection-img",
-    title: "Face Wash",
+    title: "Cleansers",
   },
   {
     imgSrc: "/images/home-best-selling/Circle4.png",
     alt: "collection-img",
-    title: "Body Lotion",
+    title: "Vitamin C",
   },
   {
     imgSrc: "/images/home-best-selling/Circle5.png",
@@ -1426,6 +1426,6 @@ export const bestSelling = [
   {
     imgSrc: "/images/home-best-selling/Circle6.png",
     alt: "collection-img",
-    title: "Vitamin C",
+    title: "Body Lotions",
   },
 ];

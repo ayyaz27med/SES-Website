@@ -5,10 +5,16 @@ import { useSearchParams } from "next/navigation";
 import useOrderDetails from "@/services/tanstack/queries/useOrderDetails";
 import { formatWithCurrency } from "@/hooks/useAmountFormatter";
 import OrderStatus from "./StatusBadge";
+import ContentLoader from "../common/ContentLoader";
+
 export default function OrderDetails() {
   const searchParams = useSearchParams();
   const order_id = searchParams.get("order_id");
-  const { data: orderDetails } = useOrderDetails(order_id);
+  const { data: orderDetails, isLoading } = useOrderDetails(order_id);
+
+  if (isLoading) {
+    return <ContentLoader image="/images/loaders/beauty-cute.gif" height="500px" />;
+  }
 
   return (
     <div className="my-account-content">

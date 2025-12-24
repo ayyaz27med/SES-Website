@@ -24,6 +24,7 @@ import { queryClient } from "@/utlis/queryClient";
 import { ToastContainer } from "react-toastify";
 import ProductQuickView from "@/components/modals/ProductQuickView";
 import UserDetailsModal from "@/components/modals/UserDetailsModal";
+import CartContext from "@/context/CartContext";
 const AccountSidebar = dynamic(
   () => import("@/components/modals/AccountSidebar"),
   { ssr: false }
@@ -134,26 +135,28 @@ export default function RootLayout({ children }) {
       <body className="preload-wrapper popup-loader">
         <QueryClientProvider client={queryClient}>
           <Context>
-            {/* <RtlToggler /> */}
-            <ToastContainer />
-            <div id="wrapper">{children}</div>
-            <CartModal />
-            <QuickView />
-            <ProductQuickView />
-            <QuickAdd />
-            <Compare />
-            <MobileMenu />
+            <CartContext>
+              {/* <RtlToggler /> */}
+              <ToastContainer />
+              <div id="wrapper">{children}</div>
+              <CartModal />
+              <QuickView />
+              <ProductQuickView />
+              <QuickAdd />
+              <Compare />
+              <MobileMenu />
 
-            <NewsLetterModal />
-            <UserDetailsModal />
-            <SearchModal />
-            <SizeGuide />
-            <Wishlist />
-            <DemoModal />
-            <Categories />
-            <Suspense fallback={<div>Loading...</div>}>
-              <AccountSidebar />
-            </Suspense>
+              <NewsLetterModal />
+              <UserDetailsModal />
+              <SearchModal />
+              <SizeGuide />
+              <Wishlist />
+              <DemoModal />
+              <Categories />
+              <Suspense fallback={<div>Loading...</div>}>
+                <AccountSidebar />
+              </Suspense>
+            </CartContext>
           </Context>
         </QueryClientProvider>
       </body>

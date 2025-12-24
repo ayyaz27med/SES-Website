@@ -113,7 +113,7 @@ export default function Register() {
                       I agree to the&nbsp;
                     </label>
                   </div>
-                  <Link href={`/term-of-use`} title="Terms of Service">
+                  <Link href={`/terms-and-conditions`} title="Terms of Service">
                     Terms of User
                   </Link>
                 </div>

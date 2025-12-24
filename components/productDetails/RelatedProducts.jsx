@@ -2,13 +2,9 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import ProductCard1 from "../productCards/ProductCard1";
-import useProductDetails from "@/services/tanstack/queries/useProductDetails";
 import ProductCard from "../productCards/ProductCard";
-export default function RelatedProducts({ id }) {
-  const { data } = useProductDetails(id);
-  const product = data;
 
+export default function RelatedProducts({ product }) {
   return (
     <section className="flat-spacing">
       <div className="container flat-animate-tab">

@@ -1,61 +1,49 @@
 "use client";
 
-import ProductCard1 from "../productCards/ProductCard1";
 import Pagination from "../common/Pagination";
 import Link from "next/link";
 import useWishlist from "@/services/tanstack/queries/useWishlist";
-import useToggleWishlist from "@/services/tanstack/mutations/useToggleWishlist";
-import ToastHelper from "@/helpers/toastHelper";
-import { queryClient } from "@/utlis/queryClient";
-import { queryKeys } from "@/services/tanstack/queries";
 import ProductCard from "../productCards/ProductCard";
 import { useState } from "react";
+import FullScreenLoader from "../common/FullScreenLoader";
 
 export default function Wishlist() {
   const [page, setPage] = useState(1);
   const length = 10;
 
-  const { data } = useWishlist({
+  const { data, isLoading } = useWishlist({
     isServerSidePagination: true,
+    'order[0][0]': 'created_at',
+    'order[0][1]': 'DESC'
   });
   const wishlist = data?.data || []
   const total = Number(data?.count || 0);
   const totalPages = Math.ceil(total / length);
 
-  // const { mutate: toggleWishlist, isPending } =
-  //   useToggleWishlist({
-  //     onSuccess: async (data) => {
-  //       const { data: userData, message } = data;
-  //       setUser(userData);
-  //       ToastHelper.success(message);
-  //       queryClient.invalidateQueries({
-  //         queryKey: [queryKeys.wishlist],
-  //       });
-  //     },
-  //     onError: (data) => {
-  //       const { message } = data;
-  //       ToastHelper.error(message);
-  //     },
-  //   });
+  if (isLoading) {
+    return <FullScreenLoader image="/images/loaders/bubududu-panda.gif" />;
+  }
 
   return (
     <section className="flat-spacing">
       <div className="container">
-        {wishlist.length ? (
+        {!isLoading && wishlist.length ? (
           <div className="tf-grid-layout tf-col-2 md-col-3 xl-col-4">
             {/* card product 1 */}
-            {wishlist.map((product, i) => (
-              <ProductCard key={i} product={product} />
+            {wishlist.map((item, i) => (
+              <ProductCard key={i} product={item?.product} />
             ))}
 
             {/* pagination */}
-            <ul className="wg-pagination justify-content-center">
-              <Pagination
-                page={page}
-                totalPages={totalPages}
-                setPage={setPage}
-              />
-            </ul>
+            {totalPages > 1 && (
+              <ul className="wg-pagination justify-content-center">
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  setPage={setPage}
+                />
+              </ul>
+            )}
           </div>
         ) : (
           <div className="p-5">

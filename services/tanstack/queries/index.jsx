@@ -2,6 +2,7 @@ export const queryKeys = {
   userDetails: 'userDetails',
   orders: 'orders',
   brands: 'brands',
+  brandsGroup: 'brandsGroup',
   categories: 'categories',
   subCategories: 'sub-categories',
   orderDetails: 'order-details',
@@ -14,4 +15,5 @@ export const queryKeys = {
   faqs: 'faqs',
   wishlist: 'wishlist',
   homePagePopupDetails: 'homePagePopupDetails',
+  filters: 'filters',
 }

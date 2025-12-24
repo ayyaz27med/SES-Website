@@ -49,7 +49,7 @@ export default function NavbarItem({ category }) {
         <div className="container">
           <div className="mega-menu-item">
             <Link
-              href="/products"
+              href={`/products?category=${category?.id}`}
               className="menu-heading text-decoration-underline"
             >
               View All {category?.name}

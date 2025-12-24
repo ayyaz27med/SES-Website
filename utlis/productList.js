@@ -34,14 +34,23 @@ export const reducer = (state, action) => {
         case "SET_CURRENT_PAGE":
             return { ...state, currentPage: action.payload };
         case "FILTER_ON_SALE":
-            return { ...state, activeFilterOnSale: true };
+            return { ...state, activeFilterOnSale: action.payload };
         case "TOGGLE_FILTER_ON_SALE":
             return { ...state, activeFilterOnSale: !state.activeFilterOnSale };
         case "SET_ITEM_PER_PAGE":
             return { ...state, itemPerPage: action.payload };
         case "CLEAR_FILTER":
             return {
-                ...initialState,
+                price: [20, 100000],
+                availability: "All",
+                activeFilterOnSale: false,
+                selectedBrands: [],
+                selectedSubCategories: [],
+                selectedSuitable: [],
+                selectedConcerns: [],
+                selectedIngredients: [],
+                selectedCategory: [],
+                sortingOption: "Sort by (Default)",
             }
         default:
             return state;

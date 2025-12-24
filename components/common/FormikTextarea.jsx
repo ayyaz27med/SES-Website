@@ -1,4 +1,5 @@
 import { useField } from "formik";
+import Label from "./Label";
 
 const FormikTextArea = ({
   label,
@@ -15,9 +16,7 @@ const FormikTextArea = ({
     <>
       <div className={`flex flex-col`}>
         {label && (
-          <div>
-            <label className="block mb-1 text-md">{label}</label>
-          </div>
+          <Label label={label} />
         )}
         <div className={fieldContainer}>
           <textarea

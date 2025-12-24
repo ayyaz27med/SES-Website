@@ -1,9 +1,9 @@
-import useBrands from "@/services/tanstack/queries/useBrands";
 import useCategories from "@/services/tanstack/queries/useCategories";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import NavbarItem from "./SubMenu";
+import useBrandsGroup from "@/services/tanstack/queries/useBrandsGroup";
 
 const desiredOrder = [
   "Skincare",
@@ -19,10 +19,8 @@ const desiredOrder = [
 export default function Navbar() {
   const pathname = usePathname();
 
-  const { data: brandsData, isBrandsLoading } = useBrands({
+  const { data: brandsGroupData, isBrandsLoading } = useBrandsGroup({
     isServerSidePagination: true,
-    start: 1,
-    length: 60,
     "order[0][0]": "name",
     "order[0][1]": "DESC",
   });
@@ -32,7 +30,7 @@ export default function Navbar() {
     "order[0][0]": "name",
     "order[0][1]": "ASC",
   });
-  const brands = brandsData?.data || [];
+  const brandGroups = brandsGroupData?.data || [];
   const categories = categoriesData?.data || [];
 
   const unique = categories.reduce((acc, curr) => {
@@ -46,6 +44,13 @@ export default function Navbar() {
     (a, b) =>
       desiredOrder.indexOf(a.name) - desiredOrder.indexOf(b.name)
   );
+  const viewBrands = brandGroups.find(
+    (group) => group.name === "View Brands"
+  );
+
+  const sideBrandGroups = brandGroups.filter(
+    (group) => group.name !== "View Brands"
+  );
 
   return (
     <>
@@ -55,11 +60,11 @@ export default function Navbar() {
         </Link>
       </li>
       <li
-        className={`menu-item ${[...brands].some(
+        className={`menu-item ${[...viewBrands?.brands || [], ...sideBrandGroups.flatMap(group => group.brands) || []].some(
           (elm) => elm?.href?.split("/")[1] == pathname.split("/")[1]
         )
-            ? "active"
-            : ""
+          ? "active"
+          : ""
           } `}
       >
         <div href="#" className="item-link">
@@ -71,27 +76,45 @@ export default function Navbar() {
             <div className="row">
               <div className="mega-menu-item">
                 <Link
-                  href={"/products"}
+                  href={"/products?brand=all"}
                   className="menu-heading text-decoration-underline"
                 >
                   View All Brands
                 </Link>
                 <div className="row gap-16">
-                  <ul className="menu-list grid-6">
-                    {brands.map((brand) => (
-                      <li
-                        key={brand?.id}
-                        className={`menu-item-li ${pathname.split("/")[1] == brand?.href?.split("/")[1]
-                            ? "active"
-                            : ""
-                          } `}
-                      >
-                        <Link href={`/products?brand=${brand?.id}`} className="menu-link-text">
-                          {brand.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="col-7">
+                    <div className="menu-heading">{viewBrands?.name}</div>
+                    <ul className="menu-list grid-4">
+                      {viewBrands?.brands?.map((brand) => (
+                        <li key={brand.id} className="menu-item-li">
+                          <Link
+                            href={`/products?brand=${brand.id}`}
+                            className="menu-link-text"
+                          >
+                            {brand.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {sideBrandGroups.map((group) => (
+                    <div className="col-2" key={group.id}>
+                      <div className="menu-heading">{group.name}</div>
+                      <ul key={group.id} className="menu-list grid-1">
+                        {group.brands.map((brand) => (
+                          <li key={brand.id} className="menu-item-li">
+                            <Link
+                              href={`/products?brand=${brand.id}`}
+                              className="menu-link-text"
+                            >
+                              {brand.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

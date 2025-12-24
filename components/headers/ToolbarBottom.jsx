@@ -5,7 +5,10 @@ export default function ToolbarBottom() {
   return (
     <div className="tf-toolbar-bottom">
       <div className="toolbar-item">
-        <Link href={`/shop-default-grid`}>
+        <a href="#mobileMenu"
+          className="mobile-menu"
+          data-bs-toggle="offcanvas"
+          aria-controls="mobileMenu">
           <div className="toolbar-icon">
             <svg
               className="icon"
@@ -22,30 +25,6 @@ export default function ToolbarBottom() {
             </svg>
           </div>
           <div className="toolbar-label">Shop</div>
-        </Link>
-      </div>
-      <div className="toolbar-item">
-        <a
-          href="#shopCategories"
-          data-bs-toggle="offcanvas"
-          aria-controls="shopCategories"
-        >
-          <div className="toolbar-icon">
-            <svg
-              className="icon"
-              width={20}
-              height={20}
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17.5 10C17.5 10.1658 17.4342 10.3247 17.3169 10.4419C17.1997 10.5592 17.0408 10.625 16.875 10.625H3.125C2.95924 10.625 2.80027 10.5592 2.68306 10.4419C2.56585 10.3247 2.5 10.1658 2.5 10C2.5 9.83424 2.56585 9.67527 2.68306 9.55806C2.80027 9.44085 2.95924 9.375 3.125 9.375H16.875C17.0408 9.375 17.1997 9.44085 17.3169 9.55806C17.4342 9.67527 17.5 9.83424 17.5 10ZM3.125 5.625H16.875C17.0408 5.625 17.1997 5.55915 17.3169 5.44194C17.4342 5.32473 17.5 5.16576 17.5 5C17.5 4.83424 17.4342 4.67527 17.3169 4.55806C17.1997 4.44085 17.0408 4.375 16.875 4.375H3.125C2.95924 4.375 2.80027 4.44085 2.68306 4.55806C2.56585 4.67527 2.5 4.83424 2.5 5C2.5 5.16576 2.56585 5.32473 2.68306 5.44194C2.80027 5.55915 2.95924 5.625 3.125 5.625ZM16.875 14.375H3.125C2.95924 14.375 2.80027 14.4408 2.68306 14.5581C2.56585 14.6753 2.5 14.8342 2.5 15C2.5 15.1658 2.56585 15.3247 2.68306 15.4419C2.80027 15.5592 2.95924 15.625 3.125 15.625H16.875C17.0408 15.625 17.1997 15.5592 17.3169 15.4419C17.4342 15.3247 17.5 15.1658 17.5 15C17.5 14.8342 17.4342 14.6753 17.3169 14.5581C17.1997 14.4408 17.0408 14.375 16.875 14.375Z"
-                fill="#4D4E4F"
-              />
-            </svg>
-          </div>
-          <div className="toolbar-label">Categories</div>
         </a>
       </div>
       <div className="toolbar-item">
@@ -69,7 +48,7 @@ export default function ToolbarBottom() {
         </a>
       </div>
       <div className="toolbar-item">
-        <a href="#wishlist" data-bs-toggle="modal">
+        <Link href="/wish-list">
           <div className="toolbar-icon">
             <svg
               className="icon"
@@ -84,13 +63,12 @@ export default function ToolbarBottom() {
                 fill="#4D4E4F"
               />
             </svg>
-            {/* <div class="toolbar-count">1</div> */}
           </div>
           <div className="toolbar-label">Wishlist</div>
-        </a>
+        </Link>
       </div>
       <div className="toolbar-item">
-        <a href="#shoppingCart" data-bs-toggle="modal">
+        <Link href="/shopping-cart">
           <div className="toolbar-icon">
             <svg
               className="icon"
@@ -110,7 +88,22 @@ export default function ToolbarBottom() {
             </svg>
           </div>
           <div className="toolbar-label">Cart</div>
-        </a>
+        </Link>
+      </div>
+      <div className="toolbar-item">
+        <Link href="/my-account">
+          <div className="toolbar-icon">
+            <svg stroke="currentColor" fill="#4D4E4F" strokeWidth="0" viewBox="0 0 20 20" height={20} width={20} xmlns="http://www.w3.org/2000/svg">
+              <g id="User">
+                <g>
+                  <path d="M17.438,21.937H6.562a2.5,2.5,0,0,1-2.5-2.5V18.61c0-3.969,3.561-7.2,7.938-7.2s7.938,3.229,7.938,7.2v.827A2.5,2.5,0,0,1,17.438,21.937ZM12,12.412c-3.826,0-6.938,2.78-6.938,6.2v.827a1.5,1.5,0,0,0,1.5,1.5H17.438a1.5,1.5,0,0,0,1.5-1.5V18.61C18.938,15.192,15.826,12.412,12,12.412Z"></path>
+                  <path d="M12,9.911a3.924,3.924,0,1,1,3.923-3.924A3.927,3.927,0,0,1,12,9.911Zm0-6.847a2.924,2.924,0,1,0,2.923,2.923A2.926,2.926,0,0,0,12,3.064Z"></path>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <div className="toolbar-label">Account</div>
+        </Link>
       </div>
     </div>
   );

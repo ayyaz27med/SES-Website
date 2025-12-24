@@ -4,11 +4,13 @@ import useVerifyOtp from "@/services/tanstack/mutations/useOTPVerification";
 import FormikForm from "../forms/FormikForm";
 import OtpInputField from "../common/OtpInput";
 import ToastHelper from "@/helpers/toastHelper";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "@/store/session";
 
 export default function OTPVerificationModel({ loginModalRef }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
   const { setSession, id, setIsShowUserDetailsPopup } = useSession();
   const userId = id;
 
@@ -24,11 +26,13 @@ export default function OTPVerificationModel({ loginModalRef }) {
         token: userData?.token,
         user: userData
       });
+      document.cookie = `token=${userData?.token}; path=/`;
+
       setIsShowUserDetailsPopup(true);
       loginModalRef.close()
       ToastHelper.success(message);
       setTimeout(() => {
-        router.push('/')
+        router.replace(redirect || "/");
       }, 1000);
     },
   });

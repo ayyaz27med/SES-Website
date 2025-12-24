@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useSession } from "@/store/session";
-import useBrands from "@/services/tanstack/queries/useBrands";
 import useCategories from "@/services/tanstack/queries/useCategories";
 import MobileNavbarItem from "../headers/MobileNavbarItem";
 import ToastHelper from "@/helpers/toastHelper";
+import useBrandsGroup from "@/services/tanstack/queries/useBrandsGroup";
 
 const desiredOrder = [
   "Skincare",
@@ -20,13 +19,10 @@ const desiredOrder = [
 ];
 
 export default function MobileMenu() {
-  const pathname = usePathname();
   const { isAuthenticated, clearSession } = useSession();
 
-  const { data: brandsData, isBrandsLoading } = useBrands({
+  const { data: brandsGroupData } = useBrandsGroup({
     isServerSidePagination: true,
-    start: 1,
-    length: 60,
     "order[0][0]": "name",
     "order[0][1]": "DESC",
   });
@@ -36,7 +32,7 @@ export default function MobileMenu() {
     "order[0][0]": "name",
     "order[0][1]": "ASC",
   });
-  const brands = brandsData?.data || [];
+  const brandGroups = brandsGroupData?.data || [];
   const categories = categoriesData?.data || [];
 
   const unique = categories.reduce((acc, curr) => {
@@ -53,6 +49,7 @@ export default function MobileMenu() {
 
   const handleLogout = () => {
     clearSession();
+    document.cookie = `token=; path=/; max-age=0`;
     ToastHelper.success("Logout Successful");
   };
 
@@ -111,12 +108,7 @@ export default function MobileMenu() {
               <li className="nav-mb-item active">
                 <a
                   href="#dropdown-menu-one"
-                  className={`collapsed mb-menu-link ${[...brands].some(
-                    (elm) => elm?.href?.split("/")[1] == pathname.split("/")[1]
-                  )
-                    ? "active"
-                    : ""
-                    } `}
+                  className="collapsed mb-menu-link"
                   data-bs-toggle="collapse"
                   aria-expanded="true"
                   aria-controls="dropdown-menu-one"
@@ -126,28 +118,33 @@ export default function MobileMenu() {
                 </a>
                 <div id="dropdown-menu-one" className="collapse">
                   <Link
-                    href="/products"
+                    href="/products?brand=all"
                     className="menu-heading text-decoration-underline sub-nav-link fw-6 pl_4"
                   >
                     View All Brands
                   </Link>
-                  <ul className="sub-nav-menu">
-                    {brands.map((brand, i) => (
-                      <li key={i}>
-                        <Link
-                          href={`/products?brand=${brand?.id}`}
-                          className={`sub-nav-link ${pathname.split("/")[1] == brand?.href?.split("/")[1]
-                            ? "active"
-                            : ""
-                            } `}
-                        >
-                          {brand.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  {brandGroups.map((section) => {
+                    return (
+                      <ul className="sub-nav-menu" key={section?.id}>
+                        <li className="sub-nav-link fw-6">{section.name}</li>
+                        {section?.brands.map((item) => {
+                          return (
+                            <li key={item.id}>
+                              <Link
+                                href={`/products?brand=${item?.id}`}
+                                className="sub-nav-link"
+                              >
+                                {item.name}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    );
+                  })}
                 </div>
               </li>
+
               {!isCategoriesLoading &&
                 sortedCategories.map((category) => {
                   return <MobileNavbarItem category={category} key={category?.id} />;
