@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import FormikForm from "./FormikForm";
 import "react-phone-input-2/lib/style.css";
@@ -8,6 +8,7 @@ import ToastHelper from "@/helpers/toastHelper";
 import FormikInput from "../common/FormikInput";
 import * as Yup from "yup";
 import FormikTextArea from "../common/FormikTextarea";
+import { useSession } from "@/store/session";
 
 const validationSchema = Yup.object().shape({
   customer_name: Yup.string().required("Name is required"),
@@ -16,8 +17,16 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function ContactForm() {
+  const { user } = useSession();
   const [mobileNo, setMobileNo] = useState("");
   const [dialCode, setDialCode] = useState("255");
+
+  useEffect(() => {
+    if (user?.mobile_no && user?.mobile_country_code) {
+      setMobileNo(user.mobile_no);
+      setDialCode(user.mobile_country_code);
+    }
+  }, [user]);
 
   const { mutate: getInTouch, isPending: isLoading } = useGetInTouch({
     onSuccess: async (data) => {
@@ -32,12 +41,13 @@ export default function ContactForm() {
     <div className="container">
       <FormikForm
         initialValues={{
-          customer_name: "",
-          mobile_number: "",
-          mobile_country_code: "255",
+          customer_name: user?.name || "",
+          mobile_number: user?.mobile_no || "",
+          mobile_country_code: user?.mobile_country_code || "255",
           type: "get-in-touch",
           message: "",
         }}
+        enableReinitialize
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
           getInTouch(values, {

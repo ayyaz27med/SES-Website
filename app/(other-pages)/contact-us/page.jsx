@@ -10,7 +10,7 @@ export const metadata = {
   description: "Modave - Multipurpose React Nextjs eCommerce Template",
 };
 
-export default function ContactPage2() {
+export default function ContactUsPage() {
   return (
     <>
       <Topbar />

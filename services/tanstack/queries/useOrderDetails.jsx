@@ -7,6 +7,7 @@ const useOrderDetails = (id) => {
     queryKey: [queryKeys.orderDetails, id],
     queryFn: () => fetchOrderDetails(id),
     enabled: !!id,
+    initialData: null,
   });
 };
 

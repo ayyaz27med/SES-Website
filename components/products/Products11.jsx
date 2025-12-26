@@ -172,7 +172,6 @@ export default function Products11() {
 
   const selectedSubCategoryIds = useMemo(
     () => {
-      console.log('Selected SubCategory Ids Memo:', subCategoryParam, parseMultiParam(subCategoryParam));
       return parseMultiParam(subCategoryParam);
     },
     [subCategoryParam]

@@ -10,7 +10,7 @@ export const footerLinks = [
     heading: "Infomation",
     items: [
       { label: "About Us", href: "/about-us", isLink: true },
-      { label: "Contact us", href: "/contact-02", isLink: true },
+      { label: "Contact us", href: "/contact-us", isLink: true },
       { label: "My Account", href: "/my-account", isLink: true },
       { label: "FAQs", href: "/FAQs", isLink: true },
     ],

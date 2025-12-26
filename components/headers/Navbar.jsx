@@ -45,11 +45,11 @@ export default function Navbar() {
       desiredOrder.indexOf(a.name) - desiredOrder.indexOf(b.name)
   );
   const viewBrands = brandGroups.find(
-    (group) => group.name === "View Brands"
+    (group) => group.name?.toLowerCase().includes("view all")
   );
 
   const sideBrandGroups = brandGroups.filter(
-    (group) => group.name !== "View Brands"
+    (group) => !group.name?.toLowerCase().includes("view all")
   );
 
   return (
