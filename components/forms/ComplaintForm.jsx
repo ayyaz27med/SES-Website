@@ -1,14 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import FormikForm from "./FormikForm";
 import "react-phone-input-2/lib/style.css";
-import useGetInTouch from "@/services/tanstack/mutations/useGetInTouch";
 import ToastHelper from "@/helpers/toastHelper";
 import FormikInput from "../common/FormikInput";
 import * as Yup from "yup";
 import FormikTextArea from "../common/FormikTextarea";
 import useInstoreComplaint from "@/services/tanstack/mutations/useInstoreComplaint";
+import { useSession } from "@/store/session";
+import { formatDate } from "@/helpers/dateTime";
 
 const validationSchema = Yup.object().shape({
   customer_name: Yup.string().required("Name is required"),
@@ -18,9 +19,17 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function ComplaintForm() {
-  const [mobileNo, setMobileNo] = useState("");
-  const [dialCode, setDialCode] = useState("255");
+  const { user } = useSession();
+  const [mobileNo, setMobileNo] = useState(user?.mobile_no || "");
+  const [dialCode, setDialCode] = useState(user?.mobile_country_code || "255");
   const [fileName, setFileName] = useState("");
+
+  useEffect(() => {
+    if (user?.mobile_no && user?.mobile_country_code) {
+      setMobileNo(user.mobile_no);
+      setDialCode(user.mobile_country_code);
+    }
+  }, [user]);
 
   const { mutate: instoreComplaint, isPending: isLoading } = useInstoreComplaint({
     onSuccess: async (data) => {
@@ -35,13 +44,14 @@ export default function ComplaintForm() {
     <div className="container">
       <FormikForm
         initialValues={{
-          customer_name: "",
-          mobileno: "",
-          mobileno_country_code: "255",
-          date_of_visit: "",
+          customer_name: user?.name || "",
+          mobileno: user?.mobile_no || "",
+          mobileno_country_code: user?.mobile_country_code || "255",
+          date_of_visit: formatDate(new Date(), "YYYY-MM-DD"),
           describe_issue: "",
           picture: "",
         }}
+        enableReinitialize
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
           instoreComplaint(values, {

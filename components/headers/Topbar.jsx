@@ -44,7 +44,7 @@ export default function Topbar({ parentClass = "tf-topbar style-2 d-none d-xl-bl
           </div>
           <div className="col-xl-5 col-12 justify-content-center gap-10 d-xl-flex d-none">
             <Link
-              href="/contact-02"
+              href="/contact-us"
               className="text-decoration-underline top-bar-text extra-small-text d-flex justify-content-center text-btn-uppercase fw-semibold letter-1"
             >
               Our Store

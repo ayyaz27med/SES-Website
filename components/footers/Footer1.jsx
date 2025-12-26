@@ -71,7 +71,7 @@ export default function Footer1({
                     <div className="footer-address">
                       <p>1st Floor, Girls Guide Building, Kibasila St, Upanga - Dar es Salaam</p>
                       <Link
-                        href={`/contact-02`}
+                        href={`/contact-us`}
                         className={`tf-btn-default fw-6 ${
                           dark ? "style-white" : ""
                           } `}

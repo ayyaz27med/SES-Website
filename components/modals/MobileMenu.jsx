@@ -273,7 +273,7 @@ export default function MobileMenu() {
               )}
             </div>
             <div className="mb-notice">
-              <Link href={`/contact-02`} className="text-need">
+              <Link href={`/contact-us`} className="text-need">
                 Need Help?
               </Link>
             </div>
@@ -283,7 +283,7 @@ export default function MobileMenu() {
                 Salaam
               </p>
               <Link
-                href={`/contact-02`}
+                href={`/contact-us`}
                 className="tf-btn-default text-btn-uppercase"
               >
                 GET DIRECTION
